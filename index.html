@@ -30,6 +30,17 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&family=IBM+Plex+Serif:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Type scale — ratio 1.25, everything derives from this */
+            --fs-1: 11px;  /* caption / micro label */
+            --fs-2: 13px;  /* meta, code, list markers */
+            --fs-3: 16px;  /* body reading text */
+            --fs-4: 20px;  /* subhead — category/group labels */
+            --fs-5: 25px;  /* reserved */
+            --fs-6: 31px;  /* content headline — the item you're reading */
+            --fs-7: 39px;  /* display — page title, one-time use */
+            --fs-ui: 14px; /* compact UI/nav text — outside the content scale, for list density */
+        }
         .nav-btn { color: #98989d; border: none; border-bottom: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; background: transparent; }
         .nav-btn:hover, .nav-btn:active { color: #f2f2f3; border-bottom-color: #2e2e30; }
         .nav-btn.active-green  { background: transparent; border-bottom-color: #6fa287; color: #6fa287; }
@@ -37,6 +48,27 @@
         .nav-btn.active-amber  { background: transparent; border-bottom-color: #c9a24b; color: #c9a24b; }
         .nav-btn.active-pink   { background: transparent; border-bottom-color: #c97b84; color: #c97b84; }
         .nav-btn.active-white  { background: transparent; border-bottom-color: #f2f2f3; color: #f2f2f3; }
+
+        /* Schemes — sidebar + panel (master-detail) */
+        .schemes-layout { display: flex; gap: 56px; align-items: flex-start; }
+        @media (max-width: 900px) { .schemes-layout { flex-direction: column; } }
+        .schemes-sidebar { width: 300px; flex-shrink: 0; max-height: 75vh; overflow-y: auto; position: sticky; top: 16px; }
+        .schemes-sidebar-group { margin-bottom: 28px; }
+        .schemes-sidebar-group:last-child { margin-bottom: 0; }
+        .schemes-sidebar-group-label { font-family: 'IBM Plex Serif', serif; font-size: var(--fs-4); font-weight: 600; margin-bottom: 12px; }
+        .scheme-item { display: block; padding: 7px 10px; margin: 0 -10px 2px; border-radius: 5px; cursor: pointer; font-size: var(--fs-ui); }
+        .scheme-item:hover { background: #1e1e1f; }
+        .scheme-item.active { background: #1e1e1f; }
+        .scheme-item .code { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-1); font-weight: 700; margin-right: 8px; }
+        .scheme-item .title { color: #f2f2f3; }
+        .scheme-item.active .title { color: #5b8def; font-weight: 600; }
+        .schemes-panel { flex: 1; min-width: 0; max-width: 760px; }
+        .schemes-panel-meta { font-size: var(--fs-2); color: #98989d; margin-bottom: 8px; }
+        .schemes-panel-meta .code { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+        .schemes-panel h2 { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: var(--fs-6); margin: 0 0 20px; }
+        .schemes-panel-summary { color: #98989d; font-size: var(--fs-3); margin-bottom: 24px; }
+        .scheme-doc { display: none; }
+        .scheme-doc.active { display: block; }
 
         .content-area { font-family: 'Inter', sans-serif; font-size: 16px; }
         .content-area strong { color: #f2f2f3; font-weight: 700; }
@@ -162,19 +194,12 @@
                 <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Pro Track</button>
             </div>
         </div>
-        <!-- Scheme + type filters — scrollable on mobile -->
-        <div class="filter-bar gap-2">
+        <!-- Scheme type filter — only relevant on the Schemes view -->
+        <div class="filter-bar gap-2" id="schemes-filter-row">
             <div class="filter-bar bg-pl-black/50 p-1 border border-pl-slate rounded-sm flex-shrink-0">
-                <button onclick="setFilter('group','ALL')" id="fg-ALL" class="nav-btn active-white px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">All</button>
-                <button onclick="setFilter('group','AM')"  id="fg-AM"  class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">AM</button>
-                <button onclick="setFilter('group','FR')"  id="fg-FR"  class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">FR</button>
-                <button onclick="setFilter('group','IAC')" id="fg-IAC" class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">IAC</button>
-                <button onclick="setFilter('group','NF')"  id="fg-NF"  class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">NF</button>
-            </div>
-            <div class="filter-bar bg-pl-black/50 p-1 border border-pl-slate rounded-sm flex-shrink-0">
-                <button onclick="setFilter('type','ALL')"      id="ft-ALL"      class="nav-btn active-white px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">All Types</button>
-                <button onclick="setFilter('type','case')"     id="ft-case"     class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Cases</button>
-                <button onclick="setFilter('type','tutorial')" id="ft-tutorial" class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Modules</button>
+                <button onclick="setSchemeType('ALL')"      id="ft-ALL"      class="nav-btn active-white px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">All Types</button>
+                <button onclick="setSchemeType('case')"     id="ft-case"     class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Cases</button>
+                <button onclick="setSchemeType('tutorial')" id="ft-tutorial" class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Modules</button>
             </div>
         </div>
     </div>
@@ -183,8 +208,11 @@
 <!-- ── MAIN ── -->
 <main class="max-w-[1600px] mx-auto px-6 py-8 relative z-10">
 
-    <!-- Grid -->
-    <section id="content-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></section>
+    <!-- Schemes: sidebar + panel -->
+    <section id="content-grid" class="schemes-layout">
+        <nav class="schemes-sidebar" id="schemes-sidebar"></nav>
+        <div class="schemes-panel" id="schemes-panel"></div>
+    </section>
 
     <!-- Real Case Studies -->
     <section id="casestudies-section" class="hidden">
@@ -1386,10 +1414,8 @@ const portfolioData = [
 ];
 // ═══════════════════════════════════════════════════════════════════
 
-let activeGroup = 'ALL';
-let activeType  = 'ALL';
-
-const groupColors = { AM: 'active-green', FR: 'active-blue', IAC: 'active-pink', NF: 'active-amber', ALL: 'active-white' };
+let activeSchemeType = 'ALL';
+let activeSchemeId   = null;
 
 const allActiveClasses = ['active-green','active-blue','active-amber','active-pink','active-white'];
 
@@ -1399,92 +1425,59 @@ function clearActive(selector) {
     );
 }
 
-function setFilter(dimension, value) {
-    if (dimension === 'group') {
-        activeGroup = value;
-        clearActive('[id^="fg-"]');
-        document.getElementById(`fg-${value}`).classList.add(groupColors[value] || 'active-white');
-    } else {
-        activeType = value;
-        clearActive('[id^="ft-"]');
-        document.getElementById(`ft-${value}`).classList.add('active-white');
-    }
-    renderCards();
-}
-
 const groupLabels = { AM: 'Asset Misappropriation', FR: 'Financial Statement Fraud', IAC: 'Corruption', NF: 'Non-Financial Misstatements' };
-const groupDotClass = { AM: 'bg-pl-neon-green', FR: 'bg-pl-neon-blue', IAC: 'bg-pl-neon-pink', NF: 'bg-pl-neon-amber' };
 const groupOrder = ['AM', 'FR', 'IAC', 'NF'];
 
-function renderCards() {
-    const grid = document.getElementById('content-grid');
-    grid.innerHTML = '';
+function setSchemeType(value) {
+    activeSchemeType = value;
+    clearActive('[id^="ft-"]');
+    document.getElementById(`ft-${value}`).classList.add('active-white');
+    renderSchemesSidebar();
+}
+
+function renderSchemesSidebar() {
+    const sidebar = document.getElementById('schemes-sidebar');
 
     let data = portfolioData;
-    if (activeGroup !== 'ALL') data = data.filter(i => i.schemeGroup === activeGroup);
-    if (activeType  !== 'ALL') data = data.filter(i => i.type === activeType);
+    if (activeSchemeType !== 'ALL') data = data.filter(i => i.type === activeSchemeType);
 
-    if (data.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-pl-slate py-20 font-mono">NO OBJECTS FOUND IN THIS CLASS.</p>`;
-        return;
-    }
-
-    let index = 0;
-    const groupsToRender = activeGroup === 'ALL' ? groupOrder : [activeGroup];
-
-    groupsToRender.forEach(g => {
+    sidebar.innerHTML = groupOrder.map(g => {
         const groupData = data.filter(item => (item.schemeGroup || 'FR') === g);
-        if (groupData.length === 0) return;
-
-        if (activeGroup === 'ALL') {
-            grid.insertAdjacentHTML('beforeend', `
-                <div class="col-span-full flex items-center gap-3 mt-6 first:mt-0 mb-1">
-                    <span class="w-2.5 h-2.5 rounded-full ${groupDotClass[g]} flex-shrink-0"></span>
-                    <h3 class="text-xs font-sans font-semibold text-${g} whitespace-nowrap">${g} — ${groupLabels[g]}</h3>
-                    <span class="flex-grow border-t border-pl-slate/30"></span>
-                </div>
-            `);
-        }
-
-        groupData.forEach(item => {
-        const delay = index * 40;
-        index++;
-
-        grid.insertAdjacentHTML('beforeend', `
-            <article class="card-appear bg-pl-dark border-l-[3px] border-transparent group-AM group
-                            transition-all duration-300 relative overflow-hidden flex flex-col group-${g}"
-                     style="animation-delay:${delay}ms">
-
-                <div class="p-6 flex-grow flex flex-col">
-
-                    <!-- Header row -->
-                    <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                        <div class="flex items-center gap-2 font-mono text-xs uppercase tracking-wider flex-wrap">
-                            <span class="text-${g} font-bold text-sm">${item.code || ''}</span>
-                            <span class="text-pl-slate">//</span>
-                            <span class="text-pl-gray bg-pl-black px-2 py-0.5 border border-pl-slate text-xs">${item.category}</span>
-                        </div>
-                        <span class="text-pl-slate text-xs font-mono">${item.date}</span>
+        if (groupData.length === 0) return '';
+        return `
+            <div class="schemes-sidebar-group">
+                <div class="schemes-sidebar-group-label text-${g}">${groupLabels[g]}</div>
+                ${groupData.map(item => `
+                    <div class="scheme-item" id="scheme-item-${item.id}" onclick="selectScheme(${item.id})">
+                        <span class="code text-${g}">${item.code || ''}</span><span class="title">${item.title}</span>
                     </div>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
 
-                    <h3 class="text-base font-serif font-bold text-white mb-2 leading-snug group-hover:text-${g} underline underline-offset-4 decoration-white/30 hover:decoration-pl-neon-blue transition-colors cursor-pointer"
-                        onclick="toggleContent(${item.id})" id="title-${item.id}">
-                        ${item.title}
-                    </h3>
-                    <p class="text-pl-gray mb-4 text-sm leading-relaxed flex-grow">${item.description}</p>
+    const stillVisible = data.some(i => i.id === activeSchemeId);
+    if (stillVisible) selectScheme(activeSchemeId);
+    else if (data.length > 0) selectScheme(data[0].id);
+    else document.getElementById('schemes-panel').innerHTML = `<p class="text-pl-slate font-mono">NO OBJECTS FOUND IN THIS CLASS.</p>`;
+}
 
-                    <!-- Expandable content -->
-                    <div class="border-t border-pl-slate pt-4 mt-auto content-area hidden"
-                         id="content-${item.id}">
-                        <div class="bg-pl-black p-4">
-                            ${item.content}
-                        </div>
-                    </div>
-                </div>
-            </article>
-        `);
-        });
-    });
+function selectScheme(id) {
+    activeSchemeId = id;
+    document.querySelectorAll('.scheme-item').forEach(el =>
+        el.classList.toggle('active', el.id === `scheme-item-${id}`)
+    );
+
+    const item = portfolioData.find(i => i.id === id);
+    if (!item) return;
+    const g = item.schemeGroup || 'FR';
+
+    document.getElementById('schemes-panel').innerHTML = `
+        <div class="schemes-panel-meta"><span class="code text-${g}">${item.code || ''}</span> · ${groupLabels[g]} · ${item.category}</div>
+        <h2>${item.title}</h2>
+        <p class="schemes-panel-summary">${item.description}</p>
+        <div class="content-area">${item.content}</div>
+    `;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4111,6 +4104,7 @@ function showView(view) {
         allActiveClasses.forEach(c => btn.classList.remove(c));
     });
     document.getElementById(`view-${view}`).classList.add('active-white');
+    document.getElementById('schemes-filter-row').classList.toggle('hidden', view !== 'cases');
 
     if (view === 'glossary')      renderGlossary();
     if (view === 'casestudies')   renderCaseStudies();
@@ -4122,12 +4116,6 @@ function showView(view) {
     if (view === 'timeline')      renderTimeline();
     if (view === 'quiz')          renderQuizMenu();
     if (view === 'fraudtree')     renderFraudTree();
-}
-
-function toggleContent(id) {
-    const block = document.getElementById(`content-${id}`);
-    const isHidden = block.classList.contains('hidden');
-    block.classList.toggle('hidden', !isHidden);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4610,15 +4598,15 @@ function netSelectNode(n) {
 }
 
 function jumpToScheme(id) {
-    setFilter('group', 'ALL');
-    setFilter('type', 'ALL');
+    activeSchemeType = 'ALL';
+    clearActive('[id^="ft-"]');
+    document.getElementById('ft-ALL').classList.add('active-white');
+    renderSchemesSidebar();
     showView('cases');
     setTimeout(() => {
-        const title = document.getElementById(`title-${id}`);
-        if (title) {
-            title.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (document.getElementById(`content-${id}`).classList.contains('hidden')) toggleContent(id);
-        }
+        selectScheme(id);
+        const el = document.getElementById(`scheme-item-${id}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 50);
 }
 
@@ -5100,7 +5088,7 @@ function renderFraudTree() {
 }
 
 window.onload = () => {
-    renderCards();
+    renderSchemesSidebar();
 };
 </script>
 </body>
