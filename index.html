@@ -1495,7 +1495,10 @@ function renderCards() {
                         <span class="text-pl-slate text-xs font-mono">${item.date}</span>
                     </div>
 
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug group-hover:text-${g} transition-colors">${item.title}</h3>
+                    <h3 class="text-base font-bold text-white mb-2 leading-snug group-hover:text-${g} transition-colors cursor-pointer"
+                        onclick="toggleContent(${item.id})" id="title-${item.id}">
+                        ${item.title} <span class="text-pl-slate text-xs font-mono align-middle" id="chev-${item.id}">+++</span>
+                    </h3>
                     <p class="text-pl-gray mb-4 text-sm leading-relaxed flex-grow">${item.description}</p>
 
                     <!-- Expandable content -->
@@ -1505,14 +1508,6 @@ function renderCards() {
                             ${item.content}
                         </div>
                     </div>
-
-                    <button onclick="toggleContent(${item.id})"
-                            id="btn-toggle-${item.id}"
-                            class="mt-4 w-full text-center text-xs font-mono uppercase tracking-widest
-                                   py-2 bg-pl-black border border-pl-slate text-${g}
-                                   hover:bg-pl-slate/30 transition-colors cursor-pointer">
-                        Open Case File <span class="text-pl-slate">+++</span>
-                    </button>
                 </div>
             </article>
         `);
@@ -1787,7 +1782,10 @@ function renderCaseStudies() {
                 <div class="p-6">
                     <div class="flex items-start justify-between gap-4 mb-1 flex-wrap">
                         <div>
-                            <h3 class="text-xl font-extrabold text-white leading-tight">${cs.company}</h3>
+                            <h3 class="text-xl font-extrabold text-white leading-tight cursor-pointer hover:text-pl-neon-amber transition-colors"
+                                onclick="toggleCs('${cs.id}')" id="cs-title-${cs.id}">
+                                ${cs.company} <span class="text-pl-slate text-xs font-mono align-middle" id="cs-chev-${cs.id}">+++</span>
+                            </h3>
                             <p class="text-xs font-mono text-pl-slate mt-1">${cs.country} // ${cs.year} // ${cs.loss}</p>
                         </div>
                         <div class="flex flex-wrap gap-1">${codesBadges}</div>
@@ -1815,12 +1813,6 @@ function renderCaseStudies() {
                             </div>
                         </div>
                     </div>
-
-                    <button onclick="toggleCs('${cs.id}')" id="cs-btn-${cs.id}"
-                            class="mt-4 w-full text-center text-xs font-mono uppercase tracking-widest py-2
-                                   bg-pl-black border border-pl-slate text-pl-neon-amber hover:bg-pl-slate/30 transition-colors cursor-pointer">
-                        Open Full Case File <span class="text-pl-slate">+++</span>
-                    </button>
                 </div>
             </article>
         `);
@@ -1829,12 +1821,10 @@ function renderCaseStudies() {
 
 function toggleCs(id) {
     const block = document.getElementById(`cs-content-${id}`);
-    const btn = document.getElementById(`cs-btn-${id}`);
+    const chev = document.getElementById(`cs-chev-${id}`);
     const hidden = block.classList.contains('hidden');
     block.classList.toggle('hidden', !hidden);
-    btn.innerHTML = hidden
-        ? 'Close Case File <span class="text-pl-slate">---</span>'
-        : 'Open Full Case File <span class="text-pl-slate">+++</span>';
+    if (chev) chev.textContent = hidden ? '---' : '+++';
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3288,17 +3278,15 @@ function renderModule(type, data, filter) {
                         <span class="text-pl-slate">//</span>
                         <span class="text-pl-gray bg-pl-black px-2 py-0.5 border border-pl-slate">${item.cat}</span>
                     </div>
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug">${item.title}</h3>
+                    <h3 class="text-base font-bold text-white mb-2 leading-snug cursor-pointer" style="transition:color .2s"
+                        onmouseover="this.style.color='${accent}'" onmouseout="this.style.color=''"
+                        onclick="toggleMod('${type}','${item.id}')" id="${type}-title-${item.id}">
+                        ${item.title} <span class="text-pl-slate text-xs font-mono align-middle" id="${type}-chev-${item.id}">+++</span>
+                    </h3>
                     <p class="text-sm text-pl-gray leading-relaxed flex-grow mb-4">${item.description}</p>
                     <div class="border-t border-pl-slate/40 pt-4 content-area hidden" id="${type}-content-${item.id}">
                         <div class="bg-pl-black border border-pl-slate/20 p-4">${item.content}</div>
                     </div>
-                    <button onclick="toggleMod('${type}','${item.id}')" id="${type}-btn-${item.id}"
-                            class="mt-4 w-full text-center text-xs font-mono uppercase tracking-widest py-2
-                                   bg-pl-black border border-pl-slate hover:bg-pl-slate/30 transition-colors cursor-pointer"
-                            style="color:${accent}">
-                        Open Module <span class="text-pl-slate">+++</span>
-                    </button>
                 </div>
             </article>
         `);
@@ -3307,13 +3295,10 @@ function renderModule(type, data, filter) {
 
 function toggleMod(type, id) {
     const block = document.getElementById(`${type}-content-${id}`);
-    const btn   = document.getElementById(`${type}-btn-${id}`);
-    const accent = type === 'investigation' ? '#4c90f0' : '#32a467';
+    const chev  = document.getElementById(`${type}-chev-${id}`);
     const hidden = block.classList.contains('hidden');
     block.classList.toggle('hidden', !hidden);
-    btn.innerHTML = hidden
-        ? `Close Module <span class="text-pl-slate">---</span>`
-        : `Open Module <span class="text-pl-slate">+++</span>`;
+    if (chev) chev.textContent = hidden ? '---' : '+++';
 }
 
 let activeGlossCat = 'ALL';
@@ -3904,17 +3889,15 @@ function renderProTrack() {
                         <span class="text-pl-slate">//</span>
                         <span class="text-pl-gray bg-pl-black px-2 py-0.5 border border-pl-slate">${item.cat}</span>
                     </div>
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug">${item.title}</h3>
+                    <h3 class="text-base font-bold text-white mb-2 leading-snug cursor-pointer" style="transition:color .2s"
+                        onmouseover="this.style.color='${accent}'" onmouseout="this.style.color=''"
+                        onclick="togglePt('${item.id}')" id="pt-title-${item.id}">
+                        ${item.title} <span class="text-pl-slate text-xs font-mono align-middle" id="pt-chev-${item.id}">+++</span>
+                    </h3>
                     <p class="text-sm text-pl-gray leading-relaxed flex-grow mb-4">${item.description}</p>
                     <div class="border-t border-pl-slate/40 pt-4 content-area hidden" id="pt-content-${item.id}">
                         <div class="bg-pl-black border border-pl-slate/20 p-4">${item.content}</div>
                     </div>
-                    <button onclick="togglePt('${item.id}')" id="pt-btn-${item.id}"
-                            class="mt-4 w-full text-center text-xs font-mono uppercase tracking-widest py-2
-                                   bg-pl-black border border-pl-slate hover:bg-pl-slate/30 transition-colors cursor-pointer"
-                            style="color:${accent}">
-                        Open Checklist <span class="text-pl-slate">+++</span>
-                    </button>
                 </div>
             </article>
         `);
@@ -3923,15 +3906,10 @@ function renderProTrack() {
 
 function togglePt(id) {
     const block = document.getElementById(`pt-content-${id}`);
-    const btn   = document.getElementById(`pt-btn-${id}`);
-    const item  = proTrackData.find(t => t.id === id);
-    const catColors = { DAILY: '#32a467', CASES: '#e76a6e', ANALYTICS: '#4c90f0', REPORTING: '#f0b726', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
-    const accent = catColors[item ? item.cat : 'DAILY'] || '#8f99a8';
+    const chev  = document.getElementById(`pt-chev-${id}`);
     const hidden = block.classList.contains('hidden');
     block.classList.toggle('hidden', !hidden);
-    btn.innerHTML = hidden
-        ? `Close Checklist <span class="text-pl-slate">---</span>`
-        : `Open Checklist <span class="text-pl-slate">+++</span>`;
+    if (chev) chev.textContent = hidden ? '---' : '+++';
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4188,12 +4166,10 @@ function showView(view) {
 
 function toggleContent(id) {
     const block = document.getElementById(`content-${id}`);
-    const btn   = document.getElementById(`btn-toggle-${id}`);
+    const chev  = document.getElementById(`chev-${id}`);
     const isHidden = block.classList.contains('hidden');
     block.classList.toggle('hidden', !isHidden);
-    btn.innerHTML = isHidden
-        ? 'Close Case File <span class="text-pl-slate">---</span>'
-        : 'Open Case File <span class="text-pl-slate">+++</span>';
+    if (chev) chev.textContent = isHidden ? '---' : '+++';
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4681,9 +4657,9 @@ function jumpToScheme(id) {
     setFilter('type', 'ALL');
     showView('cases');
     setTimeout(() => {
-        const btn = document.getElementById(`btn-toggle-${id}`);
-        if (btn) {
-            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const title = document.getElementById(`title-${id}`);
+        if (title) {
+            title.scrollIntoView({ behavior: 'smooth', block: 'center' });
             if (document.getElementById(`content-${id}`).classList.contains('hidden')) toggleContent(id);
         }
     }, 50);
@@ -4693,9 +4669,9 @@ function jumpToCase(id) {
     setCsFilter('ALL');
     showView('casestudies');
     setTimeout(() => {
-        const btn = document.getElementById(`cs-btn-${id}`);
-        if (btn) {
-            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const title = document.getElementById(`cs-title-${id}`);
+        if (title) {
+            title.scrollIntoView({ behavior: 'smooth', block: 'center' });
             if (document.getElementById(`cs-content-${id}`).classList.contains('hidden')) toggleCs(id);
         }
     }, 50);
