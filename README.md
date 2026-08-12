@@ -4,7 +4,7 @@ A single-file, self-contained study and case-tracking platform built while prepa
 
 No backend, no build step, no dependencies beyond a CDN copy of Tailwind. Everything lives in `index.html` and runs straight in the browser. User-entered data (practice cases, quiz history, checklist progress) is kept in the browser's `localStorage` — nothing is sent anywhere, and the repo itself contains no personal or case-specific data.
 
-Dark theme by default, styled after Palantir's open-source Blueprint design system (`#111418` background, neon green/blue/pink/amber accents); a light mode is available via the 🌙/☀️ toggle in the header.
+Dark theme by default — a calm, muted palette (near-black background, soft gold and blue accents, IBM Plex Serif headings) rather than a flashy neon dashboard; a light mode is available via the 🌙/☀️ toggle in the header.
 
 ## Why this exists
 
