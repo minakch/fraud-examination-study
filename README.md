@@ -38,6 +38,10 @@ Open `index.html` in any modern browser. No install, no server, no build step.
 
 Vanilla HTML/CSS/JS. Tailwind CSS via CDN for styling. Inline SVG (Pointer Events + `setPointerCapture` for reliable dragging) for the network graph. No frameworks, no bundler.
 
+## Feedback
+
+This is a self-study project, built and reviewed by one person — corrections are welcome, especially from anyone with hands-on fraud examination or AML/compliance experience. If you spot something inaccurate or outdated, please [open an issue](../../issues).
+
 ## How this was built
 
 The code was built with AI-assisted development (Claude). My role was directing the build and owning every product and content decision: what the exam-prep structure should cover, which fraud-examination and interviewing methodologies to include (and how to describe them accurately), how the content should be organized across sections, and reviewing the result for correctness and scope — including cutting redundant sections and catching content that shouldn't be public before publishing. This is a self-study project, not official ACFE material.
