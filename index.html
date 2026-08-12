@@ -167,7 +167,6 @@
                 <button onclick="showView('glossary')"      id="view-glossary"      class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Glossary</button>
                 <button onclick="showView('fraudtree')"      id="view-fraudtree"     class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Fraud Tree</button>
                 <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Quiz</button>
-                <button onclick="showView('sources')"       id="view-sources"       class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Sources</button>
             </div>
         </div>
         <div class="flex items-center gap-2 flex-wrap">
@@ -176,7 +175,6 @@
                 <button onclick="showView('mycases')"       id="view-mycases"       class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">My Cases</button>
                 <button onclick="showView('network')"       id="view-network"       class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Network</button>
                 <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Timeline</button>
-                <button onclick="showView('shadowing')"    id="view-shadowing"    class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Shadowing</button>
                 <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-3 py-2 rounded-sm text-xs font-mono uppercase tracking-wider transition-all">Pro Track</button>
             </div>
         </div>
@@ -267,6 +265,25 @@
             </div>
         </div>
         <div id="protrack-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+
+        <div class="mt-8 mb-4 bg-pl-dark border border-pl-slate p-5">
+            <h2 class="text-base font-extrabold text-white font-mono tracking-wide mb-1">First-Week & Ongoing Checklist</h2>
+            <p class="text-xs text-pl-gray font-mono">A shadowing map — from first-day onboarding items to daily, weekly, and monthly routines and toolkit.</p>
+        </div>
+        <div class="mb-4 flex items-start md:items-center gap-3 flex-wrap">
+            <span class="text-xs font-mono text-pl-slate uppercase tracking-widest">Phase:</span>
+            <div class="flex flex-wrap gap-1">
+                <button onclick="setShadowFilter('ALL')"     id="shf-ALL"     class="cat-btn cat-active">All</button>
+                <button onclick="setShadowFilter('WEEK1')"   id="shf-WEEK1"   class="cat-btn">First Week</button>
+                <button onclick="setShadowFilter('DAILY')"   id="shf-DAILY"   class="cat-btn">Daily</button>
+                <button onclick="setShadowFilter('WEEKLY')"  id="shf-WEEKLY"  class="cat-btn">Weekly</button>
+                <button onclick="setShadowFilter('MONTHLY')" id="shf-MONTHLY" class="cat-btn">Monthly</button>
+                <button onclick="setShadowFilter('TOOLKIT')" id="shf-TOOLKIT" class="cat-btn">Toolkit</button>
+            </div>
+            <button onclick="resetChecklist()" class="ml-auto text-xs font-mono text-pl-slate border border-pl-slate px-3 py-1.5 hover:text-pl-neon-pink hover:border-pl-neon-pink transition-colors whitespace-nowrap">&#8635; Reset</button>
+        </div>
+        <div id="shadow-progress" class="mb-6"></div>
+        <div id="shadowing-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
     </section>
 
     <!-- Glossary -->
@@ -286,24 +303,6 @@
         </div>
         <div id="gloss-count" class="text-xs font-mono text-pl-slate mb-4"></div>
         <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    </section>
-
-    <!-- Shadowing Checklist -->
-    <section id="shadowing-section" class="hidden">
-        <div class="mb-4 flex items-start md:items-center gap-3 flex-wrap">
-            <span class="text-xs font-mono text-pl-slate uppercase tracking-widest">Phase:</span>
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setShadowFilter('ALL')"     id="shf-ALL"     class="cat-btn cat-active">All</button>
-                <button onclick="setShadowFilter('WEEK1')"   id="shf-WEEK1"   class="cat-btn">First Week</button>
-                <button onclick="setShadowFilter('DAILY')"   id="shf-DAILY"   class="cat-btn">Daily</button>
-                <button onclick="setShadowFilter('WEEKLY')"  id="shf-WEEKLY"  class="cat-btn">Weekly</button>
-                <button onclick="setShadowFilter('MONTHLY')" id="shf-MONTHLY" class="cat-btn">Monthly</button>
-                <button onclick="setShadowFilter('TOOLKIT')" id="shf-TOOLKIT" class="cat-btn">Toolkit</button>
-            </div>
-            <button onclick="resetChecklist()" class="ml-auto text-xs font-mono text-pl-slate border border-pl-slate px-3 py-1.5 hover:text-pl-neon-pink hover:border-pl-neon-pink transition-colors whitespace-nowrap">&#8635; Reset</button>
-        </div>
-        <div id="shadow-progress" class="mb-6"></div>
-        <div id="shadowing-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
     </section>
 
     <!-- My Cases -->
@@ -357,11 +356,6 @@
             <span class="flex items-center gap-1.5">&#9632; My Case</span>
         </div>
         <div id="timeline-list" class="relative pl-6" style="border-left:2px solid #383e47"></div>
-    </section>
-
-    <!-- OSINT / Reference Sources -->
-    <section id="sources-section" class="hidden">
-        <div id="sources-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
     </section>
 
     <!-- Quiz -->
@@ -4167,7 +4161,7 @@ function renderShadowing() {
     updateShadowProgress();
 }
 
-const allViews = ['cases','casestudies','investigation','prevention','glossary','protrack','shadowing','mycases','network','timeline','sources','quiz','fraudtree'];
+const allViews = ['cases','casestudies','investigation','prevention','glossary','protrack','mycases','network','timeline','quiz','fraudtree'];
 
 function showView(view) {
     allViews.forEach(v => {
@@ -4182,12 +4176,10 @@ function showView(view) {
     if (view === 'casestudies')   renderCaseStudies();
     if (view === 'investigation') renderModule('investigation', investigationTopics, activeInvFilter);
     if (view === 'prevention')    renderModule('prevention', preventionTopics, activePrevFilter);
-    if (view === 'protrack')      renderProTrack();
-    if (view === 'shadowing')     renderShadowing();
+    if (view === 'protrack')      { renderProTrack(); renderShadowing(); }
     if (view === 'mycases')       { renderMyCases(); renderMcActivity(); }
     if (view === 'network')       renderNetworkGraph();
     if (view === 'timeline')      renderTimeline();
-    if (view === 'sources')       renderSources();
     if (view === 'quiz')          renderQuizMenu();
     if (view === 'fraudtree')     renderFraudTree();
 }
@@ -4812,37 +4804,6 @@ function globalSearchJump(kind, ref) {
     else if (kind === 'mycase') jumpToMyCase(ref);
     else if (kind === 'entity') jumpToEntity(ref);
     else if (kind === 'glossary') jumpToGlossary(ref);
-}
-
-const osintSources = [
-    { category: 'Corporate Registries', name: 'OpenCorporates', url: 'https://opencorporates.com', note: 'Largest open database of company ownership records worldwide.' },
-    { category: 'Corporate Registries', name: 'EU e-Justice Business Registers', url: 'https://e-justice.europa.eu', note: 'Official portal linking company registers across EU member states.' },
-    { category: 'Corporate Registries', name: 'UK Companies House', url: 'https://www.gov.uk/government/organisations/companies-house', note: 'UK official company registry — filings, directors, ownership.' },
-    { category: 'Sanctions & PEP', name: 'OFAC Sanctions List Search', url: 'https://sanctionssearch.ofac.treas.gov', note: 'US Treasury sanctions and SDN list lookup.' },
-    { category: 'Sanctions & PEP', name: 'EU Sanctions Map', url: 'https://www.sanctionsmap.eu', note: 'Overview of all EU sanctions regimes by country.' },
-    { category: 'Sanctions & PEP', name: 'OpenSanctions', url: 'https://www.opensanctions.org', note: 'Consolidated open database of sanctions, PEPs and watchlists.' },
-    { category: 'Financial / AML', name: 'ICIJ Offshore Leaks Database', url: 'https://offshoreleaks.icij.org', note: 'Panama Papers, Paradise Papers and related leaked offshore structures.' },
-    { category: 'Financial / AML', name: 'FATF', url: 'https://www.fatf-gafi.org', note: 'Global AML/CFT standard-setter — mutual evaluations, guidance.' },
-    { category: 'Legal / Court Records', name: 'CourtListener', url: 'https://www.courtlistener.com', note: 'Free searchable archive of US court opinions and filings.' },
-    { category: 'Legal / Court Records', name: 'EUR-Lex', url: 'https://eur-lex.europa.eu', note: 'Official EU law database — directives, regulations, case law.' },
-    { category: 'General OSINT', name: 'OSINT Framework', url: 'https://osintframework.com', note: 'Categorized index of OSINT tools by investigation type.' },
-    { category: 'General OSINT', name: "Bellingcat's Online Investigation Toolkit", url: 'https://www.bellingcat.com', note: 'Curated OSINT tool list and investigative methodology guides.' }
-];
-
-function renderSources() {
-    const list = document.getElementById('sources-list');
-    const categories = [...new Set(osintSources.map(s => s.category))];
-    list.innerHTML = categories.map(cat => `
-        <div class="bg-pl-dark border border-pl-slate p-5">
-            <h3 class="text-xs font-mono uppercase tracking-widest text-pl-neon-blue mb-3">${cat}</h3>
-            ${osintSources.filter(s => s.category === cat).map(s => `
-                <div class="mb-3 pb-3 border-b border-pl-slate/30 last:border-b-0 last:mb-0 last:pb-0">
-                    <a href="${s.url}" target="_blank" rel="noopener" class="text-white font-bold text-sm hover:text-pl-neon-green transition-colors">${s.name} &#8599;</a>
-                    <p class="text-pl-gray text-xs mt-1">${s.note}</p>
-                </div>
-            `).join('')}
-        </div>
-    `).join('');
 }
 
 function jumpToGlossary(term) {
