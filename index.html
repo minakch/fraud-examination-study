@@ -148,15 +148,9 @@
 <header class="bg-pl-dark/80 backdrop-blur-md sticky top-0 z-50 border-b border-pl-slate">
     <div class="max-w-[1600px] mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-3">
 
-        <!-- Logo -->
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 border-2 border-pl-neon-green rotate-45 flex items-center justify-center flex-shrink-0">
-                <div class="w-4 h-4 bg-pl-neon-green"></div>
-            </div>
-            <div>
-                <h1 class="text-lg font-extrabold text-white tracking-wide font-serif">Fraud Examination Study Platform</h1>
-                <p class="text-xs text-pl-neon-green font-sans font-medium opacity-80">inspired by ACFE</p>
-            </div>
+        <div class="flex items-baseline gap-2">
+            <h1 class="text-lg font-extrabold text-white tracking-wide font-serif">Fraud Examination</h1>
+            <span class="text-xs text-pl-gray font-sans">— inspired by ACFE</span>
         </div>
 
         <button onclick="toggleTheme()" id="theme-toggle" class="stat-pill" style="cursor:pointer" title="Toggle day/night">🌙 Night</button>
@@ -172,27 +166,20 @@
 
     <!-- Filter bar -->
     <div class="max-w-[1600px] mx-auto px-4 pb-3 flex flex-col gap-2">
-        <!-- Main view tabs — scrollable on mobile, grouped: Study vs Mine -->
-        <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium flex-shrink-0">Study:</span>
-            <div class="filter-bar bg-pl-black/50 p-1 border border-pl-slate rounded-sm">
-                <button onclick="showView('cases')"         id="view-cases"         class="nav-btn active-white px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Schemes</button>
-                <button onclick="showView('casestudies')"   id="view-casestudies"   class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Real Cases</button>
-                <button onclick="showView('investigation')" id="view-investigation" class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Investigation</button>
-                <button onclick="showView('prevention')"    id="view-prevention"    class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Prevention</button>
-                <button onclick="showView('glossary')"      id="view-glossary"      class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Glossary</button>
-                <button onclick="showView('fraudtree')"      id="view-fraudtree"     class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Fraud Tree</button>
-                <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Quiz</button>
-            </div>
-        </div>
-        <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium flex-shrink-0">Mine:</span>
-            <div class="filter-bar bg-pl-black/50 p-1 border border-pl-slate rounded-sm">
-                <button onclick="showView('mycases')"       id="view-mycases"       class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">My Cases</button>
-                <button onclick="showView('network')"       id="view-network"       class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Network</button>
-                <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Timeline</button>
-                <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium transition-all">Pro Track</button>
-            </div>
+        <!-- Main view tabs — scrollable on mobile, one row, groups separated by a divider -->
+        <div class="filter-bar" style="gap:18px">
+            <button onclick="showView('cases')"         id="view-cases"         class="nav-btn active-white px-1 py-2 text-xs font-sans font-medium transition-all">Schemes</button>
+            <button onclick="showView('casestudies')"   id="view-casestudies"   class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Real Cases</button>
+            <button onclick="showView('investigation')" id="view-investigation" class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Investigation</button>
+            <button onclick="showView('prevention')"    id="view-prevention"    class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Prevention</button>
+            <button onclick="showView('glossary')"      id="view-glossary"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Glossary</button>
+            <button onclick="showView('fraudtree')"      id="view-fraudtree"     class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Fraud Tree</button>
+            <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Quiz</button>
+            <span class="flex-shrink-0" style="width:1px;height:16px;background:#2e2e30"></span>
+            <button onclick="showView('mycases')"       id="view-mycases"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">My Cases</button>
+            <button onclick="showView('network')"       id="view-network"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Network</button>
+            <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Timeline</button>
+            <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Pro Track</button>
         </div>
         <!-- Scheme type filter — only relevant on the Schemes view -->
         <div class="filter-bar gap-2" id="schemes-filter-row">
