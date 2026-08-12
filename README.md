@@ -1,4 +1,6 @@
-# CFE Portfolio — Fraud & Compliance Intelligence Platform
+# CFE Exam Prep — Fraud Examination Study Platform
+
+*A self-study project for the ACFE Certified Fraud Examiner exam. Not affiliated with or endorsed by the ACFE.*
 
 A single-file, self-contained study and case-tracking platform built while preparing for the ACFE **Certified Fraud Examiner (CFE)** exam. What started as a set of study notes grew, over several sessions, into a small working platform: part exam-prep tool, part case-management sandbox, part portfolio piece for fraud-examination / AML-KYC roles.
 
