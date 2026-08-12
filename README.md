@@ -1,4 +1,4 @@
-# CFE Exam Prep — Fraud Examination Study Platform
+# Fraud Examination Study Platform, inspired by ACFE
 
 *A self-study project for the ACFE Certified Fraud Examiner exam. Not affiliated with or endorsed by the ACFE.*
 
