@@ -26,9 +26,7 @@ It's also meant to double as a portfolio artifact: for someone targeting AML/KYC
 | **My Cases** | A local CRUD tracker for practice investigations — title, group, status, related codes/people/companies, notes, and a per-scheme-group investigation checklist. Includes an audit log of create/update/delete actions |
 | **Network** | A force-directed SVG graph linking the 27 schemes, the real cases, and any people/companies entered into My Cases — a visual map of how the practice material connects |
 | **Timeline** | Chronology combining the real case studies and user-entered practice cases |
-| **Shadowing** | A "day in the life of a fraud analyst" checklist — first-week onboarding, daily/weekly/monthly routines, tools, and skills — meant as a study map for what the job actually looks like day to day |
-| **Pro Track** | Career-stage guidance tied to daily ops, case work, analytics, reporting, tools, and career progression |
-| **Sources** | Static reference list of OSINT/AML data sources (OpenCorporates, OFAC, EUR-Lex, national company registries, etc.) |
+| **Pro Track** | Career-stage guidance (daily ops, case work, analytics, reporting, tools, career progression) plus a "day in the life of a fraud analyst" checklist — first-week onboarding, daily/weekly/monthly routines, and toolkit — a combined study map for what the job actually looks like day to day |
 
 A global search bar in the header searches across schemes, cases, glossary, and practice-case data at once.
 
