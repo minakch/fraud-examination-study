@@ -216,33 +216,15 @@
     </section>
 
     <!-- Investigation Module -->
-    <section id="investigation-section" class="hidden">
-        <div class="mb-6 flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Topic:</span>
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setModFilter('inv','ALL')"          id="invf-ALL"          class="cat-btn cat-active">All</button>
-                <button onclick="setModFilter('inv','INTERVIEWS')"   id="invf-INTERVIEWS"   class="cat-btn">Interviews</button>
-                <button onclick="setModFilter('inv','DOCUMENTS')"    id="invf-DOCUMENTS"    class="cat-btn">Documents & Digital</button>
-                <button onclick="setModFilter('inv','FINANCIAL')"    id="invf-FINANCIAL"    class="cat-btn">Financial Analysis</button>
-                <button onclick="setModFilter('inv','LEGAL')"        id="invf-LEGAL"        class="cat-btn">Legal & Reporting</button>
-                <button onclick="setModFilter('inv','FORENSIC')"     id="invf-FORENSIC"     class="cat-btn">Forensic Techniques</button>
-            </div>
-        </div>
-        <div id="investigation-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <section id="investigation-section" class="hidden schemes-layout">
+        <nav class="schemes-sidebar" id="investigation-sidebar"></nav>
+        <div class="schemes-panel" id="investigation-panel"></div>
     </section>
 
     <!-- Prevention Module -->
-    <section id="prevention-section" class="hidden">
-        <div class="mb-6 flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Topic:</span>
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setModFilter('prev','ALL')"          id="prevf-ALL"          class="cat-btn cat-active">All</button>
-                <button onclick="setModFilter('prev','CONTROLS')"     id="prevf-CONTROLS"     class="cat-btn">Internal Controls</button>
-                <button onclick="setModFilter('prev','CULTURE')"      id="prevf-CULTURE"      class="cat-btn">Culture & Ethics</button>
-                <button onclick="setModFilter('prev','PROGRAMS')"     id="prevf-PROGRAMS"     class="cat-btn">Programs & Tools</button>
-            </div>
-        </div>
-        <div id="prevention-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <section id="prevention-section" class="hidden schemes-layout">
+        <nav class="schemes-sidebar" id="prevention-sidebar"></nav>
+        <div class="schemes-panel" id="prevention-panel"></div>
     </section>
 
     <!-- Pro Track -->
@@ -251,19 +233,10 @@
             <h2 class="text-base font-bold text-white font-serif tracking-wide mb-1">Fraud Professional — Day in the Life</h2>
             <p class="text-xs text-pl-gray font-mono">What a real CFE does every day. Use this as a shadowing map — from first-day checklist to independent practice.</p>
         </div>
-        <div class="mb-6 flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Phase:</span>
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setPtFilter('ALL')"       id="ptf-ALL"       class="cat-btn cat-active">All Phases</button>
-                <button onclick="setPtFilter('DAILY')"     id="ptf-DAILY"     class="cat-btn">Daily Ops</button>
-                <button onclick="setPtFilter('CASES')"     id="ptf-CASES"     class="cat-btn">Case Work</button>
-                <button onclick="setPtFilter('ANALYTICS')" id="ptf-ANALYTICS" class="cat-btn">Analytics</button>
-                <button onclick="setPtFilter('REPORTING')" id="ptf-REPORTING" class="cat-btn">Reporting</button>
-                <button onclick="setPtFilter('TOOLS')"     id="ptf-TOOLS"     class="cat-btn">Tools</button>
-                <button onclick="setPtFilter('CAREER')"    id="ptf-CAREER"    class="cat-btn">Career</button>
-            </div>
-        </div>
-        <div id="protrack-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <section class="schemes-layout">
+            <nav class="schemes-sidebar" id="protrack-sidebar"></nav>
+            <div class="schemes-panel" id="protrack-panel"></div>
+        </section>
 
         <div class="mt-8 mb-4 bg-pl-dark border border-pl-slate p-5">
             <h2 class="text-base font-bold text-white font-serif tracking-wide mb-1">First-Week & Ongoing Checklist</h2>
@@ -3193,58 +3166,62 @@ const preventionTopics = [
     }
 ];
 
-let activeInvFilter = 'ALL';
-let activePrevFilter = 'ALL';
+const moduleData = { investigation: investigationTopics, prevention: preventionTopics };
+const moduleAccent = { investigation: '#5b8def', prevention: '#6fa287' };
+const moduleCatOrder = {
+    investigation: ['INTERVIEWS','DOCUMENTS','FINANCIAL','LEGAL','FORENSIC'],
+    prevention: ['CONTROLS','CULTURE','PROGRAMS']
+};
+const moduleCatLabels = {
+    investigation: { INTERVIEWS: 'Interviews', DOCUMENTS: 'Documents & Digital', FINANCIAL: 'Financial Analysis', LEGAL: 'Legal & Reporting', FORENSIC: 'Forensic Techniques' },
+    prevention: { CONTROLS: 'Internal Controls', CULTURE: 'Culture & Ethics', PROGRAMS: 'Programs & Tools' }
+};
+let activeModuleId = { investigation: null, prevention: null };
 
-function setModFilter(module, val) {
-    if (module === 'inv') {
-        activeInvFilter = val;
-        document.querySelectorAll('[id^="invf-"]').forEach(b => b.classList.remove('cat-active'));
-        document.getElementById(`invf-${val}`).classList.add('cat-active');
-        renderModule('investigation', investigationTopics, activeInvFilter);
-    } else {
-        activePrevFilter = val;
-        document.querySelectorAll('[id^="prevf-"]').forEach(b => b.classList.remove('cat-active'));
-        document.getElementById(`prevf-${val}`).classList.add('cat-active');
-        renderModule('prevention', preventionTopics, activePrevFilter);
-    }
+function renderModuleSidebar(type) {
+    const sidebar = document.getElementById(`${type}-sidebar`);
+    const data = moduleData[type];
+    const accent = moduleAccent[type];
+    const labels = moduleCatLabels[type];
+
+    sidebar.innerHTML = moduleCatOrder[type].map(cat => {
+        const catData = data.filter(item => item.cat === cat);
+        if (catData.length === 0) return '';
+        return `
+            <div class="schemes-sidebar-group">
+                <div class="schemes-sidebar-group-label" style="color:${accent}">${labels[cat]}</div>
+                ${catData.map(item => `
+                    <div class="scheme-item" id="${type}-item-${item.id}" onclick="selectModule('${type}','${item.id}')">
+                        <span class="code" style="color:${accent}">${item.code}</span><span class="title">${item.title}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
+
+    const current = activeModuleId[type];
+    const stillVisible = data.some(i => i.id === current);
+    if (stillVisible) selectModule(type, current);
+    else if (data.length > 0) selectModule(type, data[0].id);
 }
 
-function renderModule(type, data, filter) {
-    const grid = document.getElementById(`${type}-grid`);
-    grid.innerHTML = '';
-    const filtered = filter === 'ALL' ? data : data.filter(t => t.cat === filter);
-    const accent = type === 'investigation' ? '#5b8def' : '#6fa287';
+function selectModule(type, id) {
+    activeModuleId[type] = id;
+    document.querySelectorAll(`#${type}-sidebar .scheme-item`).forEach(el =>
+        el.classList.toggle('active', el.id === `${type}-item-${id}`)
+    );
 
-    filtered.forEach((item, i) => {
-        grid.insertAdjacentHTML('beforeend', `
-            <article class="card-appear bg-pl-dark transition-all relative overflow-hidden flex flex-col"
-                     style="animation-delay:${i*50}ms">
-                <div class="p-6 flex-grow flex flex-col">
-                    <div class="flex items-center gap-2 mb-3 font-mono text-xs uppercase tracking-wider">
-                        <span style="color:${accent}" class="font-bold">[${item.code}]</span>
-                        <span class="text-pl-slate">//</span>
-                        <span class="text-pl-gray bg-pl-black px-2 py-0.5 border border-pl-slate">${item.cat}</span>
-                    </div>
-                    <h3 class="text-base font-serif font-bold text-white mb-2 leading-snug cursor-pointer underline underline-offset-4 decoration-white/30" style="transition:color .2s"
-                        onmouseover="this.style.color='${accent}';this.style.textDecorationColor='${accent}'" onmouseout="this.style.color='';this.style.textDecorationColor=''"
-                        onclick="toggleMod('${type}','${item.id}')" id="${type}-title-${item.id}">
-                        ${item.title}
-                    </h3>
-                    <p class="text-sm text-pl-gray leading-relaxed flex-grow mb-4">${item.description}</p>
-                    <div class="border-t border-pl-slate pt-4 content-area hidden" id="${type}-content-${item.id}">
-                        <div class="bg-pl-black p-4">${item.content}</div>
-                    </div>
-                </div>
-            </article>
-        `);
-    });
-}
+    const item = moduleData[type].find(i => i.id === id);
+    if (!item) return;
+    const accent = moduleAccent[type];
+    const labels = moduleCatLabels[type];
 
-function toggleMod(type, id) {
-    const block = document.getElementById(`${type}-content-${id}`);
-    const hidden = block.classList.contains('hidden');
-    block.classList.toggle('hidden', !hidden);
+    document.getElementById(`${type}-panel`).innerHTML = `
+        <div class="schemes-panel-meta"><span class="code" style="color:${accent}">${item.code}</span> · ${labels[item.cat] || item.cat}</div>
+        <h2>${item.title}</h2>
+        <p class="schemes-panel-summary">${item.description}</p>
+        <div class="content-area">${item.content}</div>
+    `;
 }
 
 let activeGlossCat = 'ALL';
@@ -3807,51 +3784,51 @@ const proTrackData = [
     }
 ];
 
-let activePtFilter = 'ALL';
+const ptCatOrder  = ['DAILY','CASES','ANALYTICS','REPORTING','TOOLS','CAREER'];
+const ptCatLabels = { DAILY: 'Daily Ops', CASES: 'Case Work', ANALYTICS: 'Analytics', REPORTING: 'Reporting', TOOLS: 'Tools', CAREER: 'Career' };
+const ptCatColors = { DAILY: '#6fa287', CASES: '#c97b84', ANALYTICS: '#5b8def', REPORTING: '#c9a24b', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
+let activePtId = null;
 
-function setPtFilter(val) {
-    activePtFilter = val;
-    document.querySelectorAll('[id^="ptf-"]').forEach(b => b.classList.remove('cat-active'));
-    document.getElementById(`ptf-${val}`).classList.add('cat-active');
-    renderProTrack();
+function renderProTrackSidebar() {
+    const sidebar = document.getElementById('protrack-sidebar');
+
+    sidebar.innerHTML = ptCatOrder.map(cat => {
+        const catData = proTrackData.filter(item => item.cat === cat);
+        if (catData.length === 0) return '';
+        const accent = ptCatColors[cat] || '#98989d';
+        return `
+            <div class="schemes-sidebar-group">
+                <div class="schemes-sidebar-group-label" style="color:${accent}">${ptCatLabels[cat]}</div>
+                ${catData.map(item => `
+                    <div class="scheme-item" id="pt-item-${item.id}" onclick="selectPt('${item.id}')">
+                        <span class="code" style="color:${accent}">${item.code}</span><span class="title">${item.title}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
+
+    const stillVisible = proTrackData.some(i => i.id === activePtId);
+    if (stillVisible) selectPt(activePtId);
+    else if (proTrackData.length > 0) selectPt(proTrackData[0].id);
 }
 
-function renderProTrack() {
-    const grid = document.getElementById('protrack-grid');
-    grid.innerHTML = '';
-    const filtered = activePtFilter === 'ALL' ? proTrackData : proTrackData.filter(t => t.cat === activePtFilter);
-    const catColors = { DAILY: '#6fa287', CASES: '#c97b84', ANALYTICS: '#5b8def', REPORTING: '#c9a24b', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
+function selectPt(id) {
+    activePtId = id;
+    document.querySelectorAll('#protrack-sidebar .scheme-item').forEach(el =>
+        el.classList.toggle('active', el.id === `pt-item-${id}`)
+    );
 
-    filtered.forEach((item, i) => {
-        const accent = catColors[item.cat] || '#98989d';
-        grid.insertAdjacentHTML('beforeend', `
-            <article class="card-appear bg-pl-dark transition-all relative overflow-hidden flex flex-col"
-                     style="animation-delay:${i*50}ms">
-                <div class="p-6 flex-grow flex flex-col">
-                    <div class="flex items-center gap-2 mb-3 font-mono text-xs uppercase tracking-wider">
-                        <span style="color:${accent}" class="font-bold">[${item.code}]</span>
-                        <span class="text-pl-slate">//</span>
-                        <span class="text-pl-gray bg-pl-black px-2 py-0.5 border border-pl-slate">${item.cat}</span>
-                    </div>
-                    <h3 class="text-base font-serif font-bold text-white mb-2 leading-snug cursor-pointer underline underline-offset-4 decoration-white/30" style="transition:color .2s"
-                        onmouseover="this.style.color='${accent}';this.style.textDecorationColor='${accent}'" onmouseout="this.style.color='';this.style.textDecorationColor=''"
-                        onclick="togglePt('${item.id}')" id="pt-title-${item.id}">
-                        ${item.title}
-                    </h3>
-                    <p class="text-sm text-pl-gray leading-relaxed flex-grow mb-4">${item.description}</p>
-                    <div class="border-t border-pl-slate pt-4 content-area hidden" id="pt-content-${item.id}">
-                        <div class="bg-pl-black p-4">${item.content}</div>
-                    </div>
-                </div>
-            </article>
-        `);
-    });
-}
+    const item = proTrackData.find(i => i.id === id);
+    if (!item) return;
+    const accent = ptCatColors[item.cat] || '#98989d';
 
-function togglePt(id) {
-    const block = document.getElementById(`pt-content-${id}`);
-    const hidden = block.classList.contains('hidden');
-    block.classList.toggle('hidden', !hidden);
+    document.getElementById('protrack-panel').innerHTML = `
+        <div class="schemes-panel-meta"><span class="code" style="color:${accent}">${item.code}</span> · ${ptCatLabels[item.cat] || item.cat}</div>
+        <h2>${item.title}</h2>
+        <p class="schemes-panel-summary">${item.description}</p>
+        <div class="content-area">${item.content}</div>
+    `;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4095,9 +4072,9 @@ function showView(view) {
 
     if (view === 'glossary')      renderGlossary();
     if (view === 'casestudies')   renderCaseStudies();
-    if (view === 'investigation') renderModule('investigation', investigationTopics, activeInvFilter);
-    if (view === 'prevention')    renderModule('prevention', preventionTopics, activePrevFilter);
-    if (view === 'protrack')      { renderProTrack(); renderShadowing(); }
+    if (view === 'investigation') renderModuleSidebar('investigation');
+    if (view === 'prevention')    renderModuleSidebar('prevention');
+    if (view === 'protrack')      { renderProTrackSidebar(); renderShadowing(); }
     if (view === 'mycases')       { renderMyCases(); renderMcActivity(); }
     if (view === 'network')       renderNetworkGraph();
     if (view === 'timeline')      renderTimeline();
