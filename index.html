@@ -154,8 +154,6 @@
         .text-NF    { color: var(--c-gold); }
 
         /* Glossary */
-        .gloss-card { background: var(--c-surface); padding: 1.1rem 1.25rem; transition: background-color .2s; }
-        .gloss-card:hover { background: var(--c-surface-2); }
         .gloss-search { background: var(--c-bg); border: 1px solid var(--c-line); color: var(--c-text); outline: none; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 14px; width: 100%; }
         .gloss-search::placeholder { color: var(--c-muted); }
         .gloss-search:focus { border-color: var(--c-blue); }
@@ -207,7 +205,7 @@
 
     <!-- Global Search -->
     <div class="max-w-[1600px] mx-auto px-4 pb-3" style="position:relative">
-        <input id="global-search" type="text" placeholder="&gt; Search everything — schemes, cases, glossary, my cases, people, companies..."
+        <input id="global-search" type="text" placeholder="&gt; Search everything — schemes, cases, glossary..."
                class="gloss-search" oninput="renderSearchResults()"
                onblur="setTimeout(() => document.getElementById('global-search-results').classList.add('hidden'), 150)">
         <div id="global-search-results" class="hidden" style="position:absolute;left:1rem;right:1rem;top:100%;z-index:60;max-height:320px;overflow-y:auto;background:var(--c-surface);border:1px solid var(--c-line)"></div>
@@ -225,8 +223,6 @@
             <button onclick="showView('fraudtree')"      id="view-fraudtree"     class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Fraud Tree</button>
             <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Quiz</button>
             <span class="flex-shrink-0" style="width:1px;height:16px;background:var(--c-line)"></span>
-            <button onclick="showView('mycases')"       id="view-mycases"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">My Cases</button>
-            <button onclick="showView('network')"       id="view-network"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Network</button>
             <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Timeline</button>
             <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Pro Track</button>
         </div>
@@ -251,17 +247,9 @@
     </section>
 
     <!-- Real Case Studies -->
-    <section id="casestudies-section" class="hidden">
-        <div class="mb-6 flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Filter by scheme:</span>
-            <div id="cs-filters" class="flex flex-wrap gap-1">
-                <button onclick="setCsFilter('ALL')" id="csf-ALL" class="cat-btn cat-active">All Cases</button>
-                <button onclick="setCsFilter('FR')"  id="csf-FR"  class="cat-btn">FR — Fin. Reporting</button>
-                <button onclick="setCsFilter('AM')"  id="csf-AM"  class="cat-btn">AM — Asset Misap.</button>
-                <button onclick="setCsFilter('IAC')" id="csf-IAC" class="cat-btn">IAC — Corruption</button>
-            </div>
-        </div>
-        <div id="casestudies-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+    <section id="casestudies-section" class="hidden schemes-layout">
+        <nav class="schemes-sidebar" id="casestudies-sidebar"></nav>
+        <div class="schemes-panel" id="casestudies-panel"></div>
     </section>
 
     <!-- Investigation Module -->
@@ -308,73 +296,20 @@
     </section>
 
     <!-- Glossary -->
-    <section id="glossary-section" class="hidden">
-        <div class="mb-6 flex flex-col md:flex-row gap-4 items-start md:items-center">
+    <section id="glossary-section" class="hidden schemes-layout">
+        <nav class="schemes-sidebar" id="glossary-sidebar">
             <input id="gloss-search" type="text" placeholder="> Search term or abbreviation..."
-                   class="gloss-search" oninput="renderGlossary()">
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setGlossCat('ALL')"        id="gc-ALL"        class="cat-btn cat-active">All</button>
-                <button onclick="setGlossCat('ACFE')"       id="gc-ACFE"       class="cat-btn">ACFE Framework</button>
-                <button onclick="setGlossCat('SCHEMES')"    id="gc-SCHEMES"    class="cat-btn">Fraud Schemes</button>
-                <button onclick="setGlossCat('ACCOUNTING')" id="gc-ACCOUNTING" class="cat-btn">Accounting & Audit</button>
-                <button onclick="setGlossCat('LEGAL')"      id="gc-LEGAL"      class="cat-btn">Legal & Compliance</button>
-                <button onclick="setGlossCat('TECHNIQUES')" id="gc-TECHNIQUES" class="cat-btn">Investigation Tech.</button>
-                <button onclick="setGlossCat('EU')"         id="gc-EU"         class="cat-btn">EU Regulatory</button>
-            </div>
-        </div>
-        <div id="gloss-count" class="text-xs font-mono text-pl-slate mb-4"></div>
-        <div id="glossary-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-    </section>
-
-    <!-- My Cases -->
-    <section id="mycases-section" class="hidden">
-        <div class="mb-6 flex items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Group:</span>
-            <div id="mc-filters" class="flex flex-wrap gap-1">
-                <button onclick="setMcFilter('ALL')" id="mcf-ALL" class="cat-btn cat-active">All</button>
-                <button onclick="setMcFilter('AM')"  id="mcf-AM"  class="cat-btn">AM</button>
-                <button onclick="setMcFilter('FR')"  id="mcf-FR"  class="cat-btn">FR</button>
-                <button onclick="setMcFilter('IAC')" id="mcf-IAC" class="cat-btn">IAC</button>
-                <button onclick="setMcFilter('NF')"  id="mcf-NF"  class="cat-btn">NF</button>
-            </div>
-            <button onclick="openCaseForm()" class="ml-auto text-xs font-sans font-medium text-pl-neon-green border border-pl-slate px-3 py-1.5 hover:bg-pl-slate/30 transition-colors whitespace-nowrap">+ New Case</button>
-        </div>
-        <div id="mycases-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-
-        <div class="mt-8">
-            <span class="text-xs font-sans text-pl-gray font-medium">Activity Log:</span>
-            <div id="mc-activity" class="mt-2 bg-pl-dark border border-pl-slate p-3"></div>
-        </div>
-    </section>
-
-    <!-- Network Graph -->
-    <section id="network-section" class="hidden">
-        <div class="mb-4 flex items-center gap-4 flex-wrap text-xs font-sans font-medium text-pl-gray">
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-pl-neon-green"></span>AM</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-pl-neon-blue"></span>FR</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-pl-neon-pink"></span>IAC</span>
-            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-pl-neon-amber"></span>NF</span>
-            <span class="flex items-center gap-1.5">&#9670; Real Case</span>
-            <span class="flex items-center gap-1.5">&#9632; My Case</span>
-            <span class="flex items-center gap-1.5" style="color:#bd6bbd">&#9650; Person</span>
-            <span class="flex items-center gap-1.5" style="color:#3fa6da">&#9650; Company</span>
-            <span class="text-pl-slate normal-case tracking-normal">— drag nodes, click to see connections</span>
-        </div>
-        <div class="flex gap-4 flex-col lg:flex-row">
-            <div class="bg-pl-dark border border-pl-slate flex-grow" style="height:600px;overflow:hidden">
-                <svg id="network-svg" width="100%" height="600" style="cursor:grab"></svg>
-            </div>
-            <div id="network-panel" class="bg-pl-dark p-4 lg:w-72 flex-shrink-0 text-sm text-pl-gray">
-                Click a node to see details.
-            </div>
-        </div>
+                   class="gloss-search" oninput="renderGlossarySidebar()" style="margin-bottom:14px">
+            <div id="gloss-count" class="text-xs font-mono mb-4" style="color:var(--c-muted)"></div>
+            <div id="gloss-list"></div>
+        </nav>
+        <div class="schemes-panel" id="glossary-panel"></div>
     </section>
 
     <!-- Timeline -->
     <section id="timeline-section" class="hidden">
         <div class="mb-4 flex items-center gap-4 flex-wrap text-xs font-sans font-medium text-pl-gray">
             <span class="flex items-center gap-1.5">&#9670; Real Case</span>
-            <span class="flex items-center gap-1.5">&#9632; My Case</span>
         </div>
         <div id="timeline-list" class="relative pl-6" style="border-left:2px solid var(--c-line)"></div>
     </section>
@@ -390,60 +325,14 @@
 
     <!-- Fraud Tree -->
     <section id="fraudtree-section" class="hidden">
-        <div class="mb-6 bg-pl-dark border border-pl-slate p-5">
-            <h2 class="text-base font-bold text-white font-serif tracking-wide mb-1">ACFE Occupational Fraud Classification — Full Tree</h2>
-            <p class="text-xs text-pl-gray font-mono">The complete official 3-branch taxonomy, fully expanded to individual leaf schemes (no merged bullets). The Schemes tab covers 27 of these in depth — those show an "Open case card" link below. NF (Non-Financial Misstatements) is this site's own extension, not part of the classic official tree.</p>
+        <div class="mb-8" style="max-width:760px">
+            <h2 class="font-serif font-bold" style="font-size:var(--fs-6)">ACFE Occupational Fraud Classification</h2>
+            <p class="mt-2" style="color:var(--c-muted);font-size:var(--fs-3)">The complete official 3-branch taxonomy, fully expanded to individual leaf schemes. The Schemes tab covers 27 of these in depth — those show a "View in Schemes" link below. NF (Non-Financial Misstatements) is this site's own extension, not part of the classic official tree.</p>
         </div>
-        <div id="fraudtree-list"></div>
+        <div id="fraudtree-list" style="max-width:760px"></div>
     </section>
 </main>
 
-<!-- My Case Form Modal -->
-<div id="case-form-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4" style="background:rgba(0,0,0,.5)">
-    <div class="bg-pl-dark border border-pl-slate p-6 w-full max-w-md">
-        <h3 class="text-white font-bold font-sans mb-4" id="case-form-title">New Case</h3>
-        <input type="hidden" id="mc-id">
-        <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Title</label>
-        <input id="mc-title" type="text" class="gloss-search mb-3" placeholder="Case title...">
-        <div class="grid grid-cols-2 gap-3 mb-3">
-            <div>
-                <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Group</label>
-                <select id="mc-group" class="gloss-search">
-                    <option value="AM">AM</option>
-                    <option value="FR">FR</option>
-                    <option value="IAC">IAC</option>
-                    <option value="NF">NF</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Status</label>
-                <select id="mc-status" class="gloss-search">
-                    <option value="open">Open</option>
-                    <option value="pending">Pending</option>
-                    <option value="closed">Closed</option>
-                </select>
-            </div>
-        </div>
-        <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Linked scheme codes (comma-separated, e.g. FR1, AM2)</label>
-        <input id="mc-codes" type="text" class="gloss-search mb-3" placeholder="FR1, AM2...">
-        <div class="grid grid-cols-2 gap-3 mb-3">
-            <div>
-                <label class="block text-xs font-sans font-medium text-pl-slate mb-1">People (comma-sep.)</label>
-                <input id="mc-people" type="text" class="gloss-search" placeholder="John Doe, ...">
-            </div>
-            <div>
-                <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Companies (comma-sep.)</label>
-                <input id="mc-companies" type="text" class="gloss-search" placeholder="Acme Corp, ...">
-            </div>
-        </div>
-        <label class="block text-xs font-sans font-medium text-pl-slate mb-1">Notes</label>
-        <textarea id="mc-notes" rows="4" class="gloss-search mb-4" placeholder="Notes..."></textarea>
-        <div class="flex gap-2 justify-end">
-            <button onclick="closeCaseForm()" class="nav-btn px-3 py-2 rounded-sm text-xs font-sans font-medium border border-pl-slate">Cancel</button>
-            <button onclick="saveCaseForm()" class="nav-btn active-green px-3 py-2 rounded-sm text-xs font-sans font-medium border border-pl-slate">Save</button>
-        </div>
-    </div>
-</div>
 
 <footer class="border-t border-pl-slate mt-16 bg-pl-dark">
     <div class="max-w-[1600px] mx-auto px-6 py-4 text-center text-xs text-pl-slate font-sans font-medium">
@@ -1734,69 +1623,67 @@ const caseStudies = [
     }
 ];
 
-let activeCsFilter = 'ALL';
+let activeCaseId = null;
 
-function setCsFilter(val) {
-    activeCsFilter = val;
-    document.querySelectorAll('[id^="csf-"]').forEach(b => b.classList.remove('cat-active'));
-    document.getElementById(`csf-${val}`).classList.add('cat-active');
-    renderCaseStudies();
+function renderCaseStudiesSidebar() {
+    const sidebar = document.getElementById('casestudies-sidebar');
+
+    sidebar.innerHTML = groupOrder.map(g => {
+        const groupData = caseStudies.filter(cs => cs.schemeGroup === g);
+        if (groupData.length === 0) return '';
+        return `
+            <div class="schemes-sidebar-group">
+                <div class="schemes-sidebar-group-label text-${g}">${groupLabels[g]}</div>
+                ${groupData.map(cs => `
+                    <div class="scheme-item" id="case-item-${cs.id}" onclick="selectCase('${cs.id}')">
+                        <span class="title">${cs.company}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }).join('');
+
+    const stillVisible = caseStudies.some(cs => cs.id === activeCaseId);
+    if (stillVisible) selectCase(activeCaseId);
+    else if (caseStudies.length > 0) selectCase(caseStudies[0].id);
 }
 
-function renderCaseStudies() {
-    const grid = document.getElementById('casestudies-grid');
-    grid.innerHTML = '';
-    const data = activeCsFilter === 'ALL' ? caseStudies : caseStudies.filter(c => c.schemeGroup === activeCsFilter);
+function selectCase(id) {
+    activeCaseId = id;
+    document.querySelectorAll('#casestudies-sidebar .scheme-item').forEach(el =>
+        el.classList.toggle('active', el.id === `case-item-${id}`)
+    );
 
-    data.forEach(cs => {
-        const codesBadges = cs.codes.map(c => `<span class="px-2 py-0.5 border border-pl-slate font-mono text-xs text-pl-neon-blue">${c}</span>`).join('');
-        grid.insertAdjacentHTML('beforeend', `
-            <article class="card-appear bg-pl-dark transition-all relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-pl-neon-pink via-pl-neon-amber to-pl-neon-blue opacity-40"></div>
-                <div class="p-6">
-                    <div class="flex items-start justify-between gap-4 mb-1 flex-wrap">
-                        <div>
-                            <h3 class="text-xl font-serif font-bold text-white leading-tight cursor-pointer underline underline-offset-4 decoration-white/30 hover:decoration-pl-neon-blue transition-colors"
-                                onclick="toggleCs('${cs.id}')" id="cs-title-${cs.id}">
-                                ${cs.company}
-                            </h3>
-                            <p class="text-xs font-mono text-pl-slate mt-1">${cs.country} // ${cs.year} // ${cs.loss}</p>
-                        </div>
-                        <div class="flex flex-wrap gap-1">${codesBadges}</div>
-                    </div>
-                    <p class="text-xs font-mono text-pl-neon-pink mb-3">Perpetrators: ${cs.perpetrators}</p>
-                    <p class="text-sm text-pl-gray leading-relaxed mb-4">${cs.summary}</p>
+    const cs = caseStudies.find(c => c.id === id);
+    if (!cs) return;
+    const g = cs.schemeGroup;
+    const codesBadges = cs.codes.map(c => `<span class="px-2 py-0.5 border border-pl-slate font-mono text-xs text-${g}">${c}</span>`).join('');
 
-                    <div class="hidden content-area" id="cs-content-${cs.id}">
-                        <div class="space-y-4 mt-2">
-                            <div class="bg-pl-black p-4 border-t border-pl-slate">
-                                <h4 class="text-pl-neon-pink text-xs font-sans font-semibold mb-2">What Happened</h4>
-                                <div class="text-sm" style="color:var(--c-text)">${cs.what_happened}</div>
-                            </div>
-                            <div class="bg-pl-black p-4 border-t border-pl-slate">
-                                <h4 class="text-pl-neon-amber text-xs font-sans font-semibold mb-2">How It Was Caught</h4>
-                                <div class="text-sm" style="color:var(--c-text)">${cs.how_caught}</div>
-                            </div>
-                            <div class="bg-pl-black p-4 border-t border-pl-slate">
-                                <h4 class="text-pl-neon-green text-xs font-sans font-semibold mb-2">Detection Techniques Used</h4>
-                                <div class="text-sm content-area">${cs.techniques}</div>
-                            </div>
-                            <div class="bg-pl-black p-4 border-t border-pl-slate">
-                                <h4 class="text-pl-neon-blue text-xs font-sans font-semibold mb-2">CFE Exam Takeaways</h4>
-                                <div class="text-sm content-area">${cs.cfe_takeaway}</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        `);
-    });
-}
-
-function toggleCs(id) {
-    const block = document.getElementById(`cs-content-${id}`);
-    const hidden = block.classList.contains('hidden');
-    block.classList.toggle('hidden', !hidden);
+    document.getElementById('casestudies-panel').innerHTML = `
+        <div class="schemes-panel-meta">${cs.country} · ${cs.year} · ${cs.loss}</div>
+        <h2>${cs.company}</h2>
+        <div class="flex flex-wrap gap-1 mb-4">${codesBadges}</div>
+        <p class="text-xs font-mono mb-4" style="color:var(--c-rose)">Perpetrators: ${cs.perpetrators}</p>
+        <p class="schemes-panel-summary">${cs.summary}</p>
+        <div class="space-y-4">
+            <div class="bg-pl-black p-4 border-t border-pl-slate">
+                <h4 class="text-xs font-sans font-semibold mb-2" style="color:var(--c-rose)">What Happened</h4>
+                <div class="text-sm" style="color:var(--c-text)">${cs.what_happened}</div>
+            </div>
+            <div class="bg-pl-black p-4 border-t border-pl-slate">
+                <h4 class="text-xs font-sans font-semibold mb-2" style="color:var(--c-gold)">How It Was Caught</h4>
+                <div class="text-sm" style="color:var(--c-text)">${cs.how_caught}</div>
+            </div>
+            <div class="bg-pl-black p-4 border-t border-pl-slate">
+                <h4 class="text-xs font-sans font-semibold mb-2" style="color:var(--c-sage)">Detection Techniques Used</h4>
+                <div class="text-sm content-area">${cs.techniques}</div>
+            </div>
+            <div class="bg-pl-black p-4 border-t border-pl-slate">
+                <h4 class="text-xs font-sans font-semibold mb-2" style="color:var(--c-blue)">CFE Exam Takeaways</h4>
+                <div class="text-sm content-area">${cs.cfe_takeaway}</div>
+            </div>
+        </div>
+    `;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -3273,52 +3160,69 @@ function selectModule(type, id) {
     `;
 }
 
-let activeGlossCat = 'ALL';
+let activeGlossIdx = null;
+const glossCatOrder  = ['ACFE','SCHEMES','ACCOUNTING','LEGAL','TECHNIQUES','EU'];
+const glossCatLabels = { ACFE: 'ACFE Framework', SCHEMES: 'Fraud Schemes', ACCOUNTING: 'Accounting & Audit', LEGAL: 'Legal & Compliance', TECHNIQUES: 'Investigation Tech.', EU: 'EU Regulatory' };
+const glossCatColor  = { ACFE: 'var(--c-sage)', SCHEMES: 'var(--c-rose)', ACCOUNTING: 'var(--c-blue)', LEGAL: 'var(--c-gold)', TECHNIQUES: '#bd6bbd', EU: '#3fa6da' };
 
-function setGlossCat(cat) {
-    activeGlossCat = cat;
-    document.querySelectorAll('[id^="gc-"]').forEach(b => b.classList.remove('cat-active'));
-    document.getElementById(`gc-${cat}`).classList.add('cat-active');
-    renderGlossary();
-}
-
-function renderGlossary() {
+function renderGlossarySidebar() {
     const query = (document.getElementById('gloss-search').value || '').toLowerCase();
-    let data = glossaryData;
-    if (activeGlossCat !== 'ALL') data = data.filter(g => g.cat === activeGlossCat);
+    let data = glossaryData.map((g, i) => ({ ...g, _idx: i }));
     if (query) data = data.filter(g =>
         g.term.toLowerCase().includes(query) ||
         g.full.toLowerCase().includes(query) ||
         g.def.toLowerCase().includes(query)
     );
-
     data = [...data].sort((a, b) => a.term.localeCompare(b.term));
 
     document.getElementById('gloss-count').textContent =
         `> ${data.length} term${data.length !== 1 ? 's' : ''} found`;
 
-    const grid = document.getElementById('glossary-grid');
-    grid.innerHTML = '';
+    const sidebar = document.getElementById('gloss-list');
 
     if (data.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-pl-slate py-16 font-mono">NO TERMS MATCH THIS QUERY.</p>`;
+        sidebar.innerHTML = '';
+        document.getElementById('glossary-panel').innerHTML = `<p class="font-mono" style="color:var(--c-muted)">NO TERMS MATCH THIS QUERY.</p>`;
+        activeGlossIdx = null;
         return;
     }
 
-    data.forEach(item => {
-        const catColor = { ACFE: 'var(--c-sage)', SCHEMES: 'var(--c-rose)', ACCOUNTING: 'var(--c-blue)', LEGAL: 'var(--c-gold)', TECHNIQUES: '#bd6bbd', EU: '#3fa6da' }[item.cat] || 'var(--c-muted)';
-        grid.insertAdjacentHTML('beforeend', `
-            <div class="gloss-card">
-                <div class="flex items-start justify-between gap-2 mb-2">
-                    <span class="font-mono font-bold text-white text-base">${item.term}</span>
-                    <span class="text-xs font-mono px-2 py-0.5 border border-pl-slate flex-shrink-0"
-                          style="color:${catColor}">${item.cat}</span>
-                </div>
-                <p class="text-xs font-mono mb-3 leading-snug" style="color:${catColor};opacity:.85">${item.full}</p>
-                <p class="text-sm leading-relaxed" style="color:var(--c-text)">${item.def}</p>
+    sidebar.innerHTML = glossCatOrder.map(cat => {
+        const catData = data.filter(g => g.cat === cat);
+        if (catData.length === 0) return '';
+        return `
+            <div class="schemes-sidebar-group">
+                <div class="schemes-sidebar-group-label" style="color:${glossCatColor[cat]}">${glossCatLabels[cat]}</div>
+                ${catData.map(g => `
+                    <div class="scheme-item" id="gloss-item-${g._idx}" onclick="selectGloss(${g._idx})">
+                        <span class="title">${g.term}</span>
+                    </div>
+                `).join('')}
             </div>
-        `);
-    });
+        `;
+    }).join('');
+
+    const stillVisible = data.some(g => g._idx === activeGlossIdx);
+    if (stillVisible) selectGloss(activeGlossIdx);
+    else selectGloss(data[0]._idx);
+}
+
+function selectGloss(idx) {
+    activeGlossIdx = idx;
+    document.querySelectorAll('#gloss-list .scheme-item').forEach(el =>
+        el.classList.toggle('active', el.id === `gloss-item-${idx}`)
+    );
+
+    const item = glossaryData[idx];
+    if (!item) return;
+    const color = glossCatColor[item.cat] || 'var(--c-muted)';
+
+    document.getElementById('glossary-panel').innerHTML = `
+        <div class="schemes-panel-meta"><span class="code" style="color:${color}">${item.cat}</span></div>
+        <h2>${item.term}</h2>
+        <p class="text-sm font-mono mb-4" style="color:${color}">${item.full}</p>
+        <p class="schemes-panel-summary" style="margin-bottom:0">${item.def}</p>
+    `;
 }
 
 // ═══════════════════════════════════════════════
@@ -4107,7 +4011,7 @@ function renderShadowing() {
     updateShadowProgress();
 }
 
-const allViews = ['cases','casestudies','investigation','prevention','glossary','protrack','mycases','network','timeline','quiz','fraudtree'];
+const allViews = ['cases','casestudies','investigation','prevention','glossary','protrack','timeline','quiz','fraudtree'];
 
 function showView(view) {
     allViews.forEach(v => {
@@ -4119,496 +4023,17 @@ function showView(view) {
     document.getElementById(`view-${view}`).classList.add('active-white');
     document.getElementById('schemes-filter-row').classList.toggle('hidden', view !== 'cases');
 
-    if (view === 'glossary')      renderGlossary();
-    if (view === 'casestudies')   renderCaseStudies();
+    if (view === 'glossary')      renderGlossarySidebar();
+    if (view === 'casestudies')   renderCaseStudiesSidebar();
     if (view === 'investigation') renderModuleSidebar('investigation');
     if (view === 'prevention')    renderModuleSidebar('prevention');
     if (view === 'protrack')      { renderProTrackSidebar(); renderShadowing(); }
-    if (view === 'mycases')       { renderMyCases(); renderMcActivity(); }
-    if (view === 'network')       renderNetworkGraph();
     if (view === 'timeline')      renderTimeline();
     if (view === 'quiz')          renderQuizMenu();
     if (view === 'fraudtree')     renderFraudTree();
 }
 
-// ═══════════════════════════════════════════════════════════════════
-//  MY CASES — personal case tracker (localStorage)
-// ═══════════════════════════════════════════════════════════════════
-const MC_KEY = 'cfe-my-cases';
-const AUDIT_KEY = 'cfe-audit-log';
-let activeMcFilter = 'ALL';
-
-function loadMyCases() {
-    try { return JSON.parse(localStorage.getItem(MC_KEY)) || []; }
-    catch (e) { return []; }
-}
-function saveMyCases(arr) {
-    localStorage.setItem(MC_KEY, JSON.stringify(arr));
-}
-
-// Entities (people/companies) are derived from case records, not stored separately —
-// keeps them impossible to get out of sync with the cases that reference them.
-function getEntities() {
-    const map = {};
-    loadMyCases().forEach(mc => {
-        (mc.people || []).forEach(name => {
-            const key = 'person:' + name.toLowerCase();
-            if (!map[key]) map[key] = { id: key, type: 'person', name, caseIds: [] };
-            map[key].caseIds.push(mc.id);
-        });
-        (mc.companies || []).forEach(name => {
-            const key = 'company:' + name.toLowerCase();
-            if (!map[key]) map[key] = { id: key, type: 'company', name, caseIds: [] };
-            map[key].caseIds.push(mc.id);
-        });
-    });
-    return Object.values(map);
-}
-
-function loadAuditLog() {
-    try { return JSON.parse(localStorage.getItem(AUDIT_KEY)) || []; }
-    catch (e) { return []; }
-}
-function logAudit(action, caseTitle, detail) {
-    const log = loadAuditLog();
-    log.push({ ts: Date.now(), action, caseTitle, detail: detail || '' });
-    localStorage.setItem(AUDIT_KEY, JSON.stringify(log.slice(-200)));
-}
-function renderMcActivity() {
-    const box = document.getElementById('mc-activity');
-    if (!box) return;
-    const entries = loadAuditLog().slice(-15).reverse();
-    if (entries.length === 0) { box.innerHTML = '<p class="text-pl-slate font-mono text-xs">No activity yet.</p>'; return; }
-    box.innerHTML = entries.map(e => `
-        <div class="flex items-center gap-2 text-xs font-mono py-1 border-b border-pl-slate/30">
-            <span class="text-pl-slate">${new Date(e.ts).toLocaleString()}</span>
-            <span class="text-pl-neon-blue uppercase">${e.action}</span>
-            <span class="text-pl-gray">${e.caseTitle}</span>
-            <span class="text-pl-slate">${e.detail}</span>
-        </div>
-    `).join('');
-}
-
-function setMcFilter(val) {
-    activeMcFilter = val;
-    document.querySelectorAll('[id^="mcf-"]').forEach(b => b.classList.remove('cat-active'));
-    document.getElementById(`mcf-${val}`).classList.add('cat-active');
-    renderMyCases();
-}
-
-const mcStatusColor = { open: 'var(--c-sage)', pending: 'var(--c-gold)', closed: 'var(--c-muted)' };
-
-const investigationChecklists = {
-    AM: [
-        "Secure and image financial records before the employee is aware",
-        "Reconcile bank statements against recorded transactions (cash larceny check)",
-        "Compare vendor master file addresses/bank accounts against employee HR data",
-        "Run Benford's Law analysis on the relevant transaction population",
-        "Interview supervisor and reconciliation staff first, subject last"
-    ],
-    FR: [
-        "Pull last 3 years of financial statements plus underlying journal entries",
-        "Test revenue cutoff — compare invoice dates to shipping/delivery documents",
-        "Flag unusual manual journal entries (late-night, round numbers, unusual users)",
-        "Check auditor management letters and prior-year workpapers for flagged issues",
-        "Request bank/vendor confirmations independently, not through the company"
-    ],
-    IAC: [
-        "Screen the vendor/counterparty against sanctions & PEP lists",
-        "Search corporate registries for shared directors/addresses",
-        "Review procurement file for sole-source justification and bid documentation",
-        "Map gift/hospitality register and expense claims tied to the counterparty",
-        "Assess FCPA / UK Bribery Act / local anti-corruption exposure before proceeding"
-    ],
-    NF: [
-        "Identify which non-financial metric is disputed (safety, quality, ESG, headcount)",
-        "Pull underlying source data/logs independently of the reported summary",
-        "Interview the person who collects the raw data, not just who reports it",
-        "Check whether the metric is tied to bonus/KPI incentives (pressure indicator)",
-        "Verify against any third-party or regulatory audit for the same period"
-    ]
-};
-
-function toggleChecklistItem(caseId, idx) {
-    const cases = loadMyCases();
-    const mc = cases.find(c => c.id === caseId);
-    if (!mc) return;
-    mc.checklistState = mc.checklistState || {};
-    mc.checklistState[idx] = !mc.checklistState[idx];
-    saveMyCases(cases);
-    renderMyCases();
-}
-
-function renderMyCases() {
-    const grid = document.getElementById('mycases-grid');
-    grid.innerHTML = '';
-    const all = loadMyCases();
-    const data = activeMcFilter === 'ALL' ? all : all.filter(c => c.group === activeMcFilter);
-
-    if (data.length === 0) {
-        grid.innerHTML = `<p class="col-span-full text-center text-pl-slate py-20 font-mono">NO CASES LOGGED YET. CLICK "+ NEW CASE" TO START.</p>`;
-        return;
-    }
-
-    data.forEach(mc => {
-        const g = mc.group || 'FR';
-        const codesBadges = (mc.codes || []).map(c => `<span class="px-2 py-0.5 border border-pl-slate font-mono text-xs text-pl-neon-blue">${c}</span>`).join('');
-        const entityBadges = [
-            ...(mc.people || []).map(p => `<span class="px-2 py-0.5 border border-pl-slate font-mono text-xs" style="color:#bd6bbd">&#9787; ${p}</span>`),
-            ...(mc.companies || []).map(c => `<span class="px-2 py-0.5 border border-pl-slate font-mono text-xs" style="color:#3fa6da">&#9632; ${c}</span>`)
-        ].join('');
-        const steps = investigationChecklists[g] || [];
-        const state = mc.checklistState || {};
-        const checklistHtml = steps.map((step, idx) => `
-            <label class="flex items-start gap-2 text-xs mb-1.5 cursor-pointer" style="color:${state[idx] ? 'var(--c-muted)' : 'var(--c-text)'};${state[idx] ? 'text-decoration:line-through' : ''}">
-                <input type="checkbox" ${state[idx] ? 'checked' : ''} onchange="toggleChecklistItem('${mc.id}', ${idx})" style="margin-top:2px">
-                <span>${step}</span>
-            </label>
-        `).join('');
-        grid.insertAdjacentHTML('beforeend', `
-            <article id="mycase-${mc.id}" class="card-appear bg-pl-dark border-l-[3px] border-transparent group-${g} group transition-all duration-300 relative overflow-hidden flex flex-col">
-                <div class="p-6 flex-grow flex flex-col">
-                    <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
-                        <span class="text-${g} font-bold text-xs font-mono uppercase tracking-wider">${g}</span>
-                        <span class="font-sans text-xs font-medium" style="color:${mcStatusColor[mc.status] || 'var(--c-muted)'}">${mc.status}</span>
-                    </div>
-                    <h3 class="text-base font-bold text-white mb-2 leading-snug">${mc.title}</h3>
-                    <div class="flex flex-wrap gap-1 mb-3">${codesBadges}${entityBadges}</div>
-                    <p class="text-pl-gray mb-3 text-sm leading-relaxed whitespace-pre-wrap">${mc.notes || ''}</p>
-                    <div class="border-t border-pl-slate pt-3 mb-3 flex-grow">
-                        <div class="text-xs font-sans font-semibold text-pl-slate mb-2">${g} Checklist</div>
-                        ${checklistHtml}
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="openCaseForm('${mc.id}')" class="flex-1 text-center text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-gray hover:bg-pl-slate/30 transition-colors cursor-pointer">Edit</button>
-                        <button onclick="deleteCase('${mc.id}')" class="flex-1 text-center text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-pink hover:bg-pl-slate/30 transition-colors cursor-pointer">Delete</button>
-                    </div>
-                </div>
-            </article>
-        `);
-    });
-}
-
-function openCaseForm(id) {
-    const modal = document.getElementById('case-form-modal');
-    document.getElementById('mc-id').value = id || '';
-    if (id) {
-        const mc = loadMyCases().find(c => c.id === id);
-        document.getElementById('case-form-title').textContent = 'Edit Case';
-        document.getElementById('mc-title').value  = mc.title || '';
-        document.getElementById('mc-group').value  = mc.group || 'AM';
-        document.getElementById('mc-status').value = mc.status || 'open';
-        document.getElementById('mc-codes').value  = (mc.codes || []).join(', ');
-        document.getElementById('mc-people').value = (mc.people || []).join(', ');
-        document.getElementById('mc-companies').value = (mc.companies || []).join(', ');
-        document.getElementById('mc-notes').value  = mc.notes || '';
-    } else {
-        document.getElementById('case-form-title').textContent = 'New Case';
-        document.getElementById('mc-title').value  = '';
-        document.getElementById('mc-group').value  = 'AM';
-        document.getElementById('mc-status').value = 'open';
-        document.getElementById('mc-codes').value  = '';
-        document.getElementById('mc-people').value = '';
-        document.getElementById('mc-companies').value = '';
-        document.getElementById('mc-notes').value  = '';
-    }
-    modal.classList.remove('hidden');
-}
-
-function closeCaseForm() {
-    document.getElementById('case-form-modal').classList.add('hidden');
-}
-
-function splitTags(value) {
-    return value.split(',').map(s => s.trim()).filter(Boolean);
-}
-
-function saveCaseForm() {
-    const title = document.getElementById('mc-title').value.trim();
-    if (!title) { alert('Title is required.'); return; }
-    const id = document.getElementById('mc-id').value;
-    const codes = splitTags(document.getElementById('mc-codes').value).map(s => s.toUpperCase());
-    const people = splitTags(document.getElementById('mc-people').value);
-    const companies = splitTags(document.getElementById('mc-companies').value);
-    const cases = loadMyCases();
-    const record = {
-        id: id || ('mc' + Date.now()),
-        title,
-        group: document.getElementById('mc-group').value,
-        status: document.getElementById('mc-status').value,
-        codes,
-        people,
-        companies,
-        notes: document.getElementById('mc-notes').value.trim(),
-        createdAt: id ? (cases.find(c => c.id === id) || {}).createdAt || Date.now() : Date.now()
-    };
-    const idx = cases.findIndex(c => c.id === record.id);
-    if (idx >= 0) cases[idx] = record; else cases.push(record);
-    saveMyCases(cases);
-    logAudit(id ? 'updated' : 'created', title, `${record.group} · ${record.status}`);
-    closeCaseForm();
-    renderMyCases();
-    renderMcActivity();
-}
-
-function deleteCase(id) {
-    if (!confirm('Delete this case?')) return;
-    const mc = loadMyCases().find(c => c.id === id);
-    saveMyCases(loadMyCases().filter(c => c.id !== id));
-    if (mc) logAudit('deleted', mc.title, '');
-    renderMyCases();
-    renderMcActivity();
-}
-
-// ═══════════════════════════════════════════════════════════════════
-//  NETWORK GRAPH — schemes ↔ real cases ↔ my cases
-// ═══════════════════════════════════════════════════════════════════
-const netGroupColor = { AM: 'var(--c-sage)', FR: 'var(--c-blue)', IAC: 'var(--c-rose)', NF: 'var(--c-gold)' };
-let netNodes = [], netEdges = [], netNodeEls = [], netEdgeEls = [];
-let netPositions = {};
-let netDragNode = null, netDidDrag = false, netAlpha = 1, netAnimId = null, netListenersReady = false;
-
-function buildGraphData() {
-    const nodes = [];
-    const byCode = {};
-    portfolioData.forEach(s => {
-        const n = { id: 'scheme-' + s.code, label: s.code, kind: 'scheme', group: s.schemeGroup, ref: s.id, meta: { title: s.title, category: s.category } };
-        nodes.push(n);
-        byCode[s.code] = n;
-    });
-    const edges = [];
-    caseStudies.forEach(cs => {
-        const n = { id: 'case-' + cs.id, label: cs.company, kind: 'case', group: cs.schemeGroup, ref: cs.id, meta: { company: cs.company, country: cs.country, year: cs.year } };
-        nodes.push(n);
-        (cs.codes || []).forEach(code => { if (byCode[code]) edges.push({ source: n, target: byCode[code] }); });
-    });
-    const byMyCase = {};
-    loadMyCases().forEach(mc => {
-        const n = { id: 'mycase-' + mc.id, label: mc.title, kind: 'mycase', group: mc.group, ref: mc.id, meta: { status: mc.status } };
-        nodes.push(n);
-        byMyCase[mc.id] = n;
-        (mc.codes || []).forEach(code => { if (byCode[code]) edges.push({ source: n, target: byCode[code] }); });
-    });
-    getEntities().forEach(ent => {
-        const n = { id: 'entity-' + ent.id, label: ent.name, kind: 'entity', group: null, ref: ent.id, meta: { type: ent.type, count: ent.caseIds.length } };
-        nodes.push(n);
-        ent.caseIds.forEach(caseId => { if (byMyCase[caseId]) edges.push({ source: n, target: byMyCase[caseId] }); });
-    });
-    return { nodes, edges };
-}
-
-function svgPoint(svg, evt) {
-    const pt = svg.createSVGPoint();
-    pt.x = evt.clientX; pt.y = evt.clientY;
-    return pt.matrixTransform(svg.getScreenCTM().inverse());
-}
-
-function setupNetworkListeners(svg) {
-    if (netListenersReady) return;
-    netListenersReady = true;
-    svg.style.touchAction = 'none';
-    svg.addEventListener('pointermove', (e) => {
-        if (!netDragNode) return;
-        const p = svgPoint(svg, e);
-        netDragNode.x = p.x; netDragNode.y = p.y;
-        netDragNode.vx = 0; netDragNode.vy = 0;
-        netDidDrag = true;
-    });
-    const release = () => {
-        netDragNode = null;
-        setTimeout(() => { netDidDrag = false; }, 0);
-    };
-    svg.addEventListener('pointerup', release);
-    svg.addEventListener('pointercancel', release);
-    window.addEventListener('pointerup', release);
-}
-
-function netStartDrag(e, n, svg) {
-    e.preventDefault();
-    netDragNode = n;
-    netDidDrag = false;
-    netAlpha = Math.max(netAlpha, 0.6);
-    try { svg.setPointerCapture(e.pointerId); } catch (err) {}
-    if (!netAnimId) netAnimId = requestAnimationFrame(netFrame);
-}
-
-function renderNetworkGraph() {
-    if (netAnimId) { cancelAnimationFrame(netAnimId); netAnimId = null; }
-    const data = buildGraphData();
-    netNodes = data.nodes;
-    netEdges = data.edges;
-
-    const svg = document.getElementById('network-svg');
-    setupNetworkListeners(svg);
-    const box = svg.getBoundingClientRect();
-    const W = box.width || 800, H = 600;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    svg.innerHTML = '';
-
-    netNodes.forEach(n => {
-        const p = netPositions[n.id];
-        if (p) { n.x = p.x; n.y = p.y; }
-        else { n.x = W / 2 + (Math.random() - 0.5) * W * 0.7; n.y = H / 2 + (Math.random() - 0.5) * H * 0.7; }
-        n.vx = 0; n.vy = 0;
-    });
-
-    netEdgeEls = netEdges.map(() => {
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('stroke', 'var(--c-muted)');
-        line.setAttribute('stroke-width', '1');
-        line.style.opacity = '0.35';
-        svg.appendChild(line);
-        return line;
-    });
-
-    netNodeEls = netNodes.map(n => {
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'net-node');
-        g.style.cursor = 'grab';
-        let color = netGroupColor[n.group] || 'var(--c-muted)';
-        let shape;
-        if (n.kind === 'scheme') {
-            shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            shape.setAttribute('r', '7');
-        } else if (n.kind === 'case') {
-            shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            shape.setAttribute('x', '-6'); shape.setAttribute('y', '-6');
-            shape.setAttribute('width', '12'); shape.setAttribute('height', '12');
-            shape.setAttribute('transform', 'rotate(45)');
-        } else if (n.kind === 'entity') {
-            color = n.meta.type === 'person' ? '#bd6bbd' : '#3fa6da';
-            shape = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-            shape.setAttribute('points', '0,-8 7,6 -7,6');
-        } else {
-            shape = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-            shape.setAttribute('x', '-6'); shape.setAttribute('y', '-6');
-            shape.setAttribute('width', '12'); shape.setAttribute('height', '12');
-        }
-        shape.setAttribute('fill', color);
-        shape.setAttribute('stroke', 'var(--c-bg)');
-        shape.setAttribute('stroke-width', '1.5');
-        g.appendChild(shape);
-
-        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        label.setAttribute('class', 'net-label');
-        label.textContent = n.label.length > 18 ? n.label.slice(0, 16) + '…' : n.label;
-        label.setAttribute('font-size', '9');
-        label.setAttribute('font-family', 'JetBrains Mono, monospace');
-        label.setAttribute('fill', 'var(--c-text)');
-        label.setAttribute('stroke', 'var(--c-bg)');
-        label.setAttribute('stroke-width', '3');
-        label.setAttribute('paint-order', 'stroke');
-        label.setAttribute('x', '10');
-        label.setAttribute('y', '3');
-        g.appendChild(label);
-
-        g.style.touchAction = 'none';
-        g.addEventListener('pointerdown', (e) => netStartDrag(e, n, svg));
-        g.addEventListener('pointerup', () => { if (!netDidDrag) netSelectNode(n); });
-        svg.appendChild(g);
-        return g;
-    });
-
-    netAlpha = 1;
-    netAnimId = requestAnimationFrame(netFrame);
-}
-
-function netFrame() {
-    const svg = document.getElementById('network-svg');
-    if (!svg || svg.closest('.hidden')) { netAnimId = null; return; }
-    const box = svg.getBoundingClientRect();
-    const W = box.width || 800, H = 600;
-
-    netAlpha *= 0.99;
-    netNodes.forEach(a => {
-        let fx = 0, fy = 0;
-        netNodes.forEach(b => {
-            if (a === b) return;
-            const dx = a.x - b.x, dy = a.y - b.y;
-            const distSq = Math.max(dx * dx + dy * dy, 0.01);
-            const dist = Math.sqrt(distSq);
-            const force = 900 / distSq;
-            fx += (dx / dist) * force;
-            fy += (dy / dist) * force;
-        });
-        a.fx = fx; a.fy = fy;
-    });
-    netEdges.forEach(e => {
-        const dx = e.target.x - e.source.x, dy = e.target.y - e.source.y;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 0.01;
-        const force = (dist - 90) * 0.02;
-        const fx = (dx / dist) * force, fy = (dy / dist) * force;
-        e.source.fx += fx; e.source.fy += fy;
-        e.target.fx -= fx; e.target.fy -= fy;
-    });
-    netNodes.forEach(n => {
-        if (n === netDragNode) { netPositions[n.id] = { x: n.x, y: n.y }; return; }
-        n.fx += (W / 2 - n.x) * 0.008;
-        n.fy += (H / 2 - n.y) * 0.008;
-        n.vx = (n.vx + n.fx * 0.02) * 0.82;
-        n.vy = (n.vy + n.fy * 0.02) * 0.82;
-        n.x = Math.max(15, Math.min(W - 15, n.x + n.vx));
-        n.y = Math.max(15, Math.min(H - 15, n.y + n.vy));
-        netPositions[n.id] = { x: n.x, y: n.y };
-    });
-
-    netEdgeEls.forEach((line, i) => {
-        const e = netEdges[i];
-        line.setAttribute('x1', e.source.x); line.setAttribute('y1', e.source.y);
-        line.setAttribute('x2', e.target.x); line.setAttribute('y2', e.target.y);
-    });
-    netNodeEls.forEach((g, i) => {
-        const n = netNodes[i];
-        g.setAttribute('transform', `translate(${n.x},${n.y})`);
-    });
-
-    if (netAlpha > 0.02 || netDragNode) {
-        netAnimId = requestAnimationFrame(netFrame);
-    } else {
-        netAnimId = null;
-    }
-}
-
-function netSelectNode(n) {
-    const neighborIds = new Set();
-    netEdges.forEach(e => {
-        if (e.source === n) neighborIds.add(e.target.id);
-        if (e.target === n) neighborIds.add(e.source.id);
-    });
-    netNodeEls.forEach((g, i) => {
-        const other = netNodes[i];
-        g.style.opacity = (other === n || neighborIds.has(other.id)) ? '1' : '0.15';
-    });
-    netEdgeEls.forEach((line, i) => {
-        const e = netEdges[i];
-        line.style.opacity = (e.source === n || e.target === n) ? '0.9' : '0.05';
-    });
-
-    const panel = document.getElementById('network-panel');
-    const kindLabel = { scheme: 'SCHEME', case: 'REAL CASE', mycase: 'MY CASE', entity: 'ENTITY' }[n.kind];
-    let detail = '', openBtn = '', headerColor = netGroupColor[n.group] || 'var(--c-muted)';
-    if (n.kind === 'scheme') {
-        detail = `<p class="mt-1">${n.meta.title}</p><p class="mt-1 text-pl-slate">${n.meta.category}</p>`;
-        openBtn = `<button onclick="jumpToScheme(${n.ref})" class="mt-3 w-full text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Open</button>`;
-    } else if (n.kind === 'case') {
-        detail = `<p class="mt-1 text-pl-slate">${n.meta.country} // ${n.meta.year}</p>`;
-        openBtn = `<button onclick="jumpToCase('${n.ref}')" class="mt-3 w-full text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Open</button>`;
-    } else if (n.kind === 'entity') {
-        headerColor = n.meta.type === 'person' ? '#bd6bbd' : '#3fa6da';
-        detail = `<p class="mt-1 text-pl-slate">${n.meta.type} · ${n.meta.count} linked case(s)</p>`;
-        openBtn = `<button onclick="jumpToEntity('${n.ref}')" class="mt-3 w-full text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Open</button>`;
-    } else {
-        detail = `<p class="mt-1 text-pl-slate">Status: ${n.meta.status}</p>`;
-        openBtn = `<button onclick="jumpToMyCase('${n.ref}')" class="mt-3 w-full text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Open</button>`;
-    }
-    panel.innerHTML = `
-        <span class="text-xs font-sans font-semibold" style="color:${headerColor}">${kindLabel}${n.group ? ' · ' + n.group : ''}</span>
-        <h4 class="text-white font-bold mt-1">${n.label}</h4>
-        <div class="text-xs">${detail}</div>
-        <p class="text-xs text-pl-slate mt-3">${neighborIds.size} connection(s)</p>
-        ${openBtn}
-    `;
-}
+const timelineGroupColor = { AM: 'var(--c-sage)', FR: 'var(--c-blue)', IAC: 'var(--c-rose)', NF: 'var(--c-gold)' };
 
 function jumpToScheme(id) {
     activeSchemeType = 'ALL';
@@ -4624,42 +4049,21 @@ function jumpToScheme(id) {
 }
 
 function jumpToCase(id) {
-    setCsFilter('ALL');
+    renderCaseStudiesSidebar();
     showView('casestudies');
     setTimeout(() => {
-        const title = document.getElementById(`cs-title-${id}`);
-        if (title) {
-            title.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (document.getElementById(`cs-content-${id}`).classList.contains('hidden')) toggleCs(id);
-        }
-    }, 50);
-}
-
-function jumpToMyCase(id) {
-    setMcFilter('ALL');
-    showView('mycases');
-    setTimeout(() => {
-        const card = document.getElementById(`mycase-${id}`);
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        selectCase(id);
+        const el = document.getElementById(`case-item-${id}`);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 50);
 }
 
 function renderTimeline() {
     const list = document.getElementById('timeline-list');
-    const entries = [];
-    caseStudies.forEach(cs => {
-        entries.push({
-            sortKey: new Date(Number(cs.year), 0, 1).getTime(),
-            year: cs.year, kind: 'case', label: cs.company, group: cs.schemeGroup, ref: cs.id
-        });
-    });
-    loadMyCases().forEach(mc => {
-        entries.push({
-            sortKey: mc.createdAt, year: new Date(mc.createdAt).getFullYear(),
-            kind: 'mycase', label: mc.title, group: mc.group, ref: mc.id
-        });
-    });
-    entries.sort((a, b) => a.sortKey - b.sortKey);
+    const entries = caseStudies.map(cs => ({
+        sortKey: new Date(Number(cs.year), 0, 1).getTime(),
+        year: cs.year, label: cs.company, group: cs.schemeGroup, ref: cs.id
+    })).sort((a, b) => a.sortKey - b.sortKey);
 
     if (entries.length === 0) {
         list.innerHTML = `<p class="text-pl-slate font-mono py-10">No timeline data yet.</p>`;
@@ -4667,28 +4071,15 @@ function renderTimeline() {
     }
 
     list.innerHTML = entries.map(e => {
-        const color = netGroupColor[e.group] || 'var(--c-muted)';
-        const rotate = e.kind === 'case' ? 'rotate(45deg)' : 'rotate(0deg)';
-        const onclick = e.kind === 'case' ? `jumpToCase('${e.ref}')` : `jumpToMyCase('${e.ref}')`;
+        const color = timelineGroupColor[e.group] || 'var(--c-muted)';
         return `
-        <div class="relative mb-6 cursor-pointer" onclick="${onclick}">
-            <span style="position:absolute;left:-31px;top:4px;width:11px;height:11px;background:${color};transform:${rotate};border:1.5px solid #ffffff"></span>
+        <div class="relative mb-6 cursor-pointer" onclick="jumpToCase('${e.ref}')">
+            <span style="position:absolute;left:-31px;top:4px;width:11px;height:11px;background:${color};transform:rotate(45deg);border:1.5px solid var(--c-bg)"></span>
             <div class="font-mono text-xs text-pl-slate uppercase tracking-widest">${e.year}</div>
             <div class="text-white font-bold">${e.label}</div>
-            <div class="text-xs" style="color:${color}">${e.kind === 'case' ? 'Real Case' : 'My Case'} · ${e.group || ''}</div>
+            <div class="text-xs" style="color:${color}">Real Case · ${e.group || ''}</div>
         </div>`;
     }).join('');
-}
-
-function jumpToEntity(entityId) {
-    const ent = getEntities().find(e => e.id === entityId);
-    setMcFilter('ALL');
-    showView('mycases');
-    setTimeout(() => {
-        if (!ent || !ent.caseIds.length) return;
-        const card = document.getElementById(`mycase-${ent.caseIds[0]}`);
-        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 50);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -4710,14 +4101,6 @@ function globalSearch(q) {
         if ((gl.term + gl.full + gl.def).toLowerCase().includes(q))
             results.push({ kind: 'glossary', label: `${gl.term} — ${gl.full}`, ref: gl.term });
     });
-    loadMyCases().forEach(mc => {
-        if ((mc.title + (mc.notes || '')).toLowerCase().includes(q))
-            results.push({ kind: 'mycase', label: mc.title, ref: mc.id });
-    });
-    getEntities().forEach(e => {
-        if (e.name.toLowerCase().includes(q))
-            results.push({ kind: 'entity', label: `${e.name} (${e.caseIds.length} case${e.caseIds.length > 1 ? 's' : ''})`, ref: e.id });
-    });
     return results.slice(0, 20);
 }
 
@@ -4726,7 +4109,7 @@ function renderSearchResults() {
     const box = document.getElementById('global-search-results');
     const results = globalSearch(q);
     if (!q.trim() || results.length === 0) { box.classList.add('hidden'); box.innerHTML = ''; return; }
-    const kindLabel = { scheme: 'SCHEME', case: 'REAL CASE', glossary: 'GLOSSARY', mycase: 'MY CASE', entity: 'ENTITY' };
+    const kindLabel = { scheme: 'SCHEME', case: 'REAL CASE', glossary: 'GLOSSARY' };
     box.innerHTML = results.map(r => `
         <div onmousedown="globalSearchJump('${r.kind}','${String(r.ref).replace(/'/g, "\\'")}')"
              class="px-3 py-2 cursor-pointer border-b border-pl-slate/30 hover:bg-pl-slate/30">
@@ -4742,16 +4125,13 @@ function globalSearchJump(kind, ref) {
     document.getElementById('global-search').value = '';
     if (kind === 'scheme') jumpToScheme(Number(ref));
     else if (kind === 'case') jumpToCase(ref);
-    else if (kind === 'mycase') jumpToMyCase(ref);
-    else if (kind === 'entity') jumpToEntity(ref);
     else if (kind === 'glossary') jumpToGlossary(ref);
 }
 
 function jumpToGlossary(term) {
     showView('glossary');
-    setGlossCat('ALL');
     document.getElementById('gloss-search').value = term;
-    renderGlossary();
+    renderGlossarySidebar();
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -5077,27 +4457,35 @@ function jumpToSchemeByCode(code) {
 
 function renderFraudTree() {
     const list = document.getElementById('fraudtree-list');
-    list.innerHTML = fraudTree.map(b => `
-        <details class="bg-pl-dark mb-3" open>
-            <summary class="p-4 cursor-pointer font-bold font-sans" style="color:${b.color}">${b.branch}</summary>
-            <div class="px-4 pb-4">
+    list.innerHTML = fraudTree.map((b, bi) => `
+        <div class="mb-2">
+            <h3 class="font-serif font-bold cursor-pointer underline underline-offset-4"
+                style="font-size:var(--fs-4);color:${b.color};text-decoration-color:color-mix(in srgb, ${b.color} 35%, transparent);padding:14px 0"
+                onclick="toggleTreeBranch(${bi})" id="tree-branch-${bi}">
+                ${b.branch}
+            </h3>
+            <div class="${bi === 0 ? '' : 'hidden'}" id="tree-body-${bi}" style="padding-bottom:8px">
                 ${b.groups.map(g => `
-                    <div class="mb-4">
-                        <div class="text-xs font-sans font-semibold text-pl-slate mb-2">${g.name}</div>
+                    <div class="mb-6">
+                        <div class="font-sans font-semibold mb-2" style="font-size:var(--fs-2);color:var(--c-muted)">${g.name}</div>
                         ${g.leaves.map(l => `
-                            <div class="flex items-start justify-between gap-3 py-2 border-b border-pl-slate/30 last:border-b-0">
+                            <div class="flex items-start justify-between gap-3" style="padding:10px 0">
                                 <div>
-                                    <div class="text-white text-sm font-bold">${l.name}</div>
-                                    <div class="text-pl-gray text-xs mt-0.5">${l.def}</div>
+                                    <div class="font-bold" style="font-size:var(--fs-3);color:var(--c-text)">${l.name}</div>
+                                    <div class="mt-1" style="font-size:var(--fs-2);color:var(--c-muted)">${l.def}</div>
                                 </div>
-                                ${l.code ? `<button onclick="jumpToSchemeByCode('${l.code}')" class="flex-shrink-0 text-xs font-sans font-medium px-3 py-1.5 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors whitespace-nowrap">Open case card</button>` : ''}
+                                ${l.code ? `<span class="flex-shrink-0 cursor-pointer underline underline-offset-4 whitespace-nowrap" style="font-size:var(--fs-2);color:var(--c-blue);text-decoration-color:color-mix(in srgb, var(--c-blue) 35%, transparent)" onclick="jumpToSchemeByCode('${l.code}')">View in Schemes</span>` : ''}
                             </div>
                         `).join('')}
                     </div>
                 `).join('')}
             </div>
-        </details>
+        </div>
     `).join('');
+}
+
+function toggleTreeBranch(i) {
+    document.getElementById(`tree-body-${i}`).classList.toggle('hidden');
 }
 
 window.onload = () => {
