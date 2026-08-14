@@ -40,14 +40,67 @@
             --fs-6: 31px;  /* content headline — the item you're reading */
             --fs-7: 39px;  /* display — page title, one-time use */
             --fs-ui: 14px; /* compact UI/nav text — outside the content scale, for list density */
+
+            /* Color tokens — dark is default. Everything (Tailwind classes via
+               overrides below, custom CSS classes, and inline content colors)
+               references these, so [data-theme="light"] flips the whole site. */
+            --c-bg: #161616;
+            --c-surface: #1e1e1f;
+            --c-surface-2: #232324;
+            --c-line: #2e2e30;
+            --c-text: #f2f2f3;
+            --c-muted: #98989d;
+            --c-blue: #5b8def;
+            --c-sage: #6fa287;
+            --c-gold: #c9a24b;
+            --c-rose: #c97b84;
         }
-        .nav-btn { color: #98989d; border: none; border-bottom: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; background: transparent; }
-        .nav-btn:hover, .nav-btn:active { color: #f2f2f3; border-bottom-color: #2e2e30; }
-        .nav-btn.active-green  { background: transparent; border-bottom-color: #6fa287; color: #6fa287; }
-        .nav-btn.active-blue   { background: transparent; border-bottom-color: #5b8def; color: #5b8def; }
-        .nav-btn.active-amber  { background: transparent; border-bottom-color: #c9a24b; color: #c9a24b; }
-        .nav-btn.active-pink   { background: transparent; border-bottom-color: #c97b84; color: #c97b84; }
-        .nav-btn.active-white  { background: transparent; border-bottom-color: #f2f2f3; color: #f2f2f3; }
+        :root[data-theme="light"] {
+            --c-bg: #faf9f7;
+            --c-surface: #ffffff;
+            --c-surface-2: #f1f0ec;
+            --c-line: #e2e0dc;
+            --c-text: #1a1a1a;
+            --c-muted: #6b6b6f;
+            --c-blue: #3568c9;
+            --c-sage: #3f7d5e;
+            --c-gold: #a8842f;
+            --c-rose: #b25d68;
+        }
+        /* Tailwind's utility classes are generated once from tailwind.config's
+           literal hex values, so they can't react to the tokens above on their
+           own — these overrides retarget the specific classes actually used
+           in the page to the light tokens when the theme is switched. */
+        [data-theme="light"] .bg-pl-black  { background-color: var(--c-bg) !important; }
+        [data-theme="light"] .bg-pl-dark   { background-color: var(--c-surface) !important; }
+        [data-theme="light"] .bg-pl-slate  { background-color: var(--c-line) !important; }
+        [data-theme="light"] .text-pl-gray  { color: var(--c-muted) !important; }
+        [data-theme="light"] .text-pl-slate { color: var(--c-line) !important; }
+        [data-theme="light"] .text-white    { color: var(--c-text) !important; }
+        [data-theme="light"] .border-pl-slate { border-color: var(--c-line) !important; }
+        [data-theme="light"] .text-pl-neon-green { color: var(--c-sage) !important; }
+        [data-theme="light"] .bg-pl-neon-green   { background-color: var(--c-sage) !important; }
+        [data-theme="light"] .text-pl-neon-blue  { color: var(--c-blue) !important; }
+        [data-theme="light"] .bg-pl-neon-blue    { background-color: var(--c-blue) !important; }
+        [data-theme="light"] .text-pl-neon-amber { color: var(--c-gold) !important; }
+        [data-theme="light"] .bg-pl-neon-amber   { background-color: var(--c-gold) !important; }
+        [data-theme="light"] .text-pl-neon-pink  { color: var(--c-rose) !important; }
+        [data-theme="light"] .bg-pl-neon-pink    { background-color: var(--c-rose) !important; }
+        [data-theme="light"] .border-pl-neon-pink { border-color: var(--c-rose) !important; }
+        [data-theme="light"] .bg-pl-dark\/80  { background-color: color-mix(in srgb, var(--c-surface) 80%, transparent) !important; }
+        [data-theme="light"] .bg-pl-black\/50 { background-color: color-mix(in srgb, var(--c-bg) 50%, transparent) !important; }
+        [data-theme="light"] .bg-pl-black\/30 { background-color: color-mix(in srgb, var(--c-bg) 30%, transparent) !important; }
+        [data-theme="light"] .border-pl-slate\/30 { border-color: color-mix(in srgb, var(--c-line) 30%, transparent) !important; }
+        [data-theme="light"] .border-pl-slate\/50 { border-color: color-mix(in srgb, var(--c-line) 50%, transparent) !important; }
+        [data-theme="light"] .decoration-white\/30 { text-decoration-color: color-mix(in srgb, var(--c-text) 30%, transparent) !important; }
+        [data-theme="light"] .decoration-pl-neon-blue { text-decoration-color: var(--c-blue) !important; }
+        .nav-btn { color: var(--c-muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; background: transparent; }
+        .nav-btn:hover, .nav-btn:active { color: var(--c-text); border-bottom-color: var(--c-line); }
+        .nav-btn.active-green  { background: transparent; border-bottom-color: var(--c-sage); color: var(--c-sage); }
+        .nav-btn.active-blue   { background: transparent; border-bottom-color: var(--c-blue); color: var(--c-blue); }
+        .nav-btn.active-amber  { background: transparent; border-bottom-color: var(--c-gold); color: var(--c-gold); }
+        .nav-btn.active-pink   { background: transparent; border-bottom-color: var(--c-rose); color: var(--c-rose); }
+        .nav-btn.active-white  { background: transparent; border-bottom-color: var(--c-text); color: var(--c-text); }
 
         /* Schemes — sidebar + panel (master-detail) */
         .schemes-layout { display: flex; gap: 56px; align-items: flex-start; }
@@ -57,30 +110,30 @@
         .schemes-sidebar-group:last-child { margin-bottom: 0; }
         .schemes-sidebar-group-label { font-family: 'IBM Plex Serif', serif; font-size: var(--fs-4); font-weight: 600; margin-bottom: 12px; }
         .scheme-item { display: block; padding: 7px 10px; margin: 0 -10px 2px; border-radius: 5px; cursor: pointer; font-size: var(--fs-ui); }
-        .scheme-item:hover { background: #1e1e1f; }
-        .scheme-item.active { background: #1e1e1f; }
+        .scheme-item:hover { background: var(--c-surface); }
+        .scheme-item.active { background: var(--c-surface); }
         .scheme-item .code { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-1); font-weight: 700; margin-right: 8px; }
-        .scheme-item .title { color: #f2f2f3; }
-        .scheme-item.active .title { color: #5b8def; font-weight: 600; }
+        .scheme-item .title { color: var(--c-text); }
+        .scheme-item.active .title { color: var(--c-blue); font-weight: 600; }
         .schemes-panel { flex: 1; min-width: 0; max-width: 760px; }
-        .schemes-panel-meta { font-size: var(--fs-2); color: #98989d; margin-bottom: 8px; }
+        .schemes-panel-meta { font-size: var(--fs-2); color: var(--c-muted); margin-bottom: 8px; }
         .schemes-panel-meta .code { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
         .schemes-panel h2 { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: var(--fs-6); margin: 0 0 20px; }
-        .schemes-panel-summary { color: #98989d; font-size: var(--fs-3); margin-bottom: 24px; }
+        .schemes-panel-summary { color: var(--c-muted); font-size: var(--fs-3); margin-bottom: 24px; }
         .scheme-doc { display: none; }
         .scheme-doc.active { display: block; }
 
         .content-area { font-family: 'Inter', sans-serif; font-size: 16px; }
-        .content-area strong { color: #f2f2f3; font-weight: 700; }
-        .content-area em { color: #5b8def; font-style: normal; font-family: 'JetBrains Mono', monospace; }
-        .content-area h4 { color: #dce0e5; font-weight: 700; margin: 1.1rem 0 0.5rem; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; }
-        .content-area p  { margin-bottom: 0.8rem; line-height: 1.75; color: #dce0e5; }
+        .content-area strong { color: var(--c-text); font-weight: 700; }
+        .content-area em { color: var(--c-blue); font-style: normal; font-family: 'JetBrains Mono', monospace; }
+        .content-area h4 { color: var(--c-text); font-weight: 700; margin: 1.1rem 0 0.5rem; font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'JetBrains Mono', monospace; }
+        .content-area p  { margin-bottom: 0.8rem; line-height: 1.75; color: var(--c-text); }
         .content-area ul { list-style: none; padding: 0; margin-bottom: 0.9rem; }
-        .content-area ul li { position: relative; padding-left: 1.4rem; margin-bottom: 0.5rem; color: #dce0e5; line-height: 1.7; }
+        .content-area ul li { position: relative; padding-left: 1.4rem; margin-bottom: 0.5rem; color: var(--c-text); line-height: 1.7; }
         .content-area ul li::before { content: ">"; position: absolute; left: 0; font-family: 'JetBrains Mono', monospace; font-weight: bold; }
-        .content-area ul.red li::before    { color: #c97b84; }
-        .content-area ul.detect li::before { color: #6fa287; }
-        .content-area ul.tip li::before    { color: #c9a24b; }
+        .content-area ul.red li::before    { color: var(--c-rose); }
+        .content-area ul.detect li::before { color: var(--c-sage); }
+        .content-area ul.tip li::before    { color: var(--c-gold); }
 
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(16px); }
@@ -88,27 +141,27 @@
         }
         .card-appear { animation: fadeInUp 0.35s ease both; }
 
-        .stat-pill { display: flex; align-items: center; gap: 6px; background: rgba(28,33,39,.8); border: 1px solid #2e2e30; padding: 4px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em; }
+        .stat-pill { display: flex; align-items: center; gap: 6px; background: var(--c-surface); border: 1px solid var(--c-line); padding: 4px 12px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .08em; color: var(--c-text); }
 
         /* scheme group accent colours — left-edge stripe only */
-        .group-AM   { border-left-color: #6fa287 !important; }
-        .group-FR   { border-left-color: #5b8def !important; }
-        .group-IAC  { border-left-color: #c97b84 !important; }
-        .group-NF   { border-left-color: #c9a24b !important; }
-        .text-AM    { color: #6fa287; }
-        .text-FR    { color: #5b8def; }
-        .text-IAC   { color: #c97b84; }
-        .text-NF    { color: #c9a24b; }
+        .group-AM   { border-left-color: var(--c-sage) !important; }
+        .group-FR   { border-left-color: var(--c-blue) !important; }
+        .group-IAC  { border-left-color: var(--c-rose) !important; }
+        .group-NF   { border-left-color: var(--c-gold) !important; }
+        .text-AM    { color: var(--c-sage); }
+        .text-FR    { color: var(--c-blue); }
+        .text-IAC   { color: var(--c-rose); }
+        .text-NF    { color: var(--c-gold); }
 
         /* Glossary */
-        .gloss-card { background: #1e1e1f; padding: 1.1rem 1.25rem; transition: background-color .2s; }
-        .gloss-card:hover { background: #232324; }
-        .gloss-search { background: #161616; border: 1px solid #2e2e30; color: #f2f2f3; outline: none; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 14px; width: 100%; }
-        .gloss-search::placeholder { color: #98989d; }
-        .gloss-search:focus { border-color: #5b8def; }
-        .cat-btn { color: #98989d; border: none; border-bottom: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; padding: 6px 12px; transition: all .2s; white-space: nowrap; background: transparent; }
-        .cat-btn:hover, .cat-btn:active { color: #f2f2f3; border-bottom-color: #2e2e30; }
-        .cat-btn.cat-active { background: transparent; border-bottom-color: #5b8def; color: #5b8def; font-weight: 600; }
+        .gloss-card { background: var(--c-surface); padding: 1.1rem 1.25rem; transition: background-color .2s; }
+        .gloss-card:hover { background: var(--c-surface-2); }
+        .gloss-search { background: var(--c-bg); border: 1px solid var(--c-line); color: var(--c-text); outline: none; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 14px; width: 100%; }
+        .gloss-search::placeholder { color: var(--c-muted); }
+        .gloss-search:focus { border-color: var(--c-blue); }
+        .cat-btn { color: var(--c-muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; user-select: none; font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; padding: 6px 12px; transition: all .2s; white-space: nowrap; background: transparent; }
+        .cat-btn:hover, .cat-btn:active { color: var(--c-text); border-bottom-color: var(--c-line); }
+        .cat-btn.cat-active { background: transparent; border-bottom-color: var(--c-blue); color: var(--c-blue); font-weight: 600; }
         .net-label { opacity: .6; transition: opacity .15s; }
         .net-node:hover .net-label { opacity: 1; }
         /* mobile scrollable filter bars */
@@ -119,28 +172,24 @@
             .nav-btn { padding-top: 10px !important; padding-bottom: 10px !important; min-height: 44px; }
             button[onclick] { min-height: 44px; touch-action: manipulation; }
         }
-        .text-white { color: #f2f2f3 !important; }
-
-        /* Dark (Gotham-style) is the base theme now. Light mode flips it via
-           filter — the page has no photos/images, only flat color + one svg icon */
-        html.light-mode body { filter: invert(1) hue-rotate(180deg); background: #161616; }
-        html.light-mode #theme-toggle { filter: invert(1) hue-rotate(180deg); }
+        .text-white { color: var(--c-text) !important; }
+        body { background: var(--c-bg); transition: background-color .2s, color .2s; }
     </style>
 </head>
 <body class="bg-pl-black text-pl-gray font-sans antialiased overflow-x-hidden">
 <script>
     function applyTheme(mode) {
-        document.documentElement.classList.toggle('light-mode', mode === 'light');
+        document.documentElement.setAttribute('data-theme', mode);
         const btn = document.getElementById('theme-toggle');
         if (btn) btn.textContent = mode === 'light' ? '🌙 Night' : '☀️ Day';
     }
     function toggleTheme() {
-        const mode = document.documentElement.classList.contains('light-mode') ? 'dark' : 'light';
+        const mode = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
         localStorage.setItem('cfe-theme', mode);
         applyTheme(mode);
     }
     var savedTheme = localStorage.getItem('cfe-theme') === 'light' ? 'light' : 'dark';
-    document.documentElement.classList.toggle('light-mode', savedTheme === 'light');
+    document.documentElement.setAttribute('data-theme', savedTheme);
     document.addEventListener('DOMContentLoaded', function () { applyTheme(savedTheme); });
 </script>
 
@@ -161,7 +210,7 @@
         <input id="global-search" type="text" placeholder="&gt; Search everything — schemes, cases, glossary, my cases, people, companies..."
                class="gloss-search" oninput="renderSearchResults()"
                onblur="setTimeout(() => document.getElementById('global-search-results').classList.add('hidden'), 150)">
-        <div id="global-search-results" class="hidden" style="position:absolute;left:1rem;right:1rem;top:100%;z-index:60;max-height:320px;overflow-y:auto;background:#1e1e1f;border:1px solid #2e2e30"></div>
+        <div id="global-search-results" class="hidden" style="position:absolute;left:1rem;right:1rem;top:100%;z-index:60;max-height:320px;overflow-y:auto;background:var(--c-surface);border:1px solid var(--c-line)"></div>
     </div>
 
     <!-- Filter bar -->
@@ -175,7 +224,7 @@
             <button onclick="showView('glossary')"      id="view-glossary"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Glossary</button>
             <button onclick="showView('fraudtree')"      id="view-fraudtree"     class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Fraud Tree</button>
             <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Quiz</button>
-            <span class="flex-shrink-0" style="width:1px;height:16px;background:#2e2e30"></span>
+            <span class="flex-shrink-0" style="width:1px;height:16px;background:var(--c-line)"></span>
             <button onclick="showView('mycases')"       id="view-mycases"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">My Cases</button>
             <button onclick="showView('network')"       id="view-network"       class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Network</button>
             <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Timeline</button>
@@ -327,7 +376,7 @@
             <span class="flex items-center gap-1.5">&#9670; Real Case</span>
             <span class="flex items-center gap-1.5">&#9632; My Case</span>
         </div>
-        <div id="timeline-list" class="relative pl-6" style="border-left:2px solid #2e2e30"></div>
+        <div id="timeline-list" class="relative pl-6" style="border-left:2px solid var(--c-line)"></div>
     </section>
 
     <!-- Quiz -->
@@ -1722,11 +1771,11 @@ function renderCaseStudies() {
                         <div class="space-y-4 mt-2">
                             <div class="bg-pl-black p-4 border-t border-pl-slate">
                                 <h4 class="text-pl-neon-pink text-xs font-sans font-semibold mb-2">What Happened</h4>
-                                <div class="text-sm" style="color:#dce0e5">${cs.what_happened}</div>
+                                <div class="text-sm" style="color:var(--c-text)">${cs.what_happened}</div>
                             </div>
                             <div class="bg-pl-black p-4 border-t border-pl-slate">
                                 <h4 class="text-pl-neon-amber text-xs font-sans font-semibold mb-2">How It Was Caught</h4>
-                                <div class="text-sm" style="color:#dce0e5">${cs.how_caught}</div>
+                                <div class="text-sm" style="color:var(--c-text)">${cs.how_caught}</div>
                             </div>
                             <div class="bg-pl-black p-4 border-t border-pl-slate">
                                 <h4 class="text-pl-neon-green text-xs font-sans font-semibold mb-2">Detection Techniques Used</h4>
@@ -1958,7 +2007,7 @@ const investigationTopics = [
         description:"The international standard for investigative interviewing. Used in the UK, EU, and Australia. Ethical, legally defensible, and effective at obtaining the truth — not a confession.",
         content:`<p><strong>PEACE = Preparation · Engage & Explain · Account · Closure · Evaluate</strong></p>
 
-            <h4 style="color:#6fa287">P — Preparation</h4>
+            <h4 style="color:var(--c-sage)">P — Preparation</h4>
             <ul class="detect">
                 <li>Review all available documentation before the interview — don't walk in to "see what they say"</li>
                 <li>Prepare a list of topics (not a rigid script) — the structure should allow you to follow new information</li>
@@ -1968,7 +2017,7 @@ const investigationTopics = [
                 <li>Decide in advance whether you'll tell the subject the interview topic before you begin</li>
             </ul>
 
-            <h4 style="color:#6fa287">E — Engage & Explain</h4>
+            <h4 style="color:var(--c-sage)">E — Engage & Explain</h4>
             <ul class="detect">
                 <li>Introduce yourself and explain your role and the purpose of the interview honestly and clearly</li>
                 <li>Explain the subject's rights: voluntary participation, right to counsel (where applicable)</li>
@@ -1977,7 +2026,7 @@ const investigationTopics = [
                 <li>The goal of rapport isn't to become friendly — it's to establish a behavioral baseline</li>
             </ul>
 
-            <h4 style="color:#6fa287">A — Account</h4>
+            <h4 style="color:var(--c-sage)">A — Account</h4>
             <ul class="detect">
                 <li>Start with a broad open question: "Tell me about how you work with this vendor"</li>
                 <li>Let the subject speak without interrupting — note what they omit and what they emphasize</li>
@@ -1987,7 +2036,7 @@ const investigationTopics = [
                 <li>Note contradictions but don't expose them immediately — come back to them later</li>
             </ul>
 
-            <h4 style="color:#6fa287">C — Closure</h4>
+            <h4 style="color:var(--c-sage)">C — Closure</h4>
             <ul class="detect">
                 <li>Summarize the subject's key answers and ask them to confirm accuracy</li>
                 <li>Ask a final open question: "Is there anything important we haven't discussed?"</li>
@@ -1996,7 +2045,7 @@ const investigationTopics = [
                 <li>Explain next steps (as far as appropriate): "We'll continue working with this information"</li>
             </ul>
 
-            <h4 style="color:#6fa287">E — Evaluate</h4>
+            <h4 style="color:var(--c-sage)">E — Evaluate</h4>
             <ul class="tip">
                 <li>Immediately after the interview: record your behavioral observations while they're still fresh</li>
                 <li>What was said? What was deliberately omitted? What contradicts the documents?</li>
@@ -2015,7 +2064,7 @@ const investigationTopics = [
         id:"inv12", code:"INV-12", cat:"INTERVIEWS",
         title:"Question Types: Building Questions for Each Stage",
         description:"The right type of question at the right moment is the interviewer's main tool. Open questions gather information; closed questions verify facts; probing questions resolve contradictions.",
-        content:`<h4 style="color:#5b8def">Open Questions — the foundation of information gathering</h4>
+        content:`<h4 style="color:var(--c-blue)">Open Questions — the foundation of information gathering</h4>
             <ul class="detect">
                 <li>"Tell me about how you work with this account"</li>
                 <li>"What was happening between January and March 2024?"</li>
@@ -2024,7 +2073,7 @@ const investigationTopics = [
                 <li><strong>When to use:</strong> at the start of each new topic, during initial information gathering</li>
             </ul>
 
-            <h4 style="color:#5b8def">Probing Questions — going deeper</h4>
+            <h4 style="color:var(--c-blue)">Probing Questions — going deeper</h4>
             <ul class="detect">
                 <li>"You said you never met this supplier. Help me understand — how did you then approve an invoice for €50,000?"</li>
                 <li>"Tell me more about your decision not to report this to management"</li>
@@ -2032,7 +2081,7 @@ const investigationTopics = [
                 <li><strong>When to use:</strong> when the answer is incomplete, vague, or contradicts the documents</li>
             </ul>
 
-            <h4 style="color:#5b8def">Closed Questions — verifying specific facts</h4>
+            <h4 style="color:var(--c-blue)">Closed Questions — verifying specific facts</h4>
             <ul class="detect">
                 <li>"Did you sign this letter?" (yes/no)</li>
                 <li>"Is this your signature?"</li>
@@ -2041,7 +2090,7 @@ const investigationTopics = [
                 <li><strong>Rookie mistake:</strong> starting with closed questions — you get monosyllabic answers and lose context</li>
             </ul>
 
-            <h4 style="color:#5b8def">Trap Questions — what to avoid</h4>
+            <h4 style="color:var(--c-blue)">Trap Questions — what to avoid</h4>
             <ul class="red">
                 <li><strong>Leading questions:</strong> "So you stole the money because you needed money?" → undermines the answer's value in court</li>
                 <li><strong>Double-barrel:</strong> "Did you know about the scheme and agree to it?" → the subject only answers one part</li>
@@ -2049,7 +2098,7 @@ const investigationTopics = [
                 <li><strong>Assumptions embedded in the question:</strong> "Why did you decide to bypass the procedure?" — presumes a fact that hasn't yet been established</li>
             </ul>
 
-            <h4 style="color:#c9a24b">The "Document Question" Technique</h4>
+            <h4 style="color:var(--c-gold)">The "Document Question" Technique</h4>
             <ul class="tip">
                 <li>Step 1: Ask an open question on the document's topic — get testimony <em>before</em> presenting it</li>
                 <li>Step 2: Present the document: "I'd like to show you this. Is this a document you recognize?"</li>
@@ -2068,7 +2117,7 @@ const investigationTopics = [
         id:"inv13", code:"INV-13", cat:"INTERVIEWS",
         title:"How to Open an Interview: The First 10 Minutes",
         description:"The first few minutes set the tone, the trust level, and the amount of information the subject will be willing to disclose. A bad opening shuts a person down for the whole conversation.",
-        content:`<h4 style="color:#6fa287">Step 1: Physical setting</h4>
+        content:`<h4 style="color:var(--c-sage)">Step 1: Physical setting</h4>
             <ul class="detect">
                 <li>A neutral room with no outsiders present: just the interviewers and the subject</li>
                 <li>Sit at a 45° angle to the subject — not directly opposite (facing them head-on reads as confrontation)</li>
@@ -2077,14 +2126,14 @@ const investigationTopics = [
                 <li>The subject's chair should not be closer to the exit than the interviewer's chair</li>
             </ul>
 
-            <h4 style="color:#6fa287">Step 2: Opening words</h4>
+            <h4 style="color:var(--c-sage)">Step 2: Opening words</h4>
             <ul class="detect">
                 <li>"Hello, [name]. Thank you for making the time. My name is [name], I'm [role] at [organization / company]. With me is my colleague [name], who will be taking notes"</li>
                 <li>Explain the purpose neutrally: "We're reviewing processes in the procurement department. We want to talk to several employees — your experience and knowledge of the processes are very valuable"</li>
                 <li>Explain the format: "The interview will take about [X] minutes. I'll be asking questions, some of which may touch on specific situations. Feel free to ask for clarification if anything is unclear"</li>
             </ul>
 
-            <h4 style="color:#6fa287">Step 3: Rapport — building the connection</h4>
+            <h4 style="color:var(--c-sage)">Step 3: Rapport — building the connection</h4>
             <ul class="detect">
                 <li>Ask 2–3 neutral questions about the subject's work: "How long have you been in this role?", "What does your typical workday look like?"</li>
                 <li>Goal: establish a baseline for how the person speaks when they aren't under stress → later you'll notice deviations</li>
@@ -2092,14 +2141,14 @@ const investigationTopics = [
                 <li>Don't over-praise or flatter — people sense it and shut down</li>
             </ul>
 
-            <h4 style="color:#6fa287">Step 4: Transitioning to substance</h4>
+            <h4 style="color:var(--c-sage)">Step 4: Transitioning to substance</h4>
             <ul class="detect">
                 <li>The transition should be smooth, not abrupt: "We're reviewing vendor management processes over the past two years. I'd like to start with you giving me a general description of how this work is set up on your end"</li>
                 <li>Start with a broad topic — not a suspicion. Let the subject give their account "in their own words"</li>
                 <li>Don't show documents in the first 20–30 minutes — get their account on record first</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Common opening mistakes</h4>
+            <h4 style="color:var(--c-gold)">Common opening mistakes</h4>
             <ul class="red">
                 <li>Starting with an accusatory tone — the subject shuts down immediately</li>
                 <li>Showing all documents at once — the subject adapts their account to fit them</li>
@@ -2120,7 +2169,7 @@ const investigationTopics = [
         description:"When you have sufficient evidence, move to confrontation. A structure for obtaining explanations, an admission, or neutralizing a defense narrative.",
         content:`<p><strong>Use only:</strong> once the evidence base is already assembled, the suspect has been identified, and the decision to confront has been cleared with legal counsel.</p>
 
-            <h4 style="color:#c97b84">When to move to admission-seeking</h4>
+            <h4 style="color:var(--c-rose)">When to move to admission-seeking</h4>
             <ul class="red">
                 <li>You have documentary evidence that refutes the subject's account</li>
                 <li>All other plausible explanations have been ruled out</li>
@@ -2128,7 +2177,7 @@ const investigationTopics = [
                 <li>Interviews with witnesses and other parties are complete</li>
             </ul>
 
-            <h4 style="color:#c97b84">Structure of the confrontation</h4>
+            <h4 style="color:var(--c-rose)">Structure of the confrontation</h4>
             <ul class="detect">
                 <li><strong>1. Direct statement of fact</strong> (not a question): "We've completed our analysis of the financial records. Our investigation found that during period X, invoices from [vendor] were paid without proper approval"</li>
                 <li><strong>2. Moral justification</strong> (minimization): offer an explanation that reduces the perceived severity in the subject's eyes: "I understand that sometimes situations arise in organizations where it can feel like there's no other way out..."</li>
@@ -2136,7 +2185,7 @@ const investigationTopics = [
                 <li><strong>4. Initial admission → expansion</strong>: once you get the first "yes," move straight to the details: "Tell me from the very beginning — how did this happen?"</li>
             </ul>
 
-            <h4 style="color:#c97b84">Handling denial</h4>
+            <h4 style="color:var(--c-rose)">Handling denial</h4>
             <ul class="red">
                 <li>The subject denies it? Don't argue. "I understand. But let's go back to the documents — here's [document A]. Do you see the date and signature?"</li>
                 <li>Every time the subject denies, present the next document or piece of data</li>
@@ -2144,7 +2193,7 @@ const investigationTopics = [
                 <li>Stay quiet after presenting a document — give the subject time to process it</li>
             </ul>
 
-            <h4 style="color:#c9a24b">What to do with an admission</h4>
+            <h4 style="color:var(--c-gold)">What to do with an admission</h4>
             <ul class="tip">
                 <li>Don't interrupt — let the subject speak in full</li>
                 <li>Afterward: "Tell me everything from the very beginning, in full detail"</li>
@@ -2163,7 +2212,7 @@ const investigationTopics = [
         id:"inv15", code:"INV-15", cat:"INTERVIEWS",
         title:"Written Statements and Declarations",
         description:"A written statement from the subject is one of the most valuable evidentiary documents — a fixed position that is later hard to change.",
-        content:`<h4 style="color:#5b8def">When to take a written statement</h4>
+        content:`<h4 style="color:var(--c-blue)">When to take a written statement</h4>
             <ul class="detect">
                 <li>Immediately after obtaining a verbal admission, while the details are still fresh</li>
                 <li>After a key information-gathering interview with an important witness</li>
@@ -2171,7 +2220,7 @@ const investigationTopics = [
                 <li>Never at the very start of an interview (it shuts down further conversation)</li>
             </ul>
 
-            <h4 style="color:#5b8def">Structure of a written statement</h4>
+            <h4 style="color:var(--c-blue)">Structure of a written statement</h4>
             <ul class="detect">
                 <li><strong>Header:</strong> Date, location, name, job title, organization name</li>
                 <li><strong>Opening:</strong> "I, [name], voluntarily give the following statement..."</li>
@@ -2180,7 +2229,7 @@ const investigationTopics = [
                 <li><strong>Signature and date on every page</strong></li>
             </ul>
 
-            <h4 style="color:#5b8def">Technique for drafting the statement</h4>
+            <h4 style="color:var(--c-blue)">Technique for drafting the statement</h4>
             <ul class="detect">
                 <li>The subject should write the statement themselves — or dictate it, with the interviewer writing it down in their words</li>
                 <li>If the interviewer writes it: "Are these your words?" — get confirmation for each paragraph</li>
@@ -2189,7 +2238,7 @@ const investigationTopics = [
                 <li>Read the statement back to the subject aloud before they sign</li>
             </ul>
 
-            <h4 style="color:#c97b84">What to do if the subject refuses to sign</h4>
+            <h4 style="color:var(--c-rose)">What to do if the subject refuses to sign</h4>
             <ul class="red">
                 <li>Don't pressure them — voluntariness is mandatory</li>
                 <li>Record the refusal in your interview notes with the time noted</li>
@@ -2208,7 +2257,7 @@ const investigationTopics = [
         id:"inv16", code:"INV-16", cat:"INTERVIEWS",
         title:"Who to Interview and in What Order",
         description:"Victims, witnesses, and suspects each require a different approach. Interview order affects the quality of every conversation that follows.",
-        content:`<h4 style="color:#6fa287">Recommended sequence</h4>
+        content:`<h4 style="color:var(--c-sage)">Recommended sequence</h4>
             <ul class="detect">
                 <li><strong>1. Complainant / victim</strong> — first: get the initial picture, scheme details, names</li>
                 <li><strong>2. Neutral witnesses</strong> — background context, processes, indirect information</li>
@@ -2216,7 +2265,7 @@ const investigationTopics = [
                 <li><strong>4. Suspect</strong> — last: by this point you already have the maximum amount of information and documents</li>
             </ul>
 
-            <h4 style="color:#6fa287">Interviewing the victim</h4>
+            <h4 style="color:var(--c-sage)">Interviewing the victim</h4>
             <ul class="detect">
                 <li>Start with an open narrative: "Tell me what happened, in your own words, from the beginning"</li>
                 <li>Don't interrupt the first account — let them speak fully</li>
@@ -2225,7 +2274,7 @@ const investigationTopics = [
                 <li>Don't promise confidentiality you can't guarantee</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Interviewing a witness</h4>
+            <h4 style="color:var(--c-gold)">Interviewing a witness</h4>
             <ul class="detect">
                 <li>Explain their role: "You are not the subject of this investigation. Your observations matter"</li>
                 <li>Use the cognitive interview technique: ask them to recall the setting of that day — smells, sounds — context activates memory</li>
@@ -2233,7 +2282,7 @@ const investigationTopics = [
                 <li>Check consistency against other witnesses — discrepancies mean new lines of inquiry</li>
             </ul>
 
-            <h4 style="color:#c97b84">Interviewing the suspect</h4>
+            <h4 style="color:var(--c-rose)">Interviewing the suspect</h4>
             <ul class="red">
                 <li>Never use the word "suspect" with the interview subject</li>
                 <li>Start with a neutral information-gathering interview — get testimony before confrontation</li>
@@ -2258,7 +2307,7 @@ const investigationTopics = [
         description:"The most widely used model in corporate HR investigations. Non-confrontational, psychologically calibrated, and produces admissions without the legal risks of Reid.",
         content:`<p><strong>WZ was developed in the 1980s as an alternative to Reid</strong> — no pressure, no false promises, no risk of a false confession. The standard for internal investigations at Fortune 500 companies.</p>
 
-            <h4 style="color:#5b8def">Key WZ principles</h4>
+            <h4 style="color:var(--c-blue)">Key WZ principles</h4>
             <ul class="detect">
                 <li><strong>Don't accuse — empathize:</strong> the interviewer takes the subject's side, not the organization's</li>
                 <li><strong>Moral justification:</strong> offer an explanation under which the subject doesn't come across as a villain ("a lot of people end up in this kind of situation")</li>
@@ -2266,7 +2315,7 @@ const investigationTopics = [
                 <li><strong>Alternative question:</strong> a choice between two options, both of which imply involvement</li>
             </ul>
 
-            <h4 style="color:#5b8def">WZ interview structure (7 steps)</h4>
+            <h4 style="color:var(--c-blue)">WZ interview structure (7 steps)</h4>
             <ul class="detect">
                 <li><strong>1. Introduction:</strong> establish comfort, explain the purpose neutrally</li>
                 <li><strong>2. Participation statement:</strong> "Do you understand that the company is investigating an incident?" — obtain agreement to participate</li>
@@ -2277,14 +2326,14 @@ const investigationTopics = [
                 <li><strong>7. Written statement:</strong> record the admission in writing</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Example alternative question</h4>
+            <h4 style="color:var(--c-gold)">Example alternative question</h4>
             <ul class="tip">
                 <li>"Was this money taken because you found yourself in a desperate financial situation and saw no other way out — or because you deliberately planned this from the start?"</li>
                 <li>The subject picks "the financial situation" → an initial admission is obtained</li>
                 <li>Important: both options presuppose the fact of involvement — there's no "nothing happened" option</li>
             </ul>
 
-            <h4 style="color:#c97b84">Limitations of WZ</h4>
+            <h4 style="color:var(--c-rose)">Limitations of WZ</h4>
             <ul class="red">
                 <li>Not suited to the European context — minimization can conflict with GDPR and the right to silence in several EU countries</li>
                 <li>Requires legal consultation before use in an HR context</li>
@@ -2303,7 +2352,7 @@ const investigationTopics = [
         description:"A scientifically validated method for working with victims and witnesses. Increases the volume of accurate recall by 35–45% without increasing errors.",
         content:`<p><strong>Developed</strong> by Ronald Fisher and Edward Geiselman (1984) based on cognitive psychology and memory theory. The standard used by the FBI, UK Police, and INTERPOL for working with witnesses.</p>
 
-            <h4 style="color:#6fa287">4 core CI techniques</h4>
+            <h4 style="color:var(--c-sage)">4 core CI techniques</h4>
             <ul class="detect">
                 <li><strong>1. Mental reinstatement:</strong> "Close your eyes. Think back to that morning — where you were, what you saw, heard, felt. What was the weather like? What were you doing before you walked into the office?" Context activates associated memories.</li>
                 <li><strong>2. Report everything:</strong> "Tell me everything you remember — even things that seem minor or unrelated. Deciding what's important is my job, not yours." Removes the "why would that matter" filter.</li>
@@ -2311,7 +2360,7 @@ const investigationTopics = [
                 <li><strong>4. Change perspective:</strong> "What might your colleague standing by the window have seen? Describe the situation from their position." Activates details of the setting.</li>
             </ul>
 
-            <h4 style="color:#6fa287">Enhanced CI — adds</h4>
+            <h4 style="color:var(--c-sage)">Enhanced CI — adds</h4>
             <ul class="detect">
                 <li>Rapport building before the techniques — the subject needs to be relaxed, not anxious</li>
                 <li>Focused recall: after the general account, drill into specific elements ("describe the face," "describe the voice")</li>
@@ -2319,14 +2368,14 @@ const investigationTopics = [
                 <li>Character checks: for every person mentioned, get a full description</li>
             </ul>
 
-            <h4 style="color:#c9a24b">How to apply it in a fraud investigation</h4>
+            <h4 style="color:var(--c-gold)">How to apply it in a fraud investigation</h4>
             <ul class="tip">
                 <li>A victim saw an employee working the register → use CI to maximize the detail of the actions</li>
                 <li>A witness was present at a meeting where the scheme was discussed → use reverse order for exact quotes</li>
                 <li>Don't use CI on suspects — it's a memory tool, not an admission-seeking tool</li>
             </ul>
 
-            <h4 style="color:#c97b84">What NOT to do during CI</h4>
+            <h4 style="color:var(--c-rose)">What NOT to do during CI</h4>
             <ul class="red">
                 <li>Don't interrupt free recall — any interruption breaks the memory chain</li>
                 <li>Don't ask leading questions — "was he wearing a blue jacket?" plants a false memory</li>
@@ -2347,7 +2396,7 @@ const investigationTopics = [
         description:"A Scandinavian method for questioning suspects. Don't show the evidence right away — let the subject build their own account, then break it apart with the evidence.",
         content:`<p><strong>Developed</strong> by Pär-Anders Granhag (University of Gothenburg). Used by European law enforcement and corporate investigations as a legally defensible alternative to Reid.</p>
 
-            <h4 style="color:#c9a24b">The core logic of SUE</h4>
+            <h4 style="color:var(--c-gold)">The core logic of SUE</h4>
             <ul class="detect">
                 <li>A guilty suspect knows about the evidence against them — and will build their lie around what they believe you know</li>
                 <li>If you show the evidence right away → they adapt their story to fit it</li>
@@ -2355,7 +2404,7 @@ const investigationTopics = [
                 <li>An innocent person, by contrast, tells the truth regardless of the evidence — their account doesn't change</li>
             </ul>
 
-            <h4 style="color:#c9a24b">SUE — structure</h4>
+            <h4 style="color:var(--c-gold)">SUE — structure</h4>
             <ul class="detect">
                 <li><strong>Step 1 — Open narrative:</strong> "Tell me everything about [topic] — from the beginning." Record the subject's account in detail. Don't show any evidence.</li>
                 <li><strong>Step 2 — Strategic questions:</strong> ask questions on topics where you already have evidence, without naming it: "Do you remember where you were on Friday, March 14, around 3pm?" The subject doesn't know you have the access-card log.</li>
@@ -2364,14 +2413,14 @@ const investigationTopics = [
                 <li><strong>Step 5 — Explaining the contradiction:</strong> "You said you didn't go into the server room. This record shows otherwise. How do you explain that?"</li>
             </ul>
 
-            <h4 style="color:#c9a24b">SUE vs deception indicators</h4>
+            <h4 style="color:var(--c-gold)">SUE vs deception indicators</h4>
             <ul class="detect">
                 <li>A guilty subject builds an account that "steers around" the evidence they anticipate → this creates specific patterns</li>
                 <li>"Strategic evasion": the closer a question gets to the real evidence, the more evasiveness, pauses, and topic-changing you'll see</li>
                 <li>This is a signal, not proof — but it points you toward the next question</li>
             </ul>
 
-            <h4 style="color:#c97b84">Common mistakes</h4>
+            <h4 style="color:var(--c-rose)">Common mistakes</h4>
             <ul class="red">
                 <li>Showing a strong piece of evidence right away — you "burn the card" and the subject adapts their account</li>
                 <li>Failing to lock in the subject's account before presenting evidence — leaves nothing to compare against</li>
@@ -2415,7 +2464,7 @@ const investigationTopics = [
                 <li>"As I understand it, you weren't aware of the details of the scheme" → "well, I had a rough idea of what was going on..." → new information</li>
             </ul>
 
-            <h4 style="color:#c97b84">Limitations</h4>
+            <h4 style="color:var(--c-rose)">Limitations</h4>
             <ul class="red">
                 <li>You're making factual claims — if the source realizes you're bluffing, trust is destroyed</li>
                 <li>Don't use it if the claim could be regarded as deception or coercion under the subject's jurisdiction</li>
@@ -2509,7 +2558,7 @@ const investigationTopics = [
                 <li>A conversation with an external auditor, consultant, or supplier — they see the organization from the inside and often speak candidly</li>
             </ul>
 
-            <h4 style="color:#c97b84">Ethical and legal boundaries</h4>
+            <h4 style="color:var(--c-rose)">Ethical and legal boundaries</h4>
             <ul class="red">
                 <li>Elicitation is not deception. Technically you're not lying — you're asking questions indirectly</li>
                 <li>Don't use it in an official recorded interview — only in an informal context</li>
@@ -2527,53 +2576,53 @@ const investigationTopics = [
         id:"inv23", code:"INV-23", cat:"INTERVIEWS",
         title:"QUICK GUIDE: Which Model to Use, and When",
         description:"A comparison table of all the models — pick a technique in 30 seconds depending on the subject, goal, and context. What's most effective, and why.",
-        content:`<h4 style="color:#c9a24b">Model selection matrix</h4>
+        content:`<h4 style="color:var(--c-gold)">Model selection matrix</h4>
             <div style="overflow-x:auto">
             <table style="width:100%;border-collapse:collapse;font-size:12px;font-family:'JetBrains Mono',monospace">
-                <tr style="border-bottom:1px solid #2e2e30">
-                    <th style="text-align:left;padding:6px 8px;color:#5b8def">Situation</th>
-                    <th style="text-align:left;padding:6px 8px;color:#5b8def">Best model</th>
-                    <th style="text-align:left;padding:6px 8px;color:#5b8def">Why</th>
+                <tr style="border-bottom:1px solid var(--c-line)">
+                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Situation</th>
+                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Best model</th>
+                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Why</th>
                 </tr>
-                <tr style="border-bottom:1px solid #2e2e30;background:#ffffff08">
-                    <td style="padding:6px 8px;color:#dce0e5">Witness / victim, need more detail</td>
-                    <td style="padding:6px 8px;color:#6fa287">Cognitive Interview</td>
-                    <td style="padding:6px 8px;color:#98989d">+35-45% accurate recall</td>
+                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Witness / victim, need more detail</td>
+                    <td style="padding:6px 8px;color:var(--c-sage)">Cognitive Interview</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">+35-45% accurate recall</td>
                 </tr>
-                <tr style="border-bottom:1px solid #161616">
-                    <td style="padding:6px 8px;color:#dce0e5">Suspect, strong evidence base</td>
-                    <td style="padding:6px 8px;color:#c9a24b">SUE + PEACE</td>
-                    <td style="padding:6px 8px;color:#98989d">Locks in their account → then breaks it apart with evidence</td>
+                <tr style="border-bottom:1px solid var(--c-bg)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Suspect, strong evidence base</td>
+                    <td style="padding:6px 8px;color:var(--c-gold)">SUE + PEACE</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">Locks in their account → then breaks it apart with evidence</td>
                 </tr>
-                <tr style="border-bottom:1px solid #2e2e30;background:#ffffff08">
-                    <td style="padding:6px 8px;color:#dce0e5">Corporate HR investigation, need an admission</td>
-                    <td style="padding:6px 8px;color:#5b8def">WZ (Wicklander-Zulawski)</td>
-                    <td style="padding:6px 8px;color:#98989d">Non-confrontational, legally defensible</td>
+                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Corporate HR investigation, need an admission</td>
+                    <td style="padding:6px 8px;color:var(--c-blue)">WZ (Wicklander-Zulawski)</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">Non-confrontational, legally defensible</td>
                 </tr>
-                <tr style="border-bottom:1px solid #161616">
-                    <td style="padding:6px 8px;color:#dce0e5">Witness stays silent, loyal to the suspect</td>
+                <tr style="border-bottom:1px solid var(--c-bg)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Witness stays silent, loyal to the suspect</td>
                     <td style="padding:6px 8px;color:#059669">Motivational Interviewing</td>
-                    <td style="padding:6px 8px;color:#98989d">Activates internal motivation to talk</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">Activates internal motivation to talk</td>
                 </tr>
-                <tr style="border-bottom:1px solid #2e2e30;background:#ffffff08">
-                    <td style="padding:6px 8px;color:#dce0e5">Resistant source, refuses to talk</td>
+                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Resistant source, refuses to talk</td>
                     <td style="padding:6px 8px;color:#bd6bbd">SCHARFF</td>
-                    <td style="padding:6px 8px;color:#98989d">Source "corrects what's already known" — doesn't realize they're the one talking</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">Source "corrects what's already known" — doesn't realize they're the one talking</td>
                 </tr>
-                <tr style="border-bottom:1px solid #161616">
-                    <td style="padding:6px 8px;color:#dce0e5">Informal contact, pre-investigation</td>
+                <tr style="border-bottom:1px solid var(--c-bg)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Informal contact, pre-investigation</td>
                     <td style="padding:6px 8px;color:#3fa6da">HUMINT / Elicitation</td>
-                    <td style="padding:6px 8px;color:#98989d">Gathers leads without revealing the investigation</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">Gathers leads without revealing the investigation</td>
                 </tr>
-                <tr style="border-bottom:1px solid #2e2e30;background:#ffffff08">
-                    <td style="padding:6px 8px;color:#dce0e5">Any official interview in the EU / UK</td>
-                    <td style="padding:6px 8px;color:#6fa287">PEACE</td>
-                    <td style="padding:6px 8px;color:#98989d">The legal standard — ethical and holds up in court</td>
+                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
+                    <td style="padding:6px 8px;color:var(--c-text)">Any official interview in the EU / UK</td>
+                    <td style="padding:6px 8px;color:var(--c-sage)">PEACE</td>
+                    <td style="padding:6px 8px;color:var(--c-muted)">The legal standard — ethical and holds up in court</td>
                 </tr>
             </table>
             </div>
 
-            <h4 style="color:#c97b84">Effectiveness ranking by task</h4>
+            <h4 style="color:var(--c-rose)">Effectiveness ranking by task</h4>
             <ul class="detect">
                 <li><strong>Maximize witness memory:</strong> Cognitive Interview ★★★★★</li>
                 <li><strong>Obtain an admission (corporate context):</strong> WZ ★★★★☆ | SUE ★★★★★</li>
@@ -2583,7 +2632,7 @@ const investigationTopics = [
                 <li><strong>Legal defensibility in EU courts:</strong> PEACE ★★★★★</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Combinations that work best</h4>
+            <h4 style="color:var(--c-gold)">Combinations that work best</h4>
             <ul class="tip">
                 <li><strong>ELICITATION → PEACE + SUE:</strong> reconnaissance first (informal), then an official interview with the evidence base</li>
                 <li><strong>CI for the victim → PEACE + SUE for the suspect:</strong> maximum information from both sides</li>
@@ -2591,7 +2640,7 @@ const investigationTopics = [
                 <li><strong>SCHARFF in an informal setting → WZ in the official one:</strong> get the outline of the picture, then confront</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Three golden rules for any interview</h4>
+            <h4 style="color:var(--c-gold)">Three golden rules for any interview</h4>
             <ul class="tip">
                 <li><strong>Listen 80%, talk 20%</strong> — an interviewer who talks more than the subject loses</li>
                 <li><strong>The suspect goes last</strong> — gather maximum information from other sources first</li>
@@ -2606,37 +2655,37 @@ const investigationTopics = [
         description:"When there's no direct evidence, prove that the suspect came into money that couldn't have come from legitimate sources. Used daily by the IRS, FBI, and EY Forensic.",
         content:`<p><strong>Indirect proof methods</strong> are used when a cash scheme leaves no paper trail (skimming, cash theft). You can't prove where the money came from — but you can prove it couldn't have come from legitimate means.</p>
 
-            <h4 style="color:#5b8def">Method 1: Net Worth Method</h4>
+            <h4 style="color:var(--c-blue)">Method 1: Net Worth Method</h4>
             <ul class="detect">
                 <li><strong>Logic:</strong> if net worth grew by more than declared income allows, the difference represents potentially criminal proceeds</li>
                 <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:#6fa287">Net worth (end of year) − Net worth (start of year) = Increase</li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:#6fa287">Increase + Living expenses = Funds required</li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:#6fa287">Funds required − Declared income = Unexplained funds</li>
+                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Net worth (end of year) − Net worth (start of year) = Increase</li>
+                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Increase + Living expenses = Funds required</li>
+                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Funds required − Declared income = Unexplained funds</li>
                 <li><strong>Net worth includes:</strong> real estate (market value), vehicles, bank accounts, investments, cash, receivables — minus mortgages, loans, debts</li>
                 <li><strong>Base year:</strong> establish net worth in the year BEFORE the alleged scheme began — this is the most contested part</li>
             </ul>
 
-            <h4 style="color:#5b8def">Method 2: Expenditure Method</h4>
+            <h4 style="color:var(--c-blue)">Method 2: Expenditure Method</h4>
             <ul class="detect">
                 <li><strong>Logic:</strong> simpler than Net Worth — total all documented expenditures and compare against income</li>
                 <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:#6fa287">Total expenditures for the period − Declared income = Deficit</li>
+                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Total expenditures for the period − Declared income = Deficit</li>
                 <li><strong>Expenditures:</strong> mortgage, rent, vehicles, vacations, restaurants, clothing, school fees, renovations, gifts</li>
                 <li><strong>Sources of data:</strong> bank statements (all accounts), credit cards, tax returns, public registries (real estate, vehicles)</li>
                 <li><strong>Preferable to Net Worth when:</strong> asset market values are hard to assess, but expenditures are well documented</li>
             </ul>
 
-            <h4 style="color:#5b8def">Method 3: Bank Deposits Method</h4>
+            <h4 style="color:var(--c-blue)">Method 3: Bank Deposits Method</h4>
             <ul class="detect">
                 <li><strong>Logic:</strong> total all deposits into bank accounts — more than legitimate income means unexplained sources</li>
                 <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:#6fa287">Total deposits − Inter-account transfers − Declared income = Unexplained deposits</li>
+                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Total deposits − Inter-account transfers − Declared income = Unexplained deposits</li>
                 <li>Important: exclude transfers between the subject's own accounts (otherwise you double-count)</li>
                 <li><strong>Best of the three when:</strong> the subject is depositing cash — a direct trace of a cash scheme</li>
             </ul>
 
-            <h4 style="color:#c9a24b">In practice: gathering the data</h4>
+            <h4 style="color:var(--c-gold)">In practice: gathering the data</h4>
             <ul class="tip">
                 <li><strong>Bank records:</strong> subpoena / formal request for all of the subject's accounts + spouse's — at minimum, the scheme period plus 1 year prior</li>
                 <li><strong>Tax returns:</strong> obtain for every year of the period — through the tax authority or voluntarily</li>
@@ -2645,7 +2694,7 @@ const investigationTopics = [
                 <li><strong>Interview:</strong> FIRST ask the subject about all sources of income — lock in their answers BEFORE presenting the financial analysis</li>
             </ul>
 
-            <h4 style="color:#c97b84">What the defense will challenge</h4>
+            <h4 style="color:var(--c-rose)">What the defense will challenge</h4>
             <ul class="red">
                 <li>"The base year was determined incorrectly" — always document the sources of your base-year figures</li>
                 <li>"There was unexplained cash obtained before the investigation period" (the cash-hoard defense)</li>
@@ -2666,7 +2715,7 @@ const investigationTopics = [
         description:"Bank statements are gold for an investigation. Here: how to read them, what to look for, how to build a picture of the money's movement.",
         content:`<p><strong>Bank records</strong> are the most objective evidence in a fraud investigation. They can't easily be forged — they're created by the bank independently of the subject.</p>
 
-            <h4 style="color:#6fa287">What to request (minimum package)</h4>
+            <h4 style="color:var(--c-sage)">What to request (minimum package)</h4>
             <ul class="detect">
                 <li>All of the subject's accounts: checking, savings, credit, investment — for the full scheme period plus 12 months prior</li>
                 <li>Accounts of related parties: spouse, joint business, parents (if there are grounds)</li>
@@ -2676,7 +2725,7 @@ const investigationTopics = [
                 <li>Loan applications (contain the subject's declared assets and income)</li>
             </ul>
 
-            <h4 style="color:#6fa287">What to look for in the statements</h4>
+            <h4 style="color:var(--c-sage)">What to look for in the statements</h4>
             <ul class="detect">
                 <li><strong>Round cash amounts:</strong> regular deposits of $500, $1,000, $5,000 — a cash-scheme pattern</li>
                 <li><strong>Structuring:</strong> a series of deposits just under $10,000 (the US SAR threshold) — a money-laundering signal</li>
@@ -2686,7 +2735,7 @@ const investigationTopics = [
                 <li><strong>New inflows during the scheme period:</strong> a sharp increase in deposits with no explanation</li>
             </ul>
 
-            <h4 style="color:#6fa287">Building a transaction timeline</h4>
+            <h4 style="color:var(--c-sage)">Building a transaction timeline</h4>
             <ul class="detect">
                 <li>Consolidate all accounts into a single chronological table: date, account, type, amount, counterparty</li>
                 <li>Color-code: legitimate income (green), suspicious deposits (red), expenditures (blue)</li>
@@ -2694,7 +2743,7 @@ const investigationTopics = [
                 <li>Link analysis: which other accounts/people the transfers go to — build the network</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Loan applications — hidden gold</h4>
+            <h4 style="color:var(--c-gold)">Loan applications — hidden gold</h4>
             <ul class="tip">
                 <li>When the subject took out a mortgage or a large loan, they declared assets and income to the bank</li>
                 <li>If the assets declared on the loan application diverge from the tax returns → bank fraud</li>
@@ -2751,7 +2800,7 @@ const investigationTopics = [
                 <li>Everything is documented: who, when, what tool, hash values → chain of custody</li>
             </ul>
 
-            <h4 style="color:#c97b84">Common mistakes</h4>
+            <h4 style="color:var(--c-rose)">Common mistakes</h4>
             <ul class="red">
                 <li>Opening the original file on the suspect's computer → alters metadata (Last Accessed)</li>
                 <li>Copying files with an ordinary Copy-Paste → doesn't preserve metadata, doesn't create a hash</li>
@@ -2803,7 +2852,7 @@ const investigationTopics = [
                 <li><strong>How to unravel it:</strong> a Mutual Legal Assistance Treaty (MLAT) request; Panama Papers / FinCEN Files (public leaks); regulatory requests via the FIU</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Freezing orders — freezing assets</h4>
+            <h4 style="color:var(--c-gold)">Freezing orders — freezing assets</h4>
             <ul class="tip">
                 <li>Mareva injunction (UK) / Freezing Order: the court freezes assets pending resolution of the case</li>
                 <li>Anton Piller Order (UK): the right to enter premises and seize documents without warning</li>
@@ -2857,7 +2906,7 @@ const investigationTopics = [
                 <li>EU: a faster mechanism exists via the European Investigation Order (EIO) between EU member states</li>
             </ul>
 
-            <h4 style="color:#c97b84">What you must not do</h4>
+            <h4 style="color:var(--c-rose)">What you must not do</h4>
             <ul class="red">
                 <li>Access someone else's email / bank account without authorization → criminal liability</li>
                 <li>Copy documents from the subject's computer without their consent or a court order → inadmissible evidence</li>
@@ -2878,7 +2927,7 @@ const investigationTopics = [
         description:"One of the most powerful tools for investigation and case presentation. A timeline turns scattered evidence into a coherent picture for court, the board, insurers.",
         content:`<p><strong>A timeline</strong> is a chronologically ordered sequence of events, each with its source noted. It's both an analytical tool and a presentation tool.</p>
 
-            <h4 style="color:#c9a24b">Why build a timeline</h4>
+            <h4 style="color:var(--c-gold)">Why build a timeline</h4>
             <ul class="detect">
                 <li>Reveal patterns: a scheme usually has a characteristic rhythm (monthly payments, quarter-end, a payout cycle)</li>
                 <li>Reveal gaps: what was happening during periods that remain unexplained?</li>
@@ -2886,7 +2935,7 @@ const investigationTopics = [
                 <li>For court and the board: a visual chronology is more persuasive than pages of text</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Sources for a timeline</h4>
+            <h4 style="color:var(--c-gold)">Sources for a timeline</h4>
             <ul class="detect">
                 <li>Financial records: transaction, invoice, and payment dates</li>
                 <li>Email metadata: exact timestamps (in UTC) from the headers</li>
@@ -2898,7 +2947,7 @@ const investigationTopics = [
                 <li>Witness testimony: events tied to specific dates</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Timeline structure</h4>
+            <h4 style="color:var(--c-gold)">Timeline structure</h4>
             <ul class="detect">
                 <li><strong>Minimum columns:</strong> Date | Event | Source (document / witness) | Significance</li>
                 <li><strong>Color-code:</strong> the subject's actions (red), financial movements (blue), contact with other parties (orange), control events (green)</li>
@@ -2906,7 +2955,7 @@ const investigationTopics = [
                 <li><strong>Versions:</strong> a working timeline (with hypotheses) plus a final one (proven facts only)</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Tools</h4>
+            <h4 style="color:var(--c-gold)">Tools</h4>
             <ul class="tip">
                 <li><strong>Excel / Power BI:</strong> for simple timelines; Power BI gives interactive visualization for presentation</li>
                 <li><strong>i2 Analyst's Notebook:</strong> the standard in law enforcement and EY Forensic — link analysis and timeline in one</li>
@@ -2915,7 +2964,7 @@ const investigationTopics = [
                 <li><strong>Simplest option:</strong> Google Sheets with date-based conditional formatting — sufficient for 80% of corporate cases</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Patterns a timeline reveals</h4>
+            <h4 style="color:var(--c-gold)">Patterns a timeline reveals</h4>
             <ul class="detect">
                 <li>Vendor added → payment in the same week (AM2 — phony vendor)</li>
                 <li>Contract signed after the delivery date (backdating — FR9)</li>
@@ -2937,7 +2986,7 @@ const investigationTopics = [
         description:"Methods for gathering information before formally announcing an investigation — so as not to alert the subject or give them the chance to destroy evidence.",
         content:`<p><strong>The covert phase</strong> is reconnaissance before confrontation. Goal: gather as much information as possible while the subject remains unaware of the investigation. A single information leak can destroy the case.</p>
 
-            <h4 style="color:#c97b84">Investigation OPSEC — what not to do before the covert phase ends</h4>
+            <h4 style="color:var(--c-rose)">Investigation OPSEC — what not to do before the covert phase ends</h4>
             <ul class="red">
                 <li>Don't discuss the investigation by phone / email (it could be monitored or leaked)</li>
                 <li>Don't request documents from people inside the organization — anyone could tip off the subject</li>
@@ -2946,7 +2995,7 @@ const investigationTopics = [
                 <li>Don't use corporate email to communicate about the case — use an encrypted channel</li>
             </ul>
 
-            <h4 style="color:#c97b84">What is done covertly (with proper authorization)</h4>
+            <h4 style="color:var(--c-rose)">What is done covertly (with proper authorization)</h4>
             <ul class="detect">
                 <li><strong>System logs without notification:</strong> IT provides ERP / email / access logs without notifying the subject — requires authorization from legal counsel</li>
                 <li><strong>OSINT:</strong> public company registries, social media, LinkedIn, public records — without notifying anyone</li>
@@ -2956,7 +3005,7 @@ const investigationTopics = [
                 <li><strong>Surveillance (physical observation):</strong> only with legal authorization in the relevant jurisdiction</li>
             </ul>
 
-            <h4 style="color:#c97b84">OSINT in the covert phase</h4>
+            <h4 style="color:var(--c-rose)">OSINT in the covert phase</h4>
             <ul class="detect">
                 <li>Company registries: does the subject have their own companies? Do they match up with our vendors?</li>
                 <li>Land registry: new real estate purchases during the suspected scheme period?</li>
@@ -2966,7 +3015,7 @@ const investigationTopics = [
                 <li>Document everything: dated screenshots / URLs, saved to the evidence folder with a hash</li>
             </ul>
 
-            <h4 style="color:#c9a24b">Transitioning from covert to overt</h4>
+            <h4 style="color:var(--c-gold)">Transitioning from covert to overt</h4>
             <ul class="tip">
                 <li>Trigger for the transition: enough evidence for the confrontation to be productive</li>
                 <li>Before the transition: preservation letters, legal hold, IT blocking the subject's access to critical systems</li>
@@ -3167,7 +3216,7 @@ const preventionTopics = [
 ];
 
 const moduleData = { investigation: investigationTopics, prevention: preventionTopics };
-const moduleAccent = { investigation: '#5b8def', prevention: '#6fa287' };
+const moduleAccent = { investigation: 'var(--c-blue)', prevention: 'var(--c-sage)' };
 const moduleCatOrder = {
     investigation: ['INTERVIEWS','DOCUMENTS','FINANCIAL','LEGAL','FORENSIC'],
     prevention: ['CONTROLS','CULTURE','PROGRAMS']
@@ -3257,7 +3306,7 @@ function renderGlossary() {
     }
 
     data.forEach(item => {
-        const catColor = { ACFE: '#6fa287', SCHEMES: '#c97b84', ACCOUNTING: '#5b8def', LEGAL: '#c9a24b', TECHNIQUES: '#bd6bbd', EU: '#3fa6da' }[item.cat] || '#98989d';
+        const catColor = { ACFE: 'var(--c-sage)', SCHEMES: 'var(--c-rose)', ACCOUNTING: 'var(--c-blue)', LEGAL: 'var(--c-gold)', TECHNIQUES: '#bd6bbd', EU: '#3fa6da' }[item.cat] || 'var(--c-muted)';
         grid.insertAdjacentHTML('beforeend', `
             <div class="gloss-card">
                 <div class="flex items-start justify-between gap-2 mb-2">
@@ -3266,7 +3315,7 @@ function renderGlossary() {
                           style="color:${catColor}">${item.cat}</span>
                 </div>
                 <p class="text-xs font-mono mb-3 leading-snug" style="color:${catColor};opacity:.85">${item.full}</p>
-                <p class="text-sm leading-relaxed" style="color:#dce0e5">${item.def}</p>
+                <p class="text-sm leading-relaxed" style="color:var(--c-text)">${item.def}</p>
             </div>
         `);
     });
@@ -3786,7 +3835,7 @@ const proTrackData = [
 
 const ptCatOrder  = ['DAILY','CASES','ANALYTICS','REPORTING','TOOLS','CAREER'];
 const ptCatLabels = { DAILY: 'Daily Ops', CASES: 'Case Work', ANALYTICS: 'Analytics', REPORTING: 'Reporting', TOOLS: 'Tools', CAREER: 'Career' };
-const ptCatColors = { DAILY: '#6fa287', CASES: '#c97b84', ANALYTICS: '#5b8def', REPORTING: '#c9a24b', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
+const ptCatColors = { DAILY: 'var(--c-sage)', CASES: 'var(--c-rose)', ANALYTICS: 'var(--c-blue)', REPORTING: 'var(--c-gold)', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
 let activePtId = null;
 
 function renderProTrackSidebar() {
@@ -3795,7 +3844,7 @@ function renderProTrackSidebar() {
     sidebar.innerHTML = ptCatOrder.map(cat => {
         const catData = proTrackData.filter(item => item.cat === cat);
         if (catData.length === 0) return '';
-        const accent = ptCatColors[cat] || '#98989d';
+        const accent = ptCatColors[cat] || 'var(--c-muted)';
         return `
             <div class="schemes-sidebar-group">
                 <div class="schemes-sidebar-group-label" style="color:${accent}">${ptCatLabels[cat]}</div>
@@ -3821,7 +3870,7 @@ function selectPt(id) {
 
     const item = proTrackData.find(i => i.id === id);
     if (!item) return;
-    const accent = ptCatColors[item.cat] || '#98989d';
+    const accent = ptCatColors[item.cat] || 'var(--c-muted)';
 
     document.getElementById('protrack-panel').innerHTML = `
         <div class="schemes-panel-meta"><span class="code" style="color:${accent}">${item.code}</span> · ${ptCatLabels[item.cat] || item.cat}</div>
@@ -3838,7 +3887,7 @@ const shadowingGroups = [
     {
         id: "sh-w1", phase: "WEEK1", code: "WEEK-1",
         title: "First Week: Immersion in the Profession",
-        color: "#6fa287",
+        color: "var(--c-sage)",
         description: "What to study and observe during your first 5 days on the job as a fraud analyst",
         items: [
             "Get access to the case management system",
@@ -3860,7 +3909,7 @@ const shadowingGroups = [
     {
         id: "sh-daily", phase: "DAILY", code: "DAILY",
         title: "Every Day: The Fraud Professional's Morning Protocol",
-        color: "#5b8def",
+        color: "var(--c-blue)",
         description: "Daily actions that keep investigations running smoothly",
         items: [
             "Check the inbox for fraud alerts, escalations, and SAR notifications",
@@ -3877,7 +3926,7 @@ const shadowingGroups = [
     {
         id: "sh-weekly", phase: "WEEKLY", code: "WEEKLY",
         title: "Every Week: Analytical Procedures",
-        color: "#c9a24b",
+        color: "var(--c-gold)",
         description: "Baseline weekly fraud-detection procedures for any fraud department",
         items: [
             "Run Benford's Law / JE analytics on the week's transactions — flag new anomalies",
@@ -3896,7 +3945,7 @@ const shadowingGroups = [
     {
         id: "sh-monthly", phase: "MONTHLY", code: "MONTHLY",
         title: "Every Month: Deep-Dive Reviews",
-        color: "#c97b84",
+        color: "var(--c-rose)",
         description: "Monthly procedures for strategic oversight — the things that don't surface in the daily noise",
         items: [
             "Run a full Benford's Law pass on the closed month's JE population",
@@ -4005,7 +4054,7 @@ function updateShadowProgress() {
                 <div class="h-full bg-pl-neon-green transition-all duration-500" style="width:${pct}%"></div>
             </div>
             <span class="font-mono text-sm text-white font-bold whitespace-nowrap">${done} / ${total}</span>
-            <span class="font-mono text-sm font-bold whitespace-nowrap" style="color:#6fa287">${pct}%</span>
+            <span class="font-mono text-sm font-bold whitespace-nowrap" style="color:var(--c-sage)">${pct}%</span>
         </div>`;
 }
 
@@ -4147,7 +4196,7 @@ function setMcFilter(val) {
     renderMyCases();
 }
 
-const mcStatusColor = { open: '#6fa287', pending: '#c9a24b', closed: '#98989d' };
+const mcStatusColor = { open: 'var(--c-sage)', pending: 'var(--c-gold)', closed: 'var(--c-muted)' };
 
 const investigationChecklists = {
     AM: [
@@ -4211,7 +4260,7 @@ function renderMyCases() {
         const steps = investigationChecklists[g] || [];
         const state = mc.checklistState || {};
         const checklistHtml = steps.map((step, idx) => `
-            <label class="flex items-start gap-2 text-xs mb-1.5 cursor-pointer" style="color:${state[idx] ? '#98989d' : '#dce0e5'};${state[idx] ? 'text-decoration:line-through' : ''}">
+            <label class="flex items-start gap-2 text-xs mb-1.5 cursor-pointer" style="color:${state[idx] ? 'var(--c-muted)' : 'var(--c-text)'};${state[idx] ? 'text-decoration:line-through' : ''}">
                 <input type="checkbox" ${state[idx] ? 'checked' : ''} onchange="toggleChecklistItem('${mc.id}', ${idx})" style="margin-top:2px">
                 <span>${step}</span>
             </label>
@@ -4221,7 +4270,7 @@ function renderMyCases() {
                 <div class="p-6 flex-grow flex flex-col">
                     <div class="flex items-start justify-between gap-3 mb-3 flex-wrap">
                         <span class="text-${g} font-bold text-xs font-mono uppercase tracking-wider">${g}</span>
-                        <span class="font-sans text-xs font-medium" style="color:${mcStatusColor[mc.status] || '#98989d'}">${mc.status}</span>
+                        <span class="font-sans text-xs font-medium" style="color:${mcStatusColor[mc.status] || 'var(--c-muted)'}">${mc.status}</span>
                     </div>
                     <h3 class="text-base font-bold text-white mb-2 leading-snug">${mc.title}</h3>
                     <div class="flex flex-wrap gap-1 mb-3">${codesBadges}${entityBadges}</div>
@@ -4314,7 +4363,7 @@ function deleteCase(id) {
 // ═══════════════════════════════════════════════════════════════════
 //  NETWORK GRAPH — schemes ↔ real cases ↔ my cases
 // ═══════════════════════════════════════════════════════════════════
-const netGroupColor = { AM: '#6fa287', FR: '#5b8def', IAC: '#c97b84', NF: '#c9a24b' };
+const netGroupColor = { AM: 'var(--c-sage)', FR: 'var(--c-blue)', IAC: 'var(--c-rose)', NF: 'var(--c-gold)' };
 let netNodes = [], netEdges = [], netNodeEls = [], netEdgeEls = [];
 let netPositions = {};
 let netDragNode = null, netDidDrag = false, netAlpha = 1, netAnimId = null, netListenersReady = false;
@@ -4405,7 +4454,7 @@ function renderNetworkGraph() {
 
     netEdgeEls = netEdges.map(() => {
         const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('stroke', '#98989d');
+        line.setAttribute('stroke', 'var(--c-muted)');
         line.setAttribute('stroke-width', '1');
         line.style.opacity = '0.35';
         svg.appendChild(line);
@@ -4416,7 +4465,7 @@ function renderNetworkGraph() {
         const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
         g.setAttribute('class', 'net-node');
         g.style.cursor = 'grab';
-        let color = netGroupColor[n.group] || '#98989d';
+        let color = netGroupColor[n.group] || 'var(--c-muted)';
         let shape;
         if (n.kind === 'scheme') {
             shape = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
@@ -4436,7 +4485,7 @@ function renderNetworkGraph() {
             shape.setAttribute('width', '12'); shape.setAttribute('height', '12');
         }
         shape.setAttribute('fill', color);
-        shape.setAttribute('stroke', '#ffffff');
+        shape.setAttribute('stroke', 'var(--c-bg)');
         shape.setAttribute('stroke-width', '1.5');
         g.appendChild(shape);
 
@@ -4445,8 +4494,8 @@ function renderNetworkGraph() {
         label.textContent = n.label.length > 18 ? n.label.slice(0, 16) + '…' : n.label;
         label.setAttribute('font-size', '9');
         label.setAttribute('font-family', 'JetBrains Mono, monospace');
-        label.setAttribute('fill', '#c3cad4');
-        label.setAttribute('stroke', '#161616');
+        label.setAttribute('fill', 'var(--c-text)');
+        label.setAttribute('stroke', 'var(--c-bg)');
         label.setAttribute('stroke-width', '3');
         label.setAttribute('paint-order', 'stroke');
         label.setAttribute('x', '10');
@@ -4537,7 +4586,7 @@ function netSelectNode(n) {
 
     const panel = document.getElementById('network-panel');
     const kindLabel = { scheme: 'SCHEME', case: 'REAL CASE', mycase: 'MY CASE', entity: 'ENTITY' }[n.kind];
-    let detail = '', openBtn = '', headerColor = netGroupColor[n.group] || '#98989d';
+    let detail = '', openBtn = '', headerColor = netGroupColor[n.group] || 'var(--c-muted)';
     if (n.kind === 'scheme') {
         detail = `<p class="mt-1">${n.meta.title}</p><p class="mt-1 text-pl-slate">${n.meta.category}</p>`;
         openBtn = `<button onclick="jumpToScheme(${n.ref})" class="mt-3 w-full text-xs font-sans font-medium py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Open</button>`;
@@ -4618,7 +4667,7 @@ function renderTimeline() {
     }
 
     list.innerHTML = entries.map(e => {
-        const color = netGroupColor[e.group] || '#98989d';
+        const color = netGroupColor[e.group] || 'var(--c-muted)';
         const rotate = e.kind === 'case' ? 'rotate(45deg)' : 'rotate(0deg)';
         const onclick = e.kind === 'case' ? `jumpToCase('${e.ref}')` : `jumpToMyCase('${e.ref}')`;
         return `
@@ -4874,12 +4923,12 @@ function answerQuiz(i) {
     const buttons = document.querySelectorAll('#quiz-options button');
     buttons.forEach((b, idx) => {
         b.disabled = true;
-        if (q.options[idx] === q.correct) { b.style.borderColor = '#6fa287'; b.style.color = '#6fa287'; }
-        else if (idx === i) { b.style.borderColor = '#c97b84'; b.style.color = '#c97b84'; }
+        if (q.options[idx] === q.correct) { b.style.borderColor = 'var(--c-sage)'; b.style.color = 'var(--c-sage)'; }
+        else if (idx === i) { b.style.borderColor = 'var(--c-rose)'; b.style.color = 'var(--c-rose)'; }
     });
     document.getElementById('quiz-body').insertAdjacentHTML('beforeend', `
         <div class="mt-4 p-4 bg-pl-black">
-            <div class="text-xs font-sans font-semibold mb-1" style="color:${correct ? '#6fa287' : '#c97b84'}">${correct ? 'Correct' : 'Incorrect'}</div>
+            <div class="text-xs font-sans font-semibold mb-1" style="color:${correct ? 'var(--c-sage)' : 'var(--c-rose)'}">${correct ? 'Correct' : 'Incorrect'}</div>
             <p class="text-sm text-pl-gray">${q.explain || ''}</p>
             <button onclick="nextQuizQuestion()" class="mt-3 text-xs font-sans font-medium px-4 py-2 bg-pl-black border border-pl-slate text-pl-neon-green hover:bg-pl-slate/30 transition-colors">Next</button>
         </div>
@@ -4896,7 +4945,7 @@ function nextQuizQuestion() {
 // ═══════════════════════════════════════════════════════════════════
 const fraudTree = [
     {
-        branch: "Corruption", color: "#c97b84", groups: [
+        branch: "Corruption", color: "var(--c-rose)", groups: [
             { name: "Conflicts of Interest", leaves: [
                 { name: "Purchasing Schemes", def: "Employee has an undisclosed financial interest in a vendor and steers purchasing decisions to benefit it.", code: null },
                 { name: "Sales Schemes", def: "Employee has an undisclosed financial interest in a customer and grants them improper favorable terms.", code: "IAC2" }
@@ -4916,7 +4965,7 @@ const fraudTree = [
         ]
     },
     {
-        branch: "Asset Misappropriation", color: "#6fa287", groups: [
+        branch: "Asset Misappropriation", color: "var(--c-sage)", groups: [
             { name: "Cash — Larceny", leaves: [
                 { name: "Larceny of Cash on Hand", def: "Outright theft of cash already recorded in the books, e.g. from a register or safe.", code: null },
                 { name: "Larceny from Deposit", def: "Cash is stolen after being recorded but before or during the bank deposit process.", code: null }
@@ -4977,7 +5026,7 @@ const fraudTree = [
         ]
     },
     {
-        branch: "Financial Statement Fraud", color: "#5b8def", groups: [
+        branch: "Financial Statement Fraud", color: "var(--c-blue)", groups: [
             { name: "Overstatements — Timing Differences", leaves: [
                 { name: "Premature Revenue Recognition", def: "Revenue is recorded before delivery/performance obligations are actually satisfied.", code: "FR3" },
                 { name: "Partial Shipment Recognition", def: "Full revenue is recognized on an order that has only been partially shipped.", code: "FR4" },
@@ -5006,7 +5055,7 @@ const fraudTree = [
         ]
     },
     {
-        branch: "Non-Financial Misstatements (this site's extension — not part of the classic ACFE tree)", color: "#c9a24b", groups: [
+        branch: "Non-Financial Misstatements (this site's extension — not part of the classic ACFE tree)", color: "var(--c-gold)", groups: [
             { name: "Quality & Compliance", leaves: [
                 { name: "Test Result Falsification", def: "Material or product test results are altered to show false compliance.", code: "NF1" },
                 { name: "Employee Qualification Test Tampering", def: "Certification or qualification test scores are altered or fabricated.", code: "NF3" },
