@@ -103,9 +103,14 @@
         .nav-btn.active-white  { background: transparent; border-bottom-color: var(--c-text); color: var(--c-text); }
 
         /* Schemes — sidebar + panel (master-detail) */
-        .schemes-layout { display: flex; gap: 56px; align-items: flex-start; }
-        @media (max-width: 900px) { .schemes-layout { flex-direction: column; } }
-        .schemes-sidebar { width: 300px; flex-shrink: 0; max-height: 75vh; overflow-y: auto; position: sticky; top: 16px; }
+        /* Independent-scroll two-pane layout: the section is pinned to the visible viewport height
+           below the header, and each pane scrolls its own content. This keeps the left list fully
+           static while the right panel scrolls, instead of relying on position:sticky (which only
+           stays put for as long as the taller pane gives it "room" to do so). */
+        .schemes-layout { display: flex; gap: 56px; align-items: stretch; height: calc(100vh - var(--header-h, 0px) - 64px); }
+        @media (max-width: 900px) { .schemes-layout { flex-direction: column; height: auto; } }
+        .schemes-sidebar { width: 300px; flex-shrink: 0; height: 100%; overflow-y: auto; }
+        @media (max-width: 900px) { .schemes-sidebar { height: auto; max-height: 50vh; } }
         .schemes-sidebar-group { margin-bottom: 28px; }
         .schemes-sidebar-group:last-child { margin-bottom: 0; }
         .schemes-sidebar-group-label { font-family: 'IBM Plex Serif', serif; font-size: var(--fs-4); font-weight: 600; margin-bottom: 12px; }
@@ -115,10 +120,14 @@
         .scheme-item .code { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-1); font-weight: 700; margin-right: 8px; }
         .scheme-item .title { color: var(--c-text); }
         .scheme-item.active .title { color: var(--c-blue); font-weight: 600; }
-        .schemes-panel { flex: 1; min-width: 0; max-width: 760px; }
+        .schemes-panel { flex: 1; min-width: 0; max-width: 760px; height: 100%; overflow-y: auto; }
+        @media (max-width: 900px) { .schemes-panel { height: auto; overflow-y: visible; } }
         .schemes-panel-meta { font-size: var(--fs-2); color: var(--c-muted); margin-bottom: 8px; }
         .schemes-panel-meta .code { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
         .schemes-panel h2 { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: var(--fs-6); margin: 0 0 20px; }
+        .gloss-term-title { font-family: 'IBM Plex Serif', serif; font-weight: 700; font-size: var(--fs-5); margin: 0 0 4px; }
+        .gloss-entry { margin-bottom: 26px; padding-bottom: 26px; border-bottom: 1px solid var(--c-line); }
+        .gloss-entry:last-child { border-bottom: none; }
         .schemes-panel-summary { color: var(--c-muted); font-size: var(--fs-3); margin-bottom: 24px; }
         .scheme-doc { display: none; }
         .scheme-doc.active { display: block; }
@@ -171,10 +180,10 @@
             button[onclick] { min-height: 44px; touch-action: manipulation; }
         }
         .text-white { color: var(--c-text) !important; }
-        body { background: var(--c-bg); transition: background-color .2s, color .2s; }
+        body { background: var(--c-bg); transition: background-color .2s, color .2s; overflow-x: clip; }
     </style>
 </head>
-<body class="bg-pl-black text-pl-gray font-sans antialiased overflow-x-hidden">
+<body class="bg-pl-black text-pl-gray font-sans antialiased">
 <script>
     function applyTheme(mode) {
         document.documentElement.setAttribute('data-theme', mode);
@@ -189,6 +198,14 @@
     var savedTheme = localStorage.getItem('cfe-theme') === 'light' ? 'light' : 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     document.addEventListener('DOMContentLoaded', function () { applyTheme(savedTheme); });
+
+    function syncHeaderHeight() {
+        var header = document.querySelector('header.sticky');
+        if (header) document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+    }
+    window.addEventListener('load', syncHeaderHeight);
+    window.addEventListener('resize', syncHeaderHeight);
+    document.addEventListener('DOMContentLoaded', syncHeaderHeight);
 </script>
 
 <!-- ── HEADER ── -->
@@ -224,7 +241,6 @@
             <button onclick="showView('quiz')"           id="view-quiz"          class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Quiz</button>
             <span class="flex-shrink-0" style="width:1px;height:16px;background:var(--c-line)"></span>
             <button onclick="showView('timeline')"      id="view-timeline"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Timeline</button>
-            <button onclick="showView('protrack')"      id="view-protrack"      class="nav-btn px-1 py-2 text-xs font-sans font-medium transition-all">Pro Track</button>
         </div>
         <!-- Scheme type filter — only relevant on the Schemes view -->
         <div class="filter-bar gap-2" id="schemes-filter-row">
@@ -264,46 +280,12 @@
         <div class="schemes-panel" id="prevention-panel"></div>
     </section>
 
-    <!-- Pro Track -->
-    <section id="protrack-section" class="hidden">
-        <div class="mb-4 bg-pl-dark border border-pl-slate p-5">
-            <h2 class="text-base font-bold text-white font-serif tracking-wide mb-1">Fraud Professional — Day in the Life</h2>
-            <p class="text-xs text-pl-gray font-mono">What a real CFE does every day. Use this as a shadowing map — from first-day checklist to independent practice.</p>
-        </div>
-        <section class="schemes-layout">
-            <nav class="schemes-sidebar" id="protrack-sidebar"></nav>
-            <div class="schemes-panel" id="protrack-panel"></div>
-        </section>
-
-        <div class="mt-8 mb-4 bg-pl-dark border border-pl-slate p-5">
-            <h2 class="text-base font-bold text-white font-serif tracking-wide mb-1">First-Week & Ongoing Checklist</h2>
-            <p class="text-xs text-pl-gray font-mono">A shadowing map — from first-day onboarding items to daily, weekly, and monthly routines and toolkit.</p>
-        </div>
-        <div class="mb-4 flex items-start md:items-center gap-3 flex-wrap">
-            <span class="text-xs font-sans text-pl-gray font-medium">Phase:</span>
-            <div class="flex flex-wrap gap-1">
-                <button onclick="setShadowFilter('ALL')"     id="shf-ALL"     class="cat-btn cat-active">All</button>
-                <button onclick="setShadowFilter('WEEK1')"   id="shf-WEEK1"   class="cat-btn">First Week</button>
-                <button onclick="setShadowFilter('DAILY')"   id="shf-DAILY"   class="cat-btn">Daily</button>
-                <button onclick="setShadowFilter('WEEKLY')"  id="shf-WEEKLY"  class="cat-btn">Weekly</button>
-                <button onclick="setShadowFilter('MONTHLY')" id="shf-MONTHLY" class="cat-btn">Monthly</button>
-                <button onclick="setShadowFilter('TOOLKIT')" id="shf-TOOLKIT" class="cat-btn">Toolkit</button>
-            </div>
-            <button onclick="resetChecklist()" class="ml-auto text-xs font-mono text-pl-slate border border-pl-slate px-3 py-1.5 hover:text-pl-neon-pink hover:border-pl-neon-pink transition-colors whitespace-nowrap">&#8635; Reset</button>
-        </div>
-        <div id="shadow-progress" class="mb-6"></div>
-        <div id="shadowing-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
-    </section>
-
     <!-- Glossary -->
-    <section id="glossary-section" class="hidden schemes-layout">
-        <nav class="schemes-sidebar" id="glossary-sidebar">
-            <input id="gloss-search" type="text" placeholder="> Search term or abbreviation..."
-                   class="gloss-search" oninput="renderGlossarySidebar()" style="margin-bottom:14px">
-            <div id="gloss-count" class="text-xs font-mono mb-4" style="color:var(--c-muted)"></div>
-            <div id="gloss-list"></div>
-        </nav>
-        <div class="schemes-panel" id="glossary-panel"></div>
+    <section id="glossary-section" class="hidden">
+        <input id="gloss-search" type="text" placeholder="> Search term or abbreviation..."
+               class="gloss-search" oninput="renderGlossaryList()" style="margin-bottom:14px;max-width:420px">
+        <div id="gloss-count" class="text-xs font-mono mb-6" style="color:var(--c-muted)"></div>
+        <div id="gloss-list" style="max-width:760px"></div>
     </section>
 
     <!-- Timeline -->
@@ -3160,12 +3142,11 @@ function selectModule(type, id) {
     `;
 }
 
-let activeGlossIdx = null;
 const glossCatOrder  = ['ACFE','SCHEMES','ACCOUNTING','LEGAL','TECHNIQUES','EU'];
 const glossCatLabels = { ACFE: 'ACFE Framework', SCHEMES: 'Fraud Schemes', ACCOUNTING: 'Accounting & Audit', LEGAL: 'Legal & Compliance', TECHNIQUES: 'Investigation Tech.', EU: 'EU Regulatory' };
 const glossCatColor  = { ACFE: 'var(--c-sage)', SCHEMES: 'var(--c-rose)', ACCOUNTING: 'var(--c-blue)', LEGAL: 'var(--c-gold)', TECHNIQUES: '#bd6bbd', EU: '#3fa6da' };
 
-function renderGlossarySidebar() {
+function renderGlossaryList() {
     const query = (document.getElementById('gloss-search').value || '').toLowerCase();
     let data = glossaryData.map((g, i) => ({ ...g, _idx: i }));
     if (query) data = data.filter(g =>
@@ -3178,840 +3159,33 @@ function renderGlossarySidebar() {
     document.getElementById('gloss-count').textContent =
         `> ${data.length} term${data.length !== 1 ? 's' : ''} found`;
 
-    const sidebar = document.getElementById('gloss-list');
+    const list = document.getElementById('gloss-list');
 
     if (data.length === 0) {
-        sidebar.innerHTML = '';
-        document.getElementById('glossary-panel').innerHTML = `<p class="font-mono" style="color:var(--c-muted)">NO TERMS MATCH THIS QUERY.</p>`;
-        activeGlossIdx = null;
+        list.innerHTML = `<p class="font-mono" style="color:var(--c-muted)">NO TERMS MATCH THIS QUERY.</p>`;
         return;
     }
 
-    sidebar.innerHTML = glossCatOrder.map(cat => {
+    list.innerHTML = glossCatOrder.map(cat => {
         const catData = data.filter(g => g.cat === cat);
         if (catData.length === 0) return '';
         return `
             <div class="schemes-sidebar-group">
                 <div class="schemes-sidebar-group-label" style="color:${glossCatColor[cat]}">${glossCatLabels[cat]}</div>
                 ${catData.map(g => `
-                    <div class="scheme-item" id="gloss-item-${g._idx}" onclick="selectGloss(${g._idx})">
-                        <span class="title">${g.term}</span>
+                    <div class="gloss-entry" id="gloss-item-${g._idx}">
+                        <div class="schemes-panel-meta"><span class="code" style="color:${glossCatColor[cat]}">${g.cat}</span></div>
+                        <h3 class="gloss-term-title">${g.term}</h3>
+                        <p class="text-sm font-mono mb-2" style="color:${glossCatColor[cat]}">${g.full}</p>
+                        <p class="schemes-panel-summary" style="margin-bottom:0">${g.def}</p>
                     </div>
                 `).join('')}
             </div>
         `;
     }).join('');
-
-    const stillVisible = data.some(g => g._idx === activeGlossIdx);
-    if (stillVisible) selectGloss(activeGlossIdx);
-    else selectGloss(data[0]._idx);
 }
 
-function selectGloss(idx) {
-    activeGlossIdx = idx;
-    document.querySelectorAll('#gloss-list .scheme-item').forEach(el =>
-        el.classList.toggle('active', el.id === `gloss-item-${idx}`)
-    );
-
-    const item = glossaryData[idx];
-    if (!item) return;
-    const color = glossCatColor[item.cat] || 'var(--c-muted)';
-
-    document.getElementById('glossary-panel').innerHTML = `
-        <div class="schemes-panel-meta"><span class="code" style="color:${color}">${item.cat}</span></div>
-        <h2>${item.term}</h2>
-        <p class="text-sm font-mono mb-4" style="color:${color}">${item.full}</p>
-        <p class="schemes-panel-summary" style="margin-bottom:0">${item.def}</p>
-    `;
-}
-
-// ═══════════════════════════════════════════════
-//  PRO TRACK — FRAUD PROFESSIONAL DAY-IN-THE-LIFE
-// ═══════════════════════════════════════════════
-const proTrackData = [
-    {
-        id: 'pt01', cat: 'DAILY', code: 'DAY-01',
-        title: 'Morning Intelligence Briefing',
-        description: 'Every fraud examiner starts the day the same way: scan what changed overnight. Fraud is reactive — you need to know before your client does.',
-        content: `<h4>What to check every morning</h4>
-            <ul class="detect">
-                <li>ACFE Fraud Magazine & newsletter — new scheme alerts, regulatory updates</li>
-                <li>EU sanctions list changes (EUR-Lex, OFAC SDN) — takes 5 minutes, critical for AML</li>
-                <li>Google Alerts for your active case subjects — company names, key individuals</li>
-                <li>Internal whistleblower inbox / hotline queue — triage any new reports</li>
-                <li>Regulatory body feeds: EBA, ESMA, NBS (Slovakia), FCA, BaFin</li>
-            </ul>
-            <h4>Active case queue review (15 min)</h4>
-            <ul class="detect">
-                <li>Open your case management system (or Excel tracker) — what moved since yesterday?</li>
-                <li>Flag cases with imminent deadlines: statute of limitations, court dates, client SLA</li>
-                <li>Check if any subpoenas / data requests came back overnight</li>
-            </ul>
-            <h4>Why this matters</h4>
-            <ul class="tip">
-                <li>Fraud examiners who miss a sanctions list update can expose their client to regulatory liability</li>
-                <li>New regulatory guidance often affects ongoing cases — you need to course-correct early</li>
-                <li>Tip: create one RSS/email digest that aggregates all your sources — saves 20 min daily</li>
-            </ul>`
-    },
-    {
-        id: 'pt02', cat: 'DAILY', code: 'DAY-02',
-        title: 'Case Status & Stakeholder Sync',
-        description: 'Mid-morning: communicate. Fraud work lives or dies on relationships — with clients, legal counsel, compliance, and sometimes law enforcement.',
-        content: `<h4>Daily communication tasks</h4>
-            <ul class="detect">
-                <li>Send brief status update to client/case sponsor — one paragraph, what happened, what's next</li>
-                <li>Coordinate with legal counsel on privilege questions before interviewing anyone</li>
-                <li>Respond to data requests from IT, HR, Finance — the faster you move, the fresher the evidence</li>
-                <li>Log all communications in the case file — dates, who said what, any commitments made</li>
-            </ul>
-            <h4>Typical stakeholder map</h4>
-            <ul class="red">
-                <li>Client (CEO/CFO/Audit Committee) — they want: facts, timeline, exposure amount, how to stop it</li>
-                <li>Legal counsel (in-house + external) — they want: privilege protection, litigation readiness</li>
-                <li>Compliance/AML team — they want: SAR filing triggers, regulatory reporting obligations</li>
-                <li>Law enforcement — only looped in when client decides to prosecute; coordinate carefully</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Attorney-client privilege does NOT automatically cover fraud investigation work product unless the engagement is directed by legal counsel</li>
-                <li>Work product doctrine: protects materials prepared in anticipation of litigation — know the difference</li>
-            </ul>`
-    },
-    {
-        id: 'pt03', cat: 'DAILY', code: 'DAY-03',
-        title: 'End-of-Day Documentation',
-        description: 'Before you close your laptop: document everything. Memory fades. Courts require contemporaneous notes. This habit separates professional examiners from amateurs.',
-        content: `<h4>Daily documentation checklist</h4>
-            <ul class="detect">
-                <li>Update case notes with all actions taken today — specific, timestamped, factual</li>
-                <li>Log every document received: source, date received, hash value if digital</li>
-                <li>Record any verbal communications that affected the investigation (even hallway conversations)</li>
-                <li>Update the investigation timeline/chronology — add new events as you discover them</li>
-                <li>Back up work to secure location — not personal laptop, not personal cloud</li>
-            </ul>
-            <h4>What good notes look like</h4>
-            <ul class="detect">
-                <li><strong>Bad:</strong> "Talked to John about invoices." — useless in court</li>
-                <li><strong>Good:</strong> "2026-06-22 14:30 — Interview with John Smith, AP Manager. He confirmed he approved INV-4421 on 2026-05-10 without a PO match. He said he received verbal authorization from the CFO."</li>
-                <li>Notes should answer: who, what, when, where, how — not your opinion</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Contemporaneous notes = written at the time of the event; courts give them high credibility</li>
-                <li>Examiners are often cross-examined years later — your notes are your only defense</li>
-            </ul>`
-    },
-    {
-        id: 'pt04', cat: 'CASES', code: 'CASE-01',
-        title: 'Case Opening Protocol',
-        description: 'Never start investigating without a proper intake. Scope creep, conflict of interest, and privilege waiver are all preventable with a rigorous opening checklist.',
-        content: `<h4>Before you accept any case</h4>
-            <ul class="red">
-                <li><strong>Conflict of interest check:</strong> Do you have any relationship with the subject, client, or key witnesses?</li>
-                <li><strong>Engagement letter:</strong> Written scope, fees, deliverables, ownership of work product, confidentiality terms</li>
-                <li><strong>Privilege discussion:</strong> Will this be directed by legal counsel? If yes — get that in writing before you start</li>
-                <li><strong>Independence:</strong> You cannot be advocate for either side — you follow the evidence wherever it goes</li>
-            </ul>
-            <h4>Scope definition — the most important document</h4>
-            <ul class="detect">
-                <li>What specific allegations or concerns triggered this investigation?</li>
-                <li>What time period is covered?</li>
-                <li>Which entities/subsidiaries/locations are in scope?</li>
-                <li>What is the estimated exposure or materiality threshold?</li>
-                <li>Who authorized this investigation and who will receive the final report?</li>
-            </ul>
-            <h4>Case file setup</h4>
-            <ul class="detect">
-                <li>Create secure folder structure: 00_Admin / 01_Evidence / 02_Analysis / 03_Interviews / 04_Report_Drafts</li>
-                <li>Assign unique case ID — never use subject's name as the folder name</li>
-                <li>Create evidence log (Excel): item #, description, source, date received, custodian, hash</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>The ACFE code of ethics requires objectivity — you must follow the evidence, not the client's preferred outcome</li>
-                <li>Scope creep = when investigation expands beyond the original mandate without a written scope amendment</li>
-            </ul>`
-    },
-    {
-        id: 'pt05', cat: 'CASES', code: 'CASE-02',
-        title: 'Evidence Collection & Chain of Custody',
-        description: 'Evidence that cannot be authenticated is useless in court and damaging to your credibility. Chain of custody is not bureaucracy — it is protection for you and the client.',
-        content: `<h4>Types of evidence in fraud cases</h4>
-            <ul class="detect">
-                <li><strong>Documentary:</strong> Invoices, bank statements, contracts, emails, accounting records</li>
-                <li><strong>Digital:</strong> Hard drives, phone data, system logs, email servers — requires forensic imaging</li>
-                <li><strong>Testimonial:</strong> Interview statements, sworn affidavits, depositions</li>
-                <li><strong>Physical:</strong> Cash, checks, physical documents with fingerprints, security camera footage</li>
-                <li><strong>Demonstrative:</strong> Charts, timelines, flow diagrams you create to explain the evidence</li>
-            </ul>
-            <h4>Chain of custody — every single item</h4>
-            <ul class="detect">
-                <li>Label: unique evidence number, date/time collected, collector name, case ID</li>
-                <li>Document: where it was found, condition when found, who had access before you</li>
-                <li>Digital files: calculate SHA-256 hash immediately — any modification will break the hash</li>
-                <li>Log every person who touches or views evidence: name, date, purpose</li>
-                <li>Store originals securely — work from certified copies</li>
-            </ul>
-            <h4>What breaks a case in court</h4>
-            <ul class="red">
-                <li>Evidence obtained without authorization (illegal search) — inadmissible</li>
-                <li>Modified digital files — broken hash = authentication failure</li>
-                <li>No log of who had access — opposing counsel will argue tampering</li>
-                <li>Originals lost or destroyed — even accidentally, this is devastating</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Best evidence rule: courts prefer original documents over copies when originals are available</li>
-                <li>Business records exception: allows hearsay records (invoices, logs) if made in regular course of business</li>
-            </ul>`
-    },
-    {
-        id: 'pt06', cat: 'CASES', code: 'CASE-03',
-        title: 'Interview Planning & Execution',
-        description: 'Interviews are the most powerful and most dangerous tool in fraud investigation. Every word must be deliberate — both yours and theirs.',
-        content: `<h4>Interview types — know when to use which</h4>
-            <ul class="detect">
-                <li><strong>Witness interview:</strong> Neutral party with relevant information — open, cooperative tone</li>
-                <li><strong>Subject interview:</strong> Someone who MAY have committed fraud — careful, documented, usually with counsel present</li>
-                <li><strong>Target interview:</strong> Person you believe committed the fraud — often last, after full evidence review</li>
-            </ul>
-            <h4>Before the interview</h4>
-            <ul class="detect">
-                <li>Review all relevant documents, transaction records, prior statements</li>
-                <li>Prepare a timeline of known facts — inconsistencies will surface in the interview</li>
-                <li>Write open-ended questions that cannot be answered with yes/no</li>
-                <li>Decide: will you show documents during the interview? Usually: not until they've committed to their story</li>
-                <li>Location: private, your turf if possible, no interruptions</li>
-            </ul>
-            <h4>Interview techniques (CFE uses both)</h4>
-            <ul class="detect">
-                <li><strong>PEACE model (EU standard):</strong> Preparation → Engage → Account → Closure → Evaluation. Non-accusatory, information-gathering</li>
-                <li><strong>Cognitive interview:</strong> Open narrative, mental reinstatement, recall in different orders — maximizes truthful recall</li>
-                <li><strong>Behavioral analysis:</strong> Consistency between verbal/non-verbal, response latency, qualifiers ("to the best of my knowledge")</li>
-            </ul>
-            <h4>After the interview</h4>
-            <ul class="detect">
-                <li>Write detailed memorandum within 24 hours — quotes, not paraphrases, for key statements</li>
-                <li>Note inconsistencies with documentary evidence — these become lines of further inquiry</li>
-                <li>Never share interview notes with other witnesses — cross-contamination of accounts</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>In most jurisdictions, private investigators do NOT have Miranda-type obligations — but false imprisonment and coercion rules still apply</li>
-                <li>ACFE strongly discourages polygraph use — not reliable, and inadmissible in most EU jurisdictions</li>
-            </ul>`
-    },
-    {
-        id: 'pt07', cat: 'ANALYTICS', code: 'DATA-01',
-        title: 'Transaction Data Analysis — Core Techniques',
-        description: 'This is where fraud examiners spend the most time. Data does not lie — if you know what to look for, patterns surface quickly.',
-        content: `<h4>The foundational analytical tests</h4>
-            <ul class="detect">
-                <li><strong>Benford's Law:</strong> In natural datasets, leading digits follow a logarithmic distribution (1 appears ~30% of the time). Fabricated numbers cluster at "round" values — run this on any large AP or journal entry dataset</li>
-                <li><strong>Duplicate detection:</strong> Sort by amount + vendor + date — duplicates show up immediately. Also: same invoice number, different vendor; same amount, different vendor on same day</li>
-                <li><strong>Velocity analysis:</strong> How often does this vendor get paid? How fast are invoices processed vs. company average? Spikes indicate pressure or override of controls</li>
-                <li><strong>Round-dollar testing:</strong> Real invoices rarely end in .00 — too many round amounts = fabricated or estimated</li>
-                <li><strong>Cutoff testing:</strong> Expenses recorded in wrong period to hit budget targets — look at last 5 days of each quarter</li>
-                <li><strong>Three-way match failure:</strong> Purchase Order ≠ Receiving Report ≠ Invoice — any mismatch is a red flag</li>
-            </ul>
-            <h4>How to run these in Excel</h4>
-            <ul class="detect">
-                <li>Benford: =LOG10(1+1/A2) gives expected frequency; compare with COUNTIF distribution</li>
-                <li>Duplicates: =COUNTIFS(range, criteria) or Remove Duplicates + Conditional Formatting</li>
-                <li>Velocity: PivotTable by vendor × month — visual spikes appear instantly</li>
-                <li>Round-dollar: =MOD(A2,1)=0 flags all whole-number amounts</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Benford's Law is most useful for datasets with 1000+ records — small datasets produce unreliable results</li>
-                <li>Data analytics finds anomalies, not proof — every hit must be investigated further before drawing conclusions</li>
-            </ul>`
-    },
-    {
-        id: 'pt08', cat: 'ANALYTICS', code: 'DATA-02',
-        title: 'Financial Statement Forensics',
-        description: 'Reading financial statements like a fraud examiner means looking for what should be there but isn\'t — and what is there but shouldn\'t be.',
-        content: `<h4>Key ratio analyses for fraud detection</h4>
-            <ul class="detect">
-                <li><strong>Days Sales Outstanding (DSO):</strong> Rising DSO can mean fictitious revenue — sales recorded but cash never collected</li>
-                <li><strong>Gross margin trend:</strong> Sudden improvement without operational explanation = possible revenue inflation or expense suppression</li>
-                <li><strong>Asset turnover:</strong> Declining turnover with stable revenue = possible asset inflation (fictitious inventory, capitalized expenses)</li>
-                <li><strong>Beneish M-Score:</strong> Statistical model using 8 financial ratios to estimate probability of earnings manipulation — score above -1.78 = high risk</li>
-                <li><strong>Altman Z-Score:</strong> Bankruptcy predictor — companies near insolvency have much higher fraud incentive (pressure element of Fraud Triangle)</li>
-            </ul>
-            <h4>What to compare</h4>
-            <ul class="detect">
-                <li>YoY trend: does the metric improve consistently in ways that defy industry norms?</li>
-                <li>Peer comparison: is this company's gross margin 8 points above the industry average with no obvious explanation?</li>
-                <li>Segment-level vs. consolidated: fraud often hides in one subsidiary — consolidated numbers look fine</li>
-            </ul>
-            <h4>Revenue recognition red flags</h4>
-            <ul class="red">
-                <li>Channel stuffing: end-of-quarter shipments that come back as returns in Q1</li>
-                <li>Bill-and-hold arrangements without meeting IFRS 15 criteria</li>
-                <li>Side agreements that modify the economic substance of the sale</li>
-                <li>Revenue recognized before delivery, before customer acceptance, or on contingent contracts</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Beneish M-Score: memorize the 8 ratios — DSRI, GMI, AQI, SGI, DEPI, SGAI, LVGI, TATA</li>
-                <li>Financial statement fraud is the MOST costly fraud type by median loss — and the hardest to detect</li>
-            </ul>`
-    },
-    {
-        id: 'pt09', cat: 'ANALYTICS', code: 'DATA-03',
-        title: 'OSINT & Entity Research',
-        description: 'Before you open a case file or pick up the phone, you should already know everything publicly available about every entity and person involved.',
-        content: `<h4>Standard OSINT checklist for any subject</h4>
-            <ul class="detect">
-                <li><strong>Corporate registry:</strong> Orsr.sk / Registeruz.sk (Slovakia), ARES (Czech), OpenCorporates (global) — directors, shareholders, registered address, filing history</li>
-                <li><strong>Land registry:</strong> Kataster.sk — property ownership, encumbrances, transfers in last 10 years</li>
-                <li><strong>Beneficial ownership:</strong> PSP register (Slovak anti-money laundering registry of beneficial owners)</li>
-                <li><strong>Court records:</strong> Susr.sk, ECLI search — civil cases, bankruptcy, enforcement proceedings</li>
-                <li><strong>Procurement databases:</strong> UVO.gov.sk, TED (EU) — all public contracts the entity won or bid on</li>
-                <li><strong>Sanctions screening:</strong> EUR-Lex consolidated sanctions list, OFAC SDN, UN Consolidated List</li>
-                <li><strong>PEP screening:</strong> WorldCheck, Dow Jones, or free alternatives — Politically Exposed Person status</li>
-                <li><strong>Media search:</strong> Google + Google News + site:sme.sk + site:aktuality.sk — Slovak investigative media</li>
-            </ul>
-            <h4>What you're looking for</h4>
-            <ul class="red">
-                <li>Shell company indicators: nominee directors, registered agent address, minimal share capital</li>
-                <li>Rapid ownership changes before a large contract award</li>
-                <li>Director appears on many unrelated companies (nominee/proxy indicator)</li>
-                <li>Offshore UBO chain that terminates in a secrecy jurisdiction</li>
-                <li>Procurement wins awarded shortly after company was registered</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>OSINT is not hacking — it is using public information. Always document your sources with URL + date accessed</li>
-                <li>In EU jurisdictions, GDPR applies to how you collect and store personal data from OSINT — even for investigations</li>
-            </ul>`
-    },
-    {
-        id: 'pt10', cat: 'REPORTING', code: 'REP-01',
-        title: 'Fraud Investigation Report — Structure',
-        description: 'The report is the product. Everything you did only matters if the report communicates it clearly enough to drive action — or survive cross-examination.',
-        content: `<h4>Standard investigation report structure</h4>
-            <ul class="detect">
-                <li><strong>1. Executive Summary (1-2 pages):</strong> What happened, who did it, how much, for how long, key recommendations — written for someone who will not read the rest</li>
-                <li><strong>2. Background & Scope:</strong> Who commissioned the investigation, what the original allegation was, what time period and entities were in scope</li>
-                <li><strong>3. Methodology:</strong> What data was analyzed, who was interviewed, what limitations exist (data not available, subjects who refused to cooperate)</li>
-                <li><strong>4. Findings:</strong> Factual statement of what you found, organized by scheme type or chronologically. No opinions here — facts supported by exhibits</li>
-                <li><strong>5. Conclusion:</strong> Your professional judgment — did the evidence support the allegation? Quantified exposure if possible</li>
-                <li><strong>6. Recommendations:</strong> Control improvements, personnel actions, regulatory reporting obligations, recovery options</li>
-                <li><strong>7. Exhibits:</strong> Numbered, indexed. Every exhibit referenced in findings must appear here</li>
-            </ul>
-            <h4>Writing rules for forensic reports</h4>
-            <ul class="detect">
-                <li>Every factual statement must cite an exhibit or source — no unsupported assertions</li>
-                <li>Distinguish clearly between facts and inferences: "The evidence shows X. This is consistent with Y."</li>
-                <li>Avoid legal conclusions ("he committed fraud") — state factual conclusions ("the scheme meets the definition of misappropriation under...")</li>
-                <li>Use consistent terminology — do not call the same person "employee," "subject," and "perpetrator" interchangeably</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Reports directed by legal counsel are typically privileged — reports commissioned directly by the board or audit committee are NOT automatically privileged</li>
-                <li>If the report may be used in criminal proceedings, consult with legal counsel on format before drafting</li>
-            </ul>`
-    },
-    {
-        id: 'pt11', cat: 'REPORTING', code: 'REP-02',
-        title: 'Regulatory Reporting & SAR Filing',
-        description: 'In AML and compliance roles, reporting is not optional — failing to file a SAR when you have reasonable grounds is itself a criminal offence in most EU jurisdictions.',
-        content: `<h4>When you MUST file a SAR (Suspicious Activity Report)</h4>
-            <ul class="red">
-                <li>You know or reasonably suspect that funds are the proceeds of crime or are being used for money laundering</li>
-                <li>You identify a customer on a sanctions list — freeze assets immediately, report to financial intelligence unit</li>
-                <li>Transaction patterns are inconsistent with the customer's stated business profile</li>
-                <li>Customer provides false or suspicious identification documents</li>
-                <li>In Slovakia: report to FIU SR (Financial Intelligence Unit of Slovak Republic) — fin-zpravodajska-jednotka.sk</li>
-            </ul>
-            <h4>SAR filing best practices</h4>
-            <ul class="detect">
-                <li>File promptly — most jurisdictions require filing within 3-5 business days of suspicion arising</li>
-                <li>Do NOT tip off the subject — "tipping off" is a separate criminal offence</li>
-                <li>Document your reasoning: what triggered the suspicion, what you reviewed, what you concluded</li>
-                <li>Keep a copy of every SAR filed with date/time stamp</li>
-            </ul>
-            <h4>EU-specific obligations</h4>
-            <ul class="detect">
-                <li><strong>6AMLD:</strong> Criminal liability for legal persons (companies, not just individuals) for AML failures</li>
-                <li><strong>EPPO:</strong> EU Prosecutor can investigate fraud affecting EU budget — mandatory cooperation required</li>
-                <li><strong>PIF Directive:</strong> Harmonized criminal law for fraud against EU financial interests — applies across all member states</li>
-                <li><strong>OLAF:</strong> EU anti-fraud office for administrative investigations — separate from EPPO criminal track</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>AML reporting obligations apply to: banks, accountants, lawyers, real estate agents, auditors — not just financial institutions</li>
-                <li>Safe harbour: filing a SAR in good faith protects you from civil liability even if the suspicion turns out to be wrong</li>
-            </ul>`
-    },
-    {
-        id: 'pt12', cat: 'REPORTING', code: 'REP-03',
-        title: 'Expert Witness — How to Become One',
-        description: 'An expert witness is paid to give professional opinion in court or arbitration. This is the highest-value and highest-stakes work a CFE can do.',
-        content: `<h4>What courts require from an expert</h4>
-            <ul class="detect">
-                <li><strong>Qualifications:</strong> Recognized credentials (CFE is accepted; academic + practical experience required)</li>
-                <li><strong>Independence:</strong> You are appointed by the court or agreed by both parties — you work for the court, not the client</li>
-                <li><strong>Opinion within expertise:</strong> You can only opine on what your qualifications cover</li>
-                <li><strong>Methodology disclosed:</strong> You must explain exactly how you reached your conclusions so the other side can challenge it</li>
-            </ul>
-            <h4>Getting registered as a court expert in Slovakia</h4>
-            <ul class="detect">
-                <li>Apply to the Ministry of Justice — register in the official list of court experts (znalci)</li>
-                <li>Required: university degree + at least 5 years experience in the specialty area</li>
-                <li>Required: state exam in expert activities law and ethics</li>
-                <li>After registration: bound by Act No. 382/2004 Z.z. on Experts, Translators and Interpreters</li>
-                <li>Fees: set by regulation — higher rates than private consulting, but paid by courts (sometimes slowly)</li>
-            </ul>
-            <h4>Expert witness report vs. investigation report</h4>
-            <ul class="detect">
-                <li>Expert report must conform to court format — numbered paragraphs, specific declaration of independence, statement of facts vs. opinion clearly separated</li>
-                <li>You will be cross-examined: know every exhibit, every number, every methodology choice</li>
-                <li>Opposing experts will challenge your methodology — document your choices and why you made them</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>CFE exam covers: Daubert standard (US) for expert admissibility — reliability + relevance test</li>
-                <li>In Slovak/EU courts: civil law tradition — judge has more authority to direct experts than in common law adversarial system</li>
-                <li>Expert witnesses can be personally liable for negligent expert opinions — professional indemnity insurance is essential</li>
-            </ul>`
-    },
-    {
-        id: 'pt13', cat: 'TOOLS', code: 'TOOL-01',
-        title: 'Daily Tool Stack — What Fraud Pros Use',
-        description: 'You don\'t need to buy enterprise software to start. These are the tools in a working fraud examiner\'s daily kit — from free to enterprise.',
-        content: `<h4>Data analysis tools</h4>
-            <ul class="detect">
-                <li><strong>Excel / Power BI (FREE/low cost):</strong> Start here. Pivot tables, COUNTIFS, conditional formatting — 80% of data analysis can be done in Excel. Power BI for visualization. This is your primary tool as a freelancer</li>
-                <li><strong>Python (FREE):</strong> For large datasets. Benford's Law in 10 lines of code. Pandas for transaction analysis, matplotlib for charts. Essential for any serious data work</li>
-                <li><strong>ACL Analytics / Galvanize (ENTERPRISE):</strong> Purpose-built for audit data analytics — used by Big 4 and internal audit teams. If your client provides access, use it</li>
-                <li><strong>IDEA Data Analysis (ENTERPRISE):</strong> Similar to ACL — popular in European audit firms. Handles millions of rows</li>
-            </ul>
-            <h4>Investigation / case management</h4>
-            <ul class="detect">
-                <li><strong>i2 Analyst's Notebook (ENTERPRISE):</strong> Industry standard for link analysis — maps relationships between entities, transactions, communications. Used by law enforcement and fraud teams globally</li>
-                <li><strong>Maltego (freemium):</strong> OSINT graph visualization — connects entities from public sources automatically. Free tier covers most investigative use cases</li>
-                <li><strong>Obsidian (FREE):</strong> Perfect for case notes — local Markdown files, graph view, no cloud</li>
-            </ul>
-            <h4>Document review</h4>
-            <ul class="detect">
-                <li><strong>Relativity (ENTERPRISE):</strong> Industry standard e-discovery platform — used for large-scale document review in litigation. Access usually through law firm or client</li>
-                <li><strong>Adobe Acrobat Pro:</strong> PDF text extraction, metadata analysis, bates stamping evidence exhibits</li>
-                <li><strong>ExifTool (FREE):</strong> Extracts metadata from any file — creation date, author, modification history, GPS coordinates in photos</li>
-            </ul>
-            <h4>Your starter toolkit (zero budget)</h4>
-            <ul class="tip">
-                <li>Excel + Python + Maltego + Obsidian + ExifTool = professional-grade independent examiner setup</li>
-                <li>Add Power BI Desktop (free) for client-facing dashboards</li>
-                <li>Add VS Code + Jupyter Notebook for Python analytics work</li>
-            </ul>`
-    },
-    {
-        id: 'pt14', cat: 'TOOLS', code: 'TOOL-02',
-        title: 'OSINT Registries & Databases — Slovakia & EU',
-        description: 'These are the actual URLs and resources a Slovak/EU fraud examiner uses on every investigation. Bookmark them.',
-        content: `<h4>Slovak corporate & property registries</h4>
-            <ul class="detect">
-                <li><strong>orsr.sk</strong> — Business Register: directors, shareholders, registered capital, legal form, historical changes</li>
-                <li><strong>registeruz.sk</strong> — Financial statements: annual accounts filed by all Slovak companies (some free, full access via subscription)</li>
-                <li><strong>kataster.sk</strong> — Land register: property ownership, mortgage/pledge, transfers, encumbrances</li>
-                <li><strong>rpo.gov.sk</strong> — Public Sector Partners Register: UBO/PSP registry for AML compliance</li>
-                <li><strong>uvo.gov.sk</strong> — Public procurement: all contracts, tenders, suppliers — cross-reference with corporate registry</li>
-            </ul>
-            <h4>EU-level databases</h4>
-            <ul class="detect">
-                <li><strong>ted.europa.eu</strong> — EU public procurement (Tenders Electronic Daily): all contracts above EU threshold</li>
-                <li><strong>opencorporates.com</strong> — Largest open database of companies globally — 200+ million companies</li>
-                <li><strong>euipo.europa.eu</strong> — EU trademarks and designs: useful for brand fraud and IP cases</li>
-                <li><strong>esma.europa.eu</strong> — Financial market data, sanctions, enforcement actions</li>
-                <li><strong>eba.europa.eu</strong> — Banking supervision, AML enforcement across EU</li>
-            </ul>
-            <h4>Investigative media & leaks</h4>
-            <ul class="detect">
-                <li><strong>occrp.org/en/aleph</strong> — OCCRP Aleph: leaked documents, corporate records from 230+ datasets globally — free for journalists/researchers</li>
-                <li><strong>icij.org/investigations/offshore-leaks</strong> — Panama Papers, Pandora Papers, offshore company database</li>
-                <li><strong>investigace.cz</strong> — Czech investigative journalism (relevant for cross-border Slovak-Czech cases)</li>
-                <li><strong>aktuality.sk, sme.sk, dennikn.sk</strong> — Slovak investigative media</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Document every OSINT source with: URL, date accessed, what you found — screenshots are your backup</li>
-                <li>Public records do not require consent under GDPR Article 86 — but how you process them does</li>
-            </ul>`
-    },
-    {
-        id: 'pt15', cat: 'CAREER', code: 'CFE-01',
-        title: 'CFE Exam Roadmap — From Zero to Certified',
-        description: 'The CFE exam has 4 sections. This is the exact path to pass it as someone working independently in Slovakia.',
-        content: `<h4>The 4 CFE exam sections</h4>
-            <ul class="detect">
-                <li><strong>1. Financial Transactions & Fraud Schemes (125 questions):</strong> Accounting, financial statements, fraud types, asset misappropriation, financial reporting fraud — this is the ACFE fraud tree in depth</li>
-                <li><strong>2. Law (125 questions):</strong> Criminal law, civil law, evidence, legal elements of fraud, expert witness standards — adapt to EU/Slovak context but exam is US-law based</li>
-                <li><strong>3. Investigation (125 questions):</strong> Evidence collection, interviews, document examination, digital forensics, tracing transactions, covert operations</li>
-                <li><strong>4. Fraud Prevention & Deterrence (125 questions):</strong> Internal controls, ethics, corporate governance, criminology theories, COSO framework, tone at the top</li>
-            </ul>
-            <h4>Eligibility requirements</h4>
-            <ul class="detect">
-                <li>Bachelor's degree (or equivalent experience — 2 years work = 1 year of education credit)</li>
-                <li>2 years of professional experience related to fraud detection, deterrence, or investigation</li>
-                <li>ACFE membership (student membership available at reduced cost)</li>
-                <li>Agree to ACFE Code of Professional Ethics</li>
-            </ul>
-            <h4>Study strategy (self-taught path)</h4>
-            <ul class="detect">
-                <li>Order the ACFE Review Course — the official prep materials are the most reliable</li>
-                <li>Study 1 section at a time — 4-6 weeks per section — do not try to study all 4 simultaneously</li>
-                <li>Take the practice exams under timed conditions — 500 questions total, 75% passing threshold per section</li>
-                <li>Weakest area for most candidates: Law section — focus extra time here</li>
-            </ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>CFE passing score: 75% per section. You can retake individual failing sections — you do not retake all 4</li>
-                <li>After passing: 20 CPE hours per year minimum (40 total over 2-year certification cycle)</li>
-                <li>Total cost estimate (self-study): ACFE membership ~$225/year + exam fee ~$450 = ~$675 + study materials</li>
-            </ul>`
-    },
-    {
-        id: 'pt16', cat: 'CAREER', code: 'CFE-02',
-        title: 'CPE Tracking & Staying Current',
-        description: 'Certification maintenance is not optional. ACFE requires 20 CPE hours per year — but smart professionals use it to actually stay sharp, not just check a box.',
-        content: `<h4>CPE requirement</h4>
-            <ul class="detect">
-                <li>Minimum 20 CPE hours per year (40 per 2-year cycle)</li>
-                <li>At least 10 hours must be fraud-related (not generic accounting or management)</li>
-                <li>Maximum 10 hours self-study (reading books, articles, watching webinars)</li>
-                <li>Track every hour: topic, provider, date, hours — keep certificates as proof</li>
-            </ul>
-            <h4>Best CPE sources (mix of free and paid)</h4>
-            <ul class="detect">
-                <li><strong>ACFE webinars (member rate ~$75/each):</strong> High quality, directly relevant, often grant 2 CPE per session</li>
-                <li><strong>SANS Institute courses:</strong> SEC587 (OSINT), FOR508 (Digital Forensics) — expensive but world-class</li>
-                <li><strong>Coursera / edX (FREE audit):</strong> Financial crime compliance courses from major universities</li>
-                <li><strong>UNODC e-learning (FREE):</strong> Anti-corruption, AML, asset recovery — UN-certified, internationally recognized</li>
-                <li><strong>Bellingcat workshops:</strong> OSINT training, often free or low-cost — highly relevant for entity research</li>
-                <li><strong>Slovak Bar Association / Slovak Chamber of Auditors:</strong> Local CPE events that count toward ACFE requirement if fraud-related</li>
-            </ul>
-            <h4>Track your CPE professionally</h4>
-            <ul class="detect">
-                <li>Create a CPE log: date, provider, course name, hours, certificate file name</li>
-                <li>ACFE has an online CPE tracker in the member portal — use it, not just a spreadsheet</li>
-                <li>If you do client work that involves training others in fraud awareness — that counts as CPE too</li>
-            </ul>`
-    },
-    {
-        id: 'pt17', cat: 'CAREER', code: 'CFE-03',
-        title: 'Building Independent Practice — From Freelancer to Expert',
-        description: 'This is the real path for a CFE in Slovakia who wants to work on client engagements independently. Step by step.',
-        content: `<h4>Phase 1: Foundation (before you have the CFE)</h4>
-            <ul class="detect">
-                <li>Build your case study portfolio — document every investigation you work on (even internal ones at a job)</li>
-                <li>Develop your analytical skills: Python + Excel + Power BI — clients pay for analysts who deliver, not just advisors who talk</li>
-                <li>Network in adjacent fields: auditors, accountants, lawyers, compliance officers — these are your referral sources</li>
-                <li>Create LinkedIn profile positioned as "fraud examiner / compliance specialist" — before you are certified, focus on skills and experience</li>
-            </ul>
-            <h4>Phase 2: Launch (with CFE, first clients)</h4>
-            <ul class="detect">
-                <li>Register as a freelancer (SZCO in Slovakia) — you need a trade license (živnosť) for consulting services</li>
-                <li>Register for court expert status if pursuing litigation support — see REP-03 card for requirements</li>
-                <li>Choose a niche: AML consulting, procurement fraud, corporate investigations, insurance fraud — generalists get paid less than specialists</li>
-                <li>First clients: law firms (who need fraud analysis for litigation), auditing firms (who need CFE expertise), insurance companies (who need fraud investigators)</li>
-                <li>Pricing: Slovak market — forensic accounting services start at €80-120/hour. Expert witness work: regulated fees but higher ceiling through volume</li>
-            </ul>
-            <h4>Phase 3: Growth</h4>
-            <ul class="detect">
-                <li>Develop a standard deliverable: e.g., "Vendor Due Diligence Report" or "Forensic Transaction Review" — productize your service so you can deliver it efficiently</li>
-                <li>Write publicly: LinkedIn articles on Slovak fraud cases, regulatory updates — builds credibility faster than cold calling</li>
-                <li>Partner with 1-2 law firms who handle commercial disputes — they will send you cases regularly</li>
-                <li>Consider EU-funded projects: anti-corruption, financial investigation support — OLAF and EU structural funds often hire independent experts</li>
-            </ul>
-            <h4>Reality check for the Slovak market</h4>
-            <ul class="tip">
-                <li>The market is small — but so is the competition. Certified CFEs in Slovakia number under 50</li>
-                <li>Language advantage: Slovak + Czech + English + knowledge of EU regulations = very rare combination</li>
-                <li>Biggest gap in the market: fraud analytics (data-driven investigations) — most local firms still do this manually</li>
-                <li>Expect 12-24 months to build a stable client base as an independent — plan bridge income accordingly</li>
-            </ul>`
-    }
-];
-
-const ptCatOrder  = ['DAILY','CASES','ANALYTICS','REPORTING','TOOLS','CAREER'];
-const ptCatLabels = { DAILY: 'Daily Ops', CASES: 'Case Work', ANALYTICS: 'Analytics', REPORTING: 'Reporting', TOOLS: 'Tools', CAREER: 'Career' };
-const ptCatColors = { DAILY: 'var(--c-sage)', CASES: 'var(--c-rose)', ANALYTICS: 'var(--c-blue)', REPORTING: 'var(--c-gold)', TOOLS: '#bd6bbd', CAREER: '#3fa6da' };
-let activePtId = null;
-
-function renderProTrackSidebar() {
-    const sidebar = document.getElementById('protrack-sidebar');
-
-    sidebar.innerHTML = ptCatOrder.map(cat => {
-        const catData = proTrackData.filter(item => item.cat === cat);
-        if (catData.length === 0) return '';
-        const accent = ptCatColors[cat] || 'var(--c-muted)';
-        return `
-            <div class="schemes-sidebar-group">
-                <div class="schemes-sidebar-group-label" style="color:${accent}">${ptCatLabels[cat]}</div>
-                ${catData.map(item => `
-                    <div class="scheme-item" id="pt-item-${item.id}" onclick="selectPt('${item.id}')">
-                        <span class="code" style="color:${accent}">${item.code}</span><span class="title">${item.title}</span>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-    }).join('');
-
-    const stillVisible = proTrackData.some(i => i.id === activePtId);
-    if (stillVisible) selectPt(activePtId);
-    else if (proTrackData.length > 0) selectPt(proTrackData[0].id);
-}
-
-function selectPt(id) {
-    activePtId = id;
-    document.querySelectorAll('#protrack-sidebar .scheme-item').forEach(el =>
-        el.classList.toggle('active', el.id === `pt-item-${id}`)
-    );
-
-    const item = proTrackData.find(i => i.id === id);
-    if (!item) return;
-    const accent = ptCatColors[item.cat] || 'var(--c-muted)';
-
-    document.getElementById('protrack-panel').innerHTML = `
-        <div class="schemes-panel-meta"><span class="code" style="color:${accent}">${item.code}</span> · ${ptCatLabels[item.cat] || item.cat}</div>
-        <h2>${item.title}</h2>
-        <p class="schemes-panel-summary">${item.description}</p>
-        <div class="content-area">${item.content}</div>
-    `;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-//  SHADOWING CHECKLIST — CFE DAY IN THE LIFE
-// ═══════════════════════════════════════════════════════════════════
-const shadowingGroups = [
-    {
-        id: "sh-w1", phase: "WEEK1", code: "WEEK-1",
-        title: "First Week: Immersion in the Profession",
-        color: "var(--c-sage)",
-        description: "What to study and observe during your first 5 days on the job as a fraud analyst",
-        items: [
-            "Get access to the case management system",
-            "Read 3 closed cases of different types (AM, FR, IAC) — study their structure",
-            "Review the organization's Fraud Risk Assessment — which threats are prioritized",
-            "Get briefed on the tip hotline: how reports come in, who handles them and how",
-            "Read the organization's Anti-Fraud Policy and Code of Conduct",
-            "Do a full walkthrough of the ACFE Fraud Tree — 26 schemes, 3 branches, their indicators",
-            "Sit in on an intake meeting for a new case (observer only)",
-            "Find out what data the organization monitors automatically (TMS, ERP alerts)",
-            "Install and test a data analytics tool (ACL / IDEA / Excel / Python)",
-            "Meet legal counsel: who makes escalation decisions",
-            "Learn how interview notes and chain of custody are documented",
-            "Sit in on an Audit Committee or Fraud Steering Committee meeting",
-            "Study the org chart: who has access to financial systems",
-            "Read the latest ACFE Report to the Nations — statistics for your industry"
-        ]
-    },
-    {
-        id: "sh-daily", phase: "DAILY", code: "DAILY",
-        title: "Every Day: The Fraud Professional's Morning Protocol",
-        color: "var(--c-blue)",
-        description: "Daily actions that keep investigations running smoothly",
-        items: [
-            "Check the inbox for fraud alerts, escalations, and SAR notifications",
-            "Review new tip hotline submissions — check for anything urgent",
-            "Update open case files: new notes, statuses, upcoming deadlines",
-            "Check transaction monitoring alerts (if on the AML track)",
-            "Read one article about emerging fraud schemes (ACFE Fraud Magazine, FT, Bloomberg)",
-            "Check the calendar: court dates, regulatory deadlines, meetings with counsel",
-            "Check the status of preservation / hold orders on active cases",
-            "Check incoming correspondence from regulators (SEC, BaFin, OLAF, FIU)",
-            "Check the status of open subpoenas and document production requests"
-        ]
-    },
-    {
-        id: "sh-weekly", phase: "WEEKLY", code: "WEEKLY",
-        title: "Every Week: Analytical Procedures",
-        color: "var(--c-gold)",
-        description: "Baseline weekly fraud-detection procedures for any fraud department",
-        items: [
-            "Run Benford's Law / JE analytics on the week's transactions — flag new anomalies",
-            "Vendor master file: new additions — addresses, banks, matches to employees",
-            "Expense reports: a random sample from the week — check for red flags",
-            "Prepare a case status update for management or the Audit Committee",
-            "Conduct or take part in an investigative interview",
-            "Vendor due diligence: check new counterparties against company registries",
-            "Payroll: new hires, bank detail changes, ghost employee check",
-            "AP aging: new vendors, unusual patterns, payments just under the approval threshold",
-            "Meet with legal counsel on active cases — update the procedural strategy",
-            "Update timelines, documentation, and the evidence log for all active cases",
-            "Check access logs on financial systems: after-hours logins, anomalies"
-        ]
-    },
-    {
-        id: "sh-monthly", phase: "MONTHLY", code: "MONTHLY",
-        title: "Every Month: Deep-Dive Reviews",
-        color: "var(--c-rose)",
-        description: "Monthly procedures for strategic oversight — the things that don't surface in the daily noise",
-        items: [
-            "Run a full Benford's Law pass on the closed month's JE population",
-            "Update the Fraud Risk Assessment: new threats, changes in the business",
-            "Conflict of Interest disclosures: who's expiring, who hasn't submitted",
-            "Gifts & Entertainment: review all submissions for the month against policy",
-            "Vendor concentration analysis: who's grown sharply, who's new, who's disappeared",
-            "Duplicate payment detection on the month's AP disbursements",
-            "Ghost employee check: compare payroll against HR headcount, verify terminations",
-            "Tip hotline metrics: number of reports, types, average response time",
-            "Training completion: who hasn't finished mandatory anti-fraud / ethics courses",
-            "Regulatory calendar: what's due next month, critical deadlines",
-            "AR aging: who's accumulating unpaid receivables (a sign of fictitious sales)",
-            "Review the month's closed cases: root cause analysis, lessons learned",
-            "Update the KRI (Key Risk Indicators) dashboard for the Audit Committee"
-        ]
-    },
-    {
-        id: "sh-tools", phase: "TOOLKIT", code: "TOOLS",
-        title: "Tools: What a Professional Works With Every Day",
-        color: "#bd6bbd",
-        description: "A CFE's working arsenal: software, databases, and information sources",
-        items: [
-            "ACFE: membership, Fraud Magazine, RTTN statistics, CFE Exam materials",
-            "Data analytics: ACL Galvanize / IDEA / Excel Power Query / Python (pandas, openpyxl)",
-            "Power BI or Tableau: visualizing transaction patterns and the KRI dashboard",
-            "Case management: CaseWare Monitor, i-Sight, CASE IQ, or an internal platform",
-            "Legal database: Westlaw, LexisNexis, EUR-Lex for the regulatory framework",
-            "OSINT — company registries: orsr.sk, registeruz.sk, EDRIS, Companies House, EDGAR",
-            "OSINT — sanctions / AML: OpenSanctions, OCCRP Aleph, World-Check, Dow Jones Risk",
-            "Digital forensics: FTK, EnCase, Magnet AXIOM (free option: Autopsy)",
-            "E-discovery platform: Relativity, Nuix — reviewing large volumes of documents",
-            "SEC EDGAR / BaFin / ESMA FIRDS: checking public company disclosures",
-            "PACER (US) or the national court registry: monitoring litigation involving subjects",
-            "Encrypted communication: Signal for working with confidential sources",
-            "Chain of custody forms: for every seized document or device",
-            "Interview framework: PEACE Model (Preparation, Engage, Account, Closure, Evaluate)",
-            "Fraud Examination Report: structure — facts → analysis → conclusions (no speculation)"
-        ]
-    },
-    {
-        id: "sh-skills", phase: "TOOLKIT", code: "SKILLS",
-        title: "Skills: What Gets Trained Every Day",
-        color: "#059669",
-        description: "The soft and hard skills a CFE professional can't survive the job without",
-        items: [
-            "Financial statement literacy: reading financial statements like a detective, not an accountant",
-            "Pattern recognition in data: what looks \"too perfect\" or statistically impossible",
-            "Interview technique: open questions, active listening, surfacing contradictions",
-            "Legal reasoning: what counts as admissible evidence, and what doesn't",
-            "Report writing: clear facts without speculation, legally defensible conclusions",
-            "Stakeholder management: working with the board, lawyers, investigators",
-            "Risk prioritization: not everything is fraud; prioritize by potential loss",
-            "Digital literacy: metadata, audit logs, system timestamps as forensic evidence",
-            "OSINT research: finding connections through open sources before a formal request",
-            "Emotional intelligence: working with whistleblowers, victims, and suspects"
-        ]
-    }
-];
-
-let activeShadowFilter = 'ALL';
-
-function setShadowFilter(val) {
-    activeShadowFilter = val;
-    document.querySelectorAll('[id^="shf-"]').forEach(b => b.classList.remove('cat-active'));
-    document.getElementById(`shf-${val}`).classList.add('cat-active');
-    renderShadowing();
-}
-
-function getShadowChecks() {
-    try { return JSON.parse(localStorage.getItem('cfe-shadow-checks') || '{}'); }
-    catch (e) { return {}; }
-}
-
-function saveShadowCheck(key, val) {
-    const checks = getShadowChecks();
-    checks[key] = val;
-    localStorage.setItem('cfe-shadow-checks', JSON.stringify(checks));
-    updateShadowProgress();
-}
-
-function toggleShadowItem(el, key) {
-    saveShadowCheck(key, el.checked);
-    const text = el.closest('label').querySelector('.item-text');
-    text.classList.toggle('opacity-50', el.checked);
-    text.classList.toggle('line-through', el.checked);
-}
-
-function resetChecklist() {
-    if (!confirm('Reset all checkmarks?')) return;
-    localStorage.removeItem('cfe-shadow-checks');
-    renderShadowing();
-}
-
-function updateShadowProgress() {
-    const checks = getShadowChecks();
-    const total  = shadowingGroups.reduce((n, g) => n + g.items.length, 0);
-    const done   = Object.values(checks).filter(Boolean).length;
-    const pct    = total ? Math.round((done / total) * 100) : 0;
-    const el     = document.getElementById('shadow-progress');
-    if (!el) return;
-    el.innerHTML = `
-        <div class="flex items-center gap-4 bg-pl-dark border border-pl-slate p-4">
-            <span class="font-sans text-xs text-pl-slate font-medium whitespace-nowrap">Shadowing Progress</span>
-            <div class="flex-1 h-2 bg-pl-black border border-pl-slate/50 min-w-[60px]">
-                <div class="h-full bg-pl-neon-green transition-all duration-500" style="width:${pct}%"></div>
-            </div>
-            <span class="font-mono text-sm text-white font-bold whitespace-nowrap">${done} / ${total}</span>
-            <span class="font-mono text-sm font-bold whitespace-nowrap" style="color:var(--c-sage)">${pct}%</span>
-        </div>`;
-}
-
-function renderShadowing() {
-    const checks = getShadowChecks();
-    const grid   = document.getElementById('shadowing-grid');
-    if (!grid) return;
-    grid.innerHTML = '';
-
-    const data = activeShadowFilter === 'ALL'
-        ? shadowingGroups
-        : shadowingGroups.filter(g => g.phase === activeShadowFilter);
-
-    data.forEach((group, gi) => {
-        const done     = group.items.filter((_, i) => checks[`${group.id}-${i}`]).length;
-        const total    = group.items.length;
-        const pct      = total ? Math.round((done / total) * 100) : 0;
-        const complete = pct === 100;
-
-        const itemsHtml = group.items.map((item, i) => {
-            const key       = `${group.id}-${i}`;
-            const isChecked = !!checks[key];
-            return `
-                <label class="flex items-start gap-3 cursor-pointer hover:bg-pl-black/30 p-1.5 -mx-1.5 rounded transition-colors">
-                    <input type="checkbox" ${isChecked ? 'checked' : ''}
-                           onchange="toggleShadowItem(this,'${key}')"
-                           class="mt-0.5 flex-shrink-0" style="accent-color:${group.color};width:14px;height:14px">
-                    <span class="item-text text-sm text-pl-gray leading-relaxed${isChecked ? ' opacity-50 line-through' : ''}">${item}</span>
-                </label>`;
-        }).join('');
-
-        grid.insertAdjacentHTML('beforeend', `
-            <article class="card-appear bg-pl-dark border-l-[3px] transition-all relative overflow-hidden flex flex-col"
-                     style="border-left-color:${complete ? group.color : 'transparent'};animation-delay:${gi * 60}ms">
-                <div class="p-6 flex-grow flex flex-col">
-                    <div class="flex items-center justify-between gap-3 mb-2 flex-wrap">
-                        <span class="font-mono text-xs font-bold tracking-wider" style="color:${group.color}">[${group.code}]</span>
-                        <span class="font-mono text-xs" style="color:${complete ? group.color : '#64748b'}">${done}/${total}${complete ? ' &#10003; DONE' : ''}</span>
-                    </div>
-                    <div class="h-1 bg-pl-black mb-3">
-                        <div class="h-full transition-all duration-300" style="width:${pct}%;background:${group.color}"></div>
-                    </div>
-                    <h3 class="text-base font-bold text-white mb-1 leading-snug">${group.title}</h3>
-                    <p class="text-xs text-pl-gray mb-4 leading-relaxed">${group.description}</p>
-                    <div class="space-y-0.5 flex-grow">${itemsHtml}</div>
-                </div>
-            </article>`);
-    });
-
-    updateShadowProgress();
-}
-
-const allViews = ['cases','casestudies','investigation','prevention','glossary','protrack','timeline','quiz','fraudtree'];
+const allViews = ['cases','casestudies','investigation','prevention','glossary','timeline','quiz','fraudtree'];
 
 function showView(view) {
     allViews.forEach(v => {
@@ -4023,11 +3197,10 @@ function showView(view) {
     document.getElementById(`view-${view}`).classList.add('active-white');
     document.getElementById('schemes-filter-row').classList.toggle('hidden', view !== 'cases');
 
-    if (view === 'glossary')      renderGlossarySidebar();
+    if (view === 'glossary')      renderGlossaryList();
     if (view === 'casestudies')   renderCaseStudiesSidebar();
     if (view === 'investigation') renderModuleSidebar('investigation');
     if (view === 'prevention')    renderModuleSidebar('prevention');
-    if (view === 'protrack')      { renderProTrackSidebar(); renderShadowing(); }
     if (view === 'timeline')      renderTimeline();
     if (view === 'quiz')          renderQuizMenu();
     if (view === 'fraudtree')     renderFraudTree();
@@ -4131,7 +3304,12 @@ function globalSearchJump(kind, ref) {
 function jumpToGlossary(term) {
     showView('glossary');
     document.getElementById('gloss-search').value = term;
-    renderGlossarySidebar();
+    renderGlossaryList();
+    setTimeout(() => {
+        const idx = glossaryData.findIndex(g => g.term === term);
+        const el = idx >= 0 ? document.getElementById(`gloss-item-${idx}`) : null;
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
 }
 
 // ═══════════════════════════════════════════════════════════════════
