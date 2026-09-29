@@ -20,8 +20,9 @@ class FraudApp {
     this.lawSearch = '';
     this.lawCategory = 'ALL';
 
-    this.activeInvId = 'inv1';       // string ('inv1'..'inv30')
-    this.invCategory = 'ALL';
+    this.activeEuId = 'eu1';         // string ('eu1'..'eu8')
+    this.euSearch = '';
+    this.euCategory = 'ALL';
 
     this.activePrevId = 'prev1';     // string ('prev1'..'prev10')
 
@@ -539,7 +540,7 @@ class FraudApp {
       btn.classList.toggle('active', btn.dataset.viewBtn === viewName);
     });
 
-    const sections = ['schemes', 'cases', 'law', 'investigation', 'prevention', 'tools', 'quiz', 'glossary', 'bookmarks'];
+    const sections = ['schemes', 'cases', 'law', 'eu', 'prevention', 'tools', 'quiz', 'glossary', 'bookmarks'];
     sections.forEach(s => {
       const el = document.getElementById(`view-${s}`);
       if (el) el.classList.toggle('hidden', s !== viewName);
@@ -556,7 +557,7 @@ class FraudApp {
         break;
       case 'cases': this.renderCases(); break;
       case 'law': this.renderLaw(); break;
-      case 'investigation': this.renderInvestigation(); break;
+      case 'eu': this.renderEU(); break;
       case 'prevention': this.renderPrevention(); break;
       case 'tools': this.renderTools(); break;
       case 'quiz': this.renderQuiz(); break;
@@ -1160,12 +1161,13 @@ class FraudApp {
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-line mb-6">
-          <div class="flex items-center gap-2.5">
+          <div class="flex items-center gap-2.5 flex-wrap">
             <span class="text-xs font-mono font-bold px-3 py-1 rounded bg-primary/10 text-primary border border-primary/20">${item.code}</span>
             <span class="text-xs font-mono text-text-muted uppercase">${item.cat}</span>
-            <span class="text-xs text-text-subtle">• Legal & Regulatory Framework</span>
+            ${item.jur ? `<span class="text-xs font-semibold px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${item.jur}</span>` : ''}
+            ${item.sphere ? `<span class="text-xs text-text-subtle">• ${item.sphere}</span>` : ''}
           </div>
-          <button id="tts-law-btn" onclick="app.toggleSpeech('${item.title}. ${item.description ? item.description.replace(/'/g, "\\'") : ''}', 'tts-law-btn')" 
+          <button id="tts-law-btn" onclick="app.toggleSpeech('${item.title}. ${item.description ? item.description.replace(/'/g, "\\'") : ''}', 'tts-law-btn')"
                   class="btn-tactile px-3.5 py-1.5 rounded-lg border border-line bg-surface hover:bg-surface-hover text-sm font-semibold text-text transition">
             <span>🔊 Listen Briefing</span>
           </button>
@@ -1196,83 +1198,83 @@ class FraudApp {
   }
 
   // -------------------------------------------------------------
-  // 4. Investigation & Forensics Lab
+  // 3.6. EU & National Compliance (AMLD/AMLR, MAR, Wwft, DORA, GDPR, Luxembourg)
   // -------------------------------------------------------------
-  renderInvestigation() {
-    this.renderInvestigationSidebar();
-    this.renderInvestigationDetail();
+  renderEU() {
+    this.renderEuSidebar();
+    this.renderEuDetail();
   }
 
-  filterInvestigation() {
-    if (typeof investigationTopics === 'undefined') return [];
-    return investigationTopics.filter(t => {
-      const matchCat = !this.invCategory || this.invCategory === 'ALL' || t.cat === this.invCategory;
-      const matchSearch = !this.invSearch ||
-        t.title.toLowerCase().includes(this.invSearch.toLowerCase()) ||
-        t.code.toLowerCase().includes(this.invSearch.toLowerCase()) ||
-        (t.description && t.description.toLowerCase().includes(this.invSearch.toLowerCase()));
+  filterEu() {
+    if (typeof euTopics === 'undefined') return [];
+    return euTopics.filter(t => {
+      const matchCat = !this.euCategory || this.euCategory === 'ALL' || t.cat === this.euCategory;
+      const matchSearch = !this.euSearch ||
+        t.title.toLowerCase().includes(this.euSearch.toLowerCase()) ||
+        t.code.toLowerCase().includes(this.euSearch.toLowerCase()) ||
+        (t.description && t.description.toLowerCase().includes(this.euSearch.toLowerCase()));
       return matchCat && matchSearch;
     });
   }
 
-  renderInvestigationSidebar() {
-    const sidebar = document.getElementById('inv-sidebar-list');
+  renderEuSidebar() {
+    const sidebar = document.getElementById('eu-sidebar-list');
     if (!sidebar) return;
 
-    const list = this.filterInvestigation();
+    const list = this.filterEu();
     if (list.length === 0) {
-      sidebar.innerHTML = `<div class="p-6 text-center text-text-muted text-sm font-mono">No investigative modules match filter.</div>`;
+      sidebar.innerHTML = `<div class="p-6 text-center text-text-muted text-sm font-mono">No compliance modules match filter.</div>`;
       return;
     }
 
     sidebar.innerHTML = list.map(t => {
-      const active = t.id === this.activeInvId;
+      const active = t.id === this.activeEuId;
       return `
-        <div class="scheme-row border-l-4 border-emerald-500 ${active ? 'active' : ''}" 
-             onclick="app.selectInvestigation('${t.id}')">
+        <div class="scheme-row border-l-4 border-primary ${active ? 'active' : ''}"
+             onclick="app.selectEu('${t.id}')">
           <div class="flex items-center gap-2.5 min-w-0 pr-1">
-            <span class="font-mono text-xs font-bold ${active ? 'text-emerald-400' : 'text-text-muted'}">${t.code}</span>
-            <span class="truncate text-sm ${active ? 'text-emerald-400 font-semibold' : 'text-text'}">${t.title}</span>
+            <span class="font-mono text-xs font-bold ${active ? 'text-primary' : 'text-text-muted'}">${t.code}</span>
+            <span class="truncate text-sm ${active ? 'text-primary font-semibold' : 'text-text'}">${t.title}</span>
           </div>
         </div>
       `;
     }).join('');
   }
 
-  renderInvestigationDetail() {
-    const panel = document.getElementById('inv-detail-panel');
-    if (!panel || typeof investigationTopics === 'undefined') return;
+  renderEuDetail() {
+    const panel = document.getElementById('eu-detail-panel');
+    if (!panel || typeof euTopics === 'undefined') return;
 
-    const item = investigationTopics.find(t => t.id === this.activeInvId) || investigationTopics[0];
+    const item = euTopics.find(t => t.id === this.activeEuId) || euTopics[0];
     if (!item) return;
 
     panel.innerHTML = `
       <div class="card-surface rounded-2xl p-4 sm:p-8 animate-slide-down">
         <!-- Mobile Quick Return Anchor -->
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
-          <button onclick="document.getElementById('inv-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
-                  class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-            <span>↑</span> <span>Back to Investigation</span>
+          <button onclick="document.getElementById('eu-sidebar-list')?.scrollIntoView({behavior:'smooth'})"
+                  class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-primary flex items-center gap-1.5">
+            <span>↑</span> <span>Back to EU Compliance</span>
           </button>
           <span class="text-xs font-mono text-text-muted">${item.code}</span>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-line mb-6">
           <div class="flex items-center gap-2.5">
-            <span class="text-xs font-mono font-bold px-3 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">${item.code}</span>
+            <span class="text-xs font-mono font-bold px-3 py-1 rounded bg-primary/10 text-primary border border-primary/20">${item.code}</span>
             <span class="text-xs font-mono text-text-muted uppercase">${item.cat}</span>
-            <span class="text-xs text-text-subtle">• Legal & Admissibility Framework</span>
+            <span class="text-xs text-text-subtle">• EU & National Regulatory Framework</span>
           </div>
-          <button id="tts-inv-btn" onclick="app.toggleSpeech('${item.title}. ${item.description ? item.description.replace(/'/g, "\\'") : ''}', 'tts-inv-btn')" 
+          <button id="tts-eu-btn" onclick="app.toggleSpeech('${item.title}. ${item.description ? item.description.replace(/'/g, "\\'") : ''}', 'tts-eu-btn')"
                   class="btn-tactile px-3.5 py-1.5 rounded-lg border border-line bg-surface hover:bg-surface-hover text-sm font-semibold text-text transition">
             <span>🔊 Listen Briefing</span>
           </button>
         </div>
 
-        <h2 class="text-3xl sm:text-4xl font-serif font-bold text-white mb-4">${item.title}</h2>
-        
+        <h2 class="text-2xl sm:text-4xl font-serif font-bold text-white mb-4">${item.title}</h2>
+
         ${item.description ? `
-          <p class="text-base text-text-muted leading-relaxed mb-8 bg-surface-hover/50 p-4 rounded-xl border border-line/70">
+          <p class="text-sm sm:text-base text-text-muted leading-relaxed mb-8 bg-surface-hover/50 p-4 rounded-xl border border-line/70">
             ${item.description}
           </p>
         ` : ''}
@@ -1284,14 +1286,15 @@ class FraudApp {
     `;
   }
 
-  selectInvestigation(id) {
-    this.activeInvId = id;
-    this.renderInvestigationSidebar();
-    this.renderInvestigationDetail();
+  selectEu(id) {
+    this.activeEuId = id;
+    this.renderEuSidebar();
+    this.renderEuDetail();
     if (window.innerWidth < 1024) {
-      document.getElementById('inv-detail-panel')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('eu-detail-panel')?.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
 
   // -------------------------------------------------------------
   // 5. Prevention & Deterrence Framework
@@ -2516,51 +2519,7 @@ class FraudApp {
           </div>
 
           <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">2. ACFE Standard Order of Investigation & Predication</h3>
-            <div class="p-3 bg-surface-hover/30 rounded-lg text-xs leading-relaxed mb-3">
-              Investigations must be founded on <strong>Predication</strong> (totality of circumstances leading a prudent examiner to believe fraud has occurred or is occurring). The process must proceed strictly <strong>from the outside in</strong>:
-            </div>
-            <table class="cheatsheet-table">
-              <thead>
-                <tr><th>Sequence</th><th>Interviewee Category</th><th>Investigative Objective & Precautions</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>1st Stage</strong></td><td>Neutral Third-Party Witnesses</td><td>Gather foundational operational documents, establish normal business routines, corroborate facts without tipping off targets.</td></tr>
-                <tr><td><strong>2nd Stage</strong></td><td>Corroborative Witnesses</td><td>Verify questioned invoices/receipts, establish custody of suspect vouchers, eliminate innocent explanations or system glitches.</td></tr>
-                <tr><td><strong>3rd Stage</strong></td><td>Co-conspirators / Accomplices</td><td>Secure cooperation, lock in testimony against primary target, identify asset concealment locations.</td></tr>
-                <tr><td><strong>4th Stage</strong></td><td>Primary Suspect / Target (Last)</td><td>Confront with overwhelming documented evidence, diffuse rationalizations, obtain admission of culpability and signed written confession.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">3. The 5 Categories of Interview Questions & The Admission-Seeking Protocol</h3>
-            <table class="cheatsheet-table">
-              <thead>
-                <tr><th>Question Type</th><th>Core Objective & Application</th><th>Example Formulation</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>1. Introductory</strong></td><td>Establish rapport, state neutral inquiry purpose, establish verbal/non-verbal behavioral baseline.</td><td>"Thank you for meeting. We are reviewing accounts payable turnaround workflows."</td></tr>
-                <tr><td><strong>2. Informational</strong></td><td>Fact-gathering using open-ended questions (who, what, where, when, why, how).</td><td>"Could you walk me through the approval chain when an expedited invoice arrives?"</td></tr>
-                <tr><td><strong>3. Assessment</strong></td><td>Evaluate credibility and observe physical/verbal deception cues on sensitive topics.</td><td>"Why do you think an employee might route vendor checks to an unverified PO Box?"</td></tr>
-                <tr><td><strong>4. Closing</strong></td><td>Verify accurate understanding, document additional leads, re-confirm voluntariness.</td><td>"Is there anything else regarding these disbursements that we should examine?"</td></tr>
-                <tr><td><strong>5. Admission-Seeking</strong></td><td>Confront suspect, defeat alibis, secure verbal admission and execute signed statement.</td><td>"Arthur, the bank wire records confirm the funds entered your LLC. We need to clarify how this occurred."</td></tr>
-              </tbody>
-            </table>
-            <div class="p-3 bg-surface-hover/30 rounded-xl border border-line mt-3 text-xs space-y-1">
-              <div class="font-bold text-primary font-mono uppercase">The 5-Step Admission-Seeking Protocol:</div>
-              <ol class="list-decimal list-inside space-y-0.5 text-text-muted">
-                <li><strong>Direct Accusation:</strong> State clearly that the investigation resolved the inquiry and the subject is involved.</li>
-                <li><strong>Observe Reaction:</strong> Truthful subjects offer immediate, vehement, spontaneous denials; guilty subjects hesitate or offer qualified silence.</li>
-                <li><strong>Establish Rationalization:</strong> Offer face-saving themes (financial stress, unfair promotion, family emergency) to lower psychological resistance.</li>
-                <li><strong>Alternative Question:</strong> Frame a choice between two actions: one reprehensible (pure greed/drugs) and one morally understandable (family need). Any affirmative answer is an admission!</li>
-                <li><strong>Signed Written Statement:</strong> Immediately convert oral confession into a written statement written or dictated by the subject containing intent and voluntariness.</li>
-              </ol>
-            </div>
-          </div>
-
-          <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">4. Constitutional Protections & Corporate Interview Warnings</h3>
+            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">2. Constitutional Protections & Corporate Interview Warnings</h3>
             <table class="cheatsheet-table">
               <thead>
                 <tr><th>Legal Doctrine / Warning</th><th>Jurisdiction / Setting</th><th>Core Rule & Evidentiary Impact</th></tr>
@@ -2576,7 +2535,7 @@ class FraudApp {
           </div>
 
           <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">5. Expert Evidence, FRE 704 & The Daubert Gatekeeper Standard</h3>
+            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">3. Expert Evidence, FRE 704 & The Daubert Gatekeeper Standard</h3>
             <table class="cheatsheet-table">
               <thead>
                 <tr><th>Evidentiary Rule</th><th>Court Application & Mandate</th></tr>
@@ -2591,7 +2550,7 @@ class FraudApp {
           </div>
 
           <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">6. Indirect Proof Methods: Net Worth Method Formula</h3>
+            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">4. Indirect Proof Methods: Net Worth Method Formula</h3>
             <div class="p-3 bg-surface-hover/30 rounded-xl border border-line text-xs font-mono space-y-1">
               <div class="text-emerald-400 font-bold">Official ACFE Net Worth Formula:</div>
               <div>Current Year Net Worth (Assets - Liabilities) - Prior Year Net Worth = <strong>Net Worth Increase</strong></div>
@@ -2601,7 +2560,7 @@ class FraudApp {
           </div>
 
           <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">7. Digital Forensics Integrity & RFC 3227 Volatility Hierarchy</h3>
+            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">5. Digital Forensics Integrity & RFC 3227 Volatility Hierarchy</h3>
             <table class="cheatsheet-table">
               <thead>
                 <tr><th>Volatility Rank</th><th>Storage Layer (Most Volatile to Least Volatile)</th><th>Forensic Seizure Protocol</th></tr>
@@ -2618,7 +2577,7 @@ class FraudApp {
           </div>
 
           <div class="cheatsheet-section">
-            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">8. Civil Asset Recovery & Emergency Pre-Judgment Injunctions</h3>
+            <h3 class="text-base font-bold font-mono text-primary uppercase tracking-wider mb-2">6. Civil Asset Recovery & Emergency Pre-Judgment Injunctions</h3>
             <table class="cheatsheet-table">
               <thead>
                 <tr><th>Emergency Remedy</th><th>Legal Mechanism & Purpose</th></tr>
@@ -3363,6 +3322,20 @@ class FraudApp {
             title: `${l.code}: ${l.title}`,
             subtitle: l.cat,
             action: () => { app.selectLaw(l.id); app.switchView('law'); }
+          });
+        }
+      });
+    }
+
+    // Search EU & National Compliance
+    if (typeof euTopics !== 'undefined') {
+      euTopics.forEach(e => {
+        if (!q || e.title.toLowerCase().includes(q) || e.code.toLowerCase().includes(q) || (e.description && e.description.toLowerCase().includes(q))) {
+          results.push({
+            type: 'EU Compliance',
+            title: `${e.code}: ${e.title}`,
+            subtitle: e.cat,
+            action: () => { app.selectEu(e.id); app.switchView('eu'); }
           });
         }
       });

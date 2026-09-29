@@ -113,8 +113,8 @@
       <button data-view-btn="law" onclick="app.switchView('law')" class="nav-tab">
         <span>⚖️</span> <span>Law & Ethics</span>
       </button>
-      <button data-view-btn="investigation" onclick="app.switchView('investigation')" class="nav-tab">
-        <span>🔍</span> <span>Investigation</span>
+      <button data-view-btn="eu" onclick="app.switchView('eu')" class="nav-tab">
+        <span>🇪🇺</span> <span>EU Compliance</span>
       </button>
       <button data-view-btn="prevention" onclick="app.switchView('prevention')" class="nav-tab">
         <span>🛡️</span> <span>Prevention</span>
@@ -315,28 +315,27 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- VIEW 5: INVESTIGATION LAB (CFE PILLAR 3) -->
+    <!-- VIEW 4.5: EU & NATIONAL COMPLIANCE (AMLD/AMLR, MAR, Wwft, DORA, GDPR, Luxembourg) -->
     <!-- ================================================================= -->
-    <section id="view-investigation" class="hidden schemes-layout">
+    <section id="view-eu" class="hidden schemes-layout">
       <aside class="schemes-sidebar flex flex-col gap-3">
         <div class="card-surface p-4 rounded-xl space-y-3">
-          <input type="text" id="inv-search-input" 
-                 placeholder="Search interviews, forensics, tracing..."
-                 oninput="app.invSearch = this.value; app.renderInvestigationSidebar();"
+          <input type="text" id="eu-search-input"
+                 placeholder="Search AMLD, MAR, Wwft, DORA, GDPR, Luxembourg..."
+                 oninput="app.euSearch = this.value; app.renderEuSidebar();"
                  class="w-full bg-surface-hover/80 border border-line rounded-lg px-3.5 py-2 text-sm text-text placeholder-text-subtle focus:outline-none focus:border-primary transition font-sans">
           <div class="flex items-center gap-1.5 flex-wrap">
-            <button onclick="app.invCategory = 'ALL'; app.renderInvestigationSidebar();" class="btn-tactile px-2.5 py-1 rounded text-xs font-mono font-semibold bg-surface-hover text-text hover:text-white">All (30)</button>
-            <button onclick="app.invCategory = 'INTERVIEWS'; app.renderInvestigationSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Interviews</button>
-            <button onclick="app.invCategory = 'DOCUMENTS'; app.renderInvestigationSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-primary/10 text-primary border border-primary/20">Documents</button>
-            <button onclick="app.invCategory = 'FINANCIAL'; app.renderInvestigationSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Financial</button>
-            <button onclick="app.invCategory = 'LEGAL'; app.renderInvestigationSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-purple-500/10 text-purple-400 border border-purple-500/20">Legal</button>
+            <button onclick="app.euCategory = 'ALL'; app.renderEuSidebar();" class="btn-tactile px-2.5 py-1 rounded text-xs font-mono font-semibold bg-surface-hover text-text hover:text-white">All (8)</button>
+            <button onclick="app.euCategory = 'EUWIDE'; app.renderEuSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-primary/10 text-primary border border-primary/20">EU-Wide</button>
+            <button onclick="app.euCategory = 'NL'; app.renderEuSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Netherlands</button>
+            <button onclick="app.euCategory = 'LU'; app.renderEuSidebar();" class="btn-tactile px-2 py-1 rounded text-xs font-mono font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">Luxembourg</button>
           </div>
         </div>
-        <div id="inv-sidebar-list" class="flex-1 overflow-y-auto pr-1 space-y-1">
+        <div id="eu-sidebar-list" class="flex-1 overflow-y-auto pr-1 space-y-1">
           <!-- Populated by JS -->
         </div>
       </aside>
-      <article class="schemes-detail" id="inv-detail-panel">
+      <article class="schemes-detail" id="eu-detail-panel">
         <!-- Populated by JS -->
       </article>
     </section>

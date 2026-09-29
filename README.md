@@ -10,7 +10,7 @@ Dark theme by default — a calm, muted palette (near-black background, soft gol
 
 ## Why this exists
 
-The ACFE CFE exam covers four areas — Financial Transactions & Fraud Schemes, Law, Investigation, and Fraud Prevention & Deterrence — through mostly static, text-heavy prep material. This project turns that material into something interactive: browsable scheme cards instead of a PDF, a quiz that tracks weak areas instead of a one-off practice test, and forensic-analytics tools (Benford's Law, a fraud-risk calculator, a chain-of-custody generator) instead of a flat list of definitions.
+The ACFE CFE exam covers four areas — Financial Transactions & Fraud Schemes, Law, Investigation, and Fraud Prevention & Deterrence — through mostly static, text-heavy prep material. This project turns much of that material into something interactive: browsable scheme cards instead of a PDF, a quiz that tracks weak areas instead of a one-off practice test, and forensic-analytics tools (Benford's Law, a fraud-risk calculator, a chain-of-custody generator) instead of a flat list of definitions. It also extends past the exam syllabus with an EU/national compliance module (AMLD/AMLR, MAR, Wwft, DORA, GDPR, Luxembourg AML) aimed at the EU regulatory roles this was ultimately built for.
 
 It's also meant to double as a portfolio artifact: for someone targeting AML/KYC/fraud-examiner roles, it demonstrates both domain knowledge (the ACFE Fraud Tree, real interviewing methodology, forensic technique) and the ability to build a clean, working tool from scratch.
 
@@ -20,15 +20,15 @@ It's also meant to double as a portfolio artifact: for someone targeting AML/KYC
 |---|---|
 | **Schemes & Fraud Tree** | 30 fraud scheme cards in a searchable master-detail catalog, plus the full official ACFE Occupational Fraud Classification System — all three branches (Corruption, Asset Misappropriation, Financial Statement Fraud) down to individual scheme leaves. A 4th, non-official branch ("Non-Financial Misstatements") is added and clearly marked as an extension, not part of the ACFE original |
 | **Wall of Infamy (Real Cases)** | 15 in-depth case studies of major fraud cases (Enron, WorldCom, and others), each with what happened / how it was caught / detection techniques used / the CFE-relevant takeaway |
-| **Law & Ethics** | Statutes, evidence & FRE rules, constitutional rights, and the ACFE Code of Ethics, in a searchable master-detail layout |
-| **Investigation** | Interviewing methodology (PEACE model, Wicklander-Zulawski, Cognitive Interview, Strategic Use of Evidence, admission-seeking interviews, written statements), documents & digital evidence, financial analysis techniques, legal & reporting, and forensic technique |
+| **Law & Ethics** | US statutes, evidence & FRE rules, constitutional rights, and the ACFE Code of Ethics, each tagged with jurisdiction and legal sphere, in a searchable master-detail layout |
+| **EU Compliance** | EU-wide and national regulatory framework: AMLD4-6/AMLR/AMLA, the Market Abuse Regulation, the Dutch Wwft, the EU Whistleblower Directive, DORA, GDPR in investigations, and Luxembourg's AML/CSSF framework and UBO register |
 | **Prevention** | Internal controls, culture & ethics, and anti-fraud programs & tools |
 | **Forensic Lab** | Interactive tools: a Benford's Law first-digit analyzer (with a custom-data sandbox), a Fraud Triangle / red-flag risk calculator, a chain-of-custody receipt generator, and a "Ghost Vendor" case-investigation simulator |
 | **Exam & Flashcards** | A practice exam auto-generated from the glossary and scheme data, weighted to match the real exam's 3 section proportions (120/120/70 questions), plus a 3D flashcard trainer. Tracks per-topic weak areas in `localStorage` after repeated misses |
-| **Glossary** | Searchable terms across the ACFE framework, fraud schemes, accounting/audit, legal/compliance, investigation technique, and EU regulatory categories |
+| **Glossary** | Searchable terms across the ACFE framework, fraud schemes, accounting/audit, legal/compliance, and EU regulatory categories |
 | **Bookmarks** | Quick-revision list of schemes and cases starred for exam review |
 
-A command palette (Ctrl+K) searches across schemes, cases, tools, and glossary at once.
+A command palette (Ctrl+K) searches across schemes, cases, law, EU compliance, tools, and glossary at once.
 
 ## Running it
 

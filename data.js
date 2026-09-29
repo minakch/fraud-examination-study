@@ -1042,7 +1042,17 @@ const glossaryData = [
     { term: "EPPO", cat: "EU", full: "European Public Prosecutor's Office", def: "EU body operational since 2021 that investigates and prosecutes crimes affecting the EU budget — fraud, corruption, money laundering of EU funds. Has jurisdiction in 22 EU member states. Cooperates with OLAF. Key escalation path for major EU fraud cases." },
     { term: "UNCAC", cat: "EU", full: "UN Convention Against Corruption (2003)", def: "Global anti-corruption treaty signed by 190 countries. Covers bribery, embezzlement, trading in influence, and obstruction of justice. Forms the international legal backbone alongside FCPA and UK Bribery Act. Relevant for IAC schemes with cross-border elements." },
     { term: "EU Procurement Directive", cat: "EU", full: "Directive 2014/24/EU on Public Procurement", def: "Governs how EU public authorities must award contracts. Requires transparent competitive tendering above thresholds. Fraud red flags: unjustified sole-source awards, bid rigging (coordinated bids), splitting contracts to stay below thresholds. Key for IAC2/IAC1 investigations in public sector." },
-    { term: "FIU", cat: "EU", full: "Financial Intelligence Unit", def: "National body (in each EU state) that receives Suspicious Activity Reports (SARs) from banks, notaries, accountants, and other obliged entities under AML rules. Analyzes reports and shares intelligence with law enforcement. Example: Slovakia's FIFO (Finančná spravodajská jednotka)." }
+    { term: "FIU", cat: "EU", full: "Financial Intelligence Unit", def: "National body (in each EU state) that receives Suspicious Activity Reports (SARs) from banks, notaries, accountants, and other obliged entities under AML rules. Analyzes reports and shares intelligence with law enforcement. Example: Slovakia's FIFO (Finančná spravodajská jednotka)." },
+    { term: "AMLD", cat: "EU", full: "EU Anti-Money Laundering Directives (4th–6th)", def: "Successive EU directives (2015/849, 2018/843, 2018/1673) transposed into each member state's national law. Introduced the risk-based approach, UBO registers, crypto-asset obligations, and harmonized ML predicate offences. Being replaced by the AMLR from 2027." },
+    { term: "AMLR", cat: "EU", full: "EU Anti-Money Laundering Regulation (EU) 2024/1624", def: "A directly-applicable EU regulation — unlike a directive, it needs no national transposition. Replaces most of AMLD4-6's substantive rules from 2027, creating one AML rulebook across all member states." },
+    { term: "AMLA", cat: "EU", full: "EU Anti-Money Laundering Authority (Frankfurt)", def: "New EU-level supervisor, operational from 2025/fully staffed by 2028, directly supervising the ~40 riskiest cross-border financial institutions and coordinating national FIUs." },
+    { term: "Wwft", cat: "EU", full: "Wet ter Voorkoming van Witwassen en Financieren van Terrorisme (Netherlands)", def: "The Netherlands' national AML/CFT law transposing the EU AMLDs. Reporting threshold is 'unusual transaction' (ongebruikelijke transactie) to FIU-Nederland — a lower, more mechanical bar than the US 'suspicious activity' standard." },
+    { term: "STOR", cat: "EU", full: "Suspicious Transaction and Order Report", def: "Mandatory report under EU MAR filed with the national competent authority (e.g., Luxembourg's CSSF, Slovakia's NBS) when a firm reasonably suspects an order or transaction constitutes insider dealing or market manipulation." },
+    { term: "CSSF", cat: "EU", full: "Commission de Surveillance du Secteur Financier (Luxembourg)", def: "Luxembourg's financial sector regulator, supervising banks, investment fund managers, and funds — including their AML/CFT compliance under CSSF Regulation 12-02. Central to Luxembourg's outsized fund administration industry." },
+    { term: "RBE", cat: "EU", full: "Registre des Bénéficiaires Effectifs (Luxembourg UBO Register)", def: "Luxembourg's beneficial ownership register (Law of 13 Jan 2019). Public access was suspended after the 2022 CJEU Sovim ruling struck down AMLD5's general-public-access rule; access is now restricted to authorities, obligated professionals, and those showing legitimate interest." },
+    { term: "RR / RC", cat: "EU", full: "Responsable du Respect / Responsable du Contrôle (Luxembourg)", def: "Luxembourg's two-tier AML/CFT governance roles under CSSF Regulation 12-02: the RR is the senior manager ultimately accountable for compliance; the RC is the operational compliance officer who monitors day-to-day adherence and reports to the RR." },
+    { term: "DORA", cat: "EU", full: "Digital Operational Resilience Act (EU) 2022/2554", def: "EU regulation requiring financial entities to manage ICT risk, test operational resilience (incl. threat-led penetration testing), and report major ICT incidents — including cyber-enabled fraud breaches — within strict timelines. Applies since January 2025." },
+    { term: "EU Whistleblower Directive", cat: "EU", full: "Directive (EU) 2019/1937 on Whistleblower Protection", def: "Sets an EU-wide floor for whistleblower protection covering breaches of EU law (AML, financial services, EU-budget fraud, etc.). Requires internal reporting channels at companies with 50+ employees and reverses the burden of proof in retaliation claims. Unlike US Dodd-Frank, it does not mandate financial bounties." }
 ];
 
 const caseStudies = [
@@ -1200,1241 +1210,13 @@ const caseStudies = [
     }
 ];
 
-const investigationTopics = [
-    {
-        id:"inv1", code:"INV-1", cat:"INTERVIEWS",
-        title:"Interview Planning & Types",
-        description:"Choosing the right interview type and preparing effectively determines whether you get actionable information or a wasted conversation.",
-        content:`<p><strong>Two primary interview types in fraud investigations:</strong></p>
-            <ul class="detect"><li><strong>Information-gathering interview:</strong> Open-ended, used early in the investigation. Goal: collect facts, understand processes, identify witnesses. Low confrontation. Used with non-suspects.</li>
-            <li><strong>Admission-seeking interview:</strong> Used late in the investigation when you have sufficient evidence. Goal: obtain a confession or an explanation that destroys the suspect's credibility. Higher confrontation.</li></ul>
-            <h4>Planning Checklist</h4>
-            <ul class="tip"><li>Review all documents, financial records, and prior interview notes before the interview</li>
-            <li>Prepare a list of topics (not a rigid script) — leave room to follow new threads</li>
-            <li>Choose location: your turf (more control) vs. their space (more comfort = more disclosure)</li>
-            <li>Two interviewers recommended: one leads, one takes notes and observes behavior</li>
-            <li>Decide in advance: will you tell the subject what the interview is about?</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>Never interview a suspect before gathering sufficient documentary evidence — evidence shapes your questions and limits their ability to fabricate plausible lies</li>
-            <li>Sequence: documents → data analysis → witnesses → subject last</li></ul>`
-    },
-    {
-        id:"inv2", code:"INV-2", cat:"INTERVIEWS",
-        title:"PEACE Model vs Reid Technique",
-        description:"Two dominant frameworks for investigative interviewing — PEACE is the ethical standard used in the EU and UK; Reid is the traditional US approach.",
-        content:`<p><strong>PEACE Model</strong> (UK/EU standard — Preparation, Engage & Explain, Account, Closure, Evaluate):</p>
-            <ul class="detect"><li><strong>P</strong>reparation: know your case, plan topics, arrange logistics</li>
-            <li><strong>E</strong>ngage & Explain: build rapport, explain purpose and ground rules honestly</li>
-            <li><strong>A</strong>ccount: open-ended questions, let subject speak, probe and challenge with evidence</li>
-            <li><strong>C</strong>losure: summarize, confirm accuracy, leave door open for follow-up</li>
-            <li><strong>E</strong>valuate: assess what you learned, what was inconsistent, what needs follow-up</li></ul>
-            <p><strong>Reid Technique</strong> (US traditional — 9-step interrogation):</p>
-            <ul class="red"><li>Assumes guilt before the interview — investigator presents evidence as definitive</li>
-            <li>Uses minimization (downplaying the crime) and maximization (emphasizing consequences)</li>
-            <li>Criticized for producing false confessions — prohibited in several EU jurisdictions</li>
-            <li>Still taught in ACFE materials but note: PEACE is the emerging standard globally</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>ACFE manual covers both — know the PEACE model structure and the Reid steps</li>
-            <li>Key distinction: PEACE = information-seeking (truth-finding); Reid = admission-seeking (confession-focused)</li></ul>`
-    },
-    {
-        id:"inv3", code:"INV-3", cat:"INTERVIEWS",
-        title:"Behavioral Indicators & Deception Cues",
-        description:"Recognizing verbal and non-verbal cues that suggest deception or discomfort — used to guide follow-up questions, not as proof.",
-        content:`<p><strong>Important caveat first:</strong> No single behavioral cue proves deception. These are signals to probe further — not evidence. Courts do not accept behavior analysis as proof of guilt.</p>
-            <h4>Verbal Indicators</h4>
-            <ul class="red"><li>Using the interviewer's exact words back in the answer ("Did I steal? No, I did not steal.")</li>
-            <li>Qualifying truthful statements ("To the best of my knowledge..." "As far as I can recall...")</li>
-            <li>Failure to directly deny the allegation</li>
-            <li>Answering a question with a question ("Why would I do that?")</li>
-            <li>Invoking religion or character ("I'm a God-fearing person, I would never...")</li></ul>
-            <h4>Non-Verbal Indicators</h4>
-            <ul class="red"><li>Grooming gestures (touching face, hair) when asked critical questions</li>
-            <li>Gaze aversion — but note: varies significantly by culture</li>
-            <li>Posture closing (crossing arms, turning away) in response to specific topics</li>
-            <li>Micro-expressions of contempt or fear inconsistent with calm verbal response</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>Behavioral cues = investigative leads, not evidence. Never confront based on behavior alone.</li>
-            <li>The ACFE manual emphasizes using behavior to identify topics for follow-up, not to judge guilt</li></ul>`
-    },
-    {
-        id:"inv4", code:"INV-4", cat:"DOCUMENTS",
-        title:"Document Examination & Chain of Custody",
-        description:"Proper handling of documentary evidence determines whether it will be admissible in criminal proceedings or civil litigation.",
-        content:`<p><strong>Types of documentary evidence:</strong></p>
-            <ul class="detect"><li><strong>Original documents:</strong> Highest evidentiary value. Handle with care — gloves, do not write on originals.</li>
-            <li><strong>Copies:</strong> Acceptable if originals unavailable, but authenticity must be established</li>
-            <li><strong>Electronic documents:</strong> Email, spreadsheets, database records — require forensic preservation</li>
-            <li><strong>Public records:</strong> Business registries, court records, property records — often freely available</li></ul>
-            <h4>Chain of Custody</h4>
-            <ul class="tip"><li>Document: who collected it, when, where, how it was stored, who had access</li>
-            <li>Use evidence logs and tamper-evident packaging for physical documents</li>
-            <li>Any break in chain of custody = defense will argue evidence was tampered with</li>
-            <li>In criminal cases: chain of custody must be unbroken from collection to court</li></ul>
-            <h4>Document Alteration Detection</h4>
-            <ul class="red"><li>Check for white-out, erasure marks, inconsistent fonts within same document</li>
-            <li>Examine paper folds — do they match the content (e.g., a tri-fold crease on a document that couldn't have been mailed that way)?</li>
-            <li>Ink dating (lab analysis) can determine when ink was applied</li>
-            <li>Digital metadata: creation date, modification date, author field — check Properties on any electronic file</li></ul>`
-    },
-    {
-        id:"inv5", code:"INV-5", cat:"DOCUMENTS",
-        title:"Digital Forensics & Electronic Evidence",
-        description:"Electronic evidence is now central to most fraud investigations — email trails, metadata, deleted files, and system logs often tell the full story.",
-        content:`<p><strong>First rule of digital forensics: never work on original media.</strong> Always create a forensic image (bit-for-bit copy) and work from the copy. Hash values (MD5/SHA) verify the copy is identical to the original.</p>
-            <h4>Key Evidence Sources</h4>
-            <ul class="detect"><li><strong>Email:</strong> Most valuable fraud evidence. Headers reveal true sender IP, routing path, timestamps. Deleted emails are often recoverable.</li>
-            <li><strong>Document metadata:</strong> Word/PDF files store creation date, last modified date, author name, tracked changes — often contradicts the printed date</li>
-            <li><strong>System logs:</strong> Who logged in, when, from where — critical for after-hours JE fraud (FR1)</li>
-            <li><strong>Accounting system audit trails:</strong> Most ERP systems log every transaction change — even "deleted" entries leave traces</li>
-            <li><strong>Browser history / search history:</strong> Can show research into how to commit fraud, cover-up methods</li></ul>
-            <h4>Practical Metadata Check (no software needed)</h4>
-            <ul class="tip"><li>Right-click any Word/PDF file → Properties → Details tab → shows creation date, author, last modified</li>
-            <li>In Word: File → Info → shows full document history</li>
-            <li>This catches backdating immediately — a contract "signed January 1" but created January 15 is evidence of backdating (FR9)</li></ul>`
-    },
-    {
-        id:"inv6", code:"INV-6", cat:"FINANCIAL",
-        title:"Net Worth & Expenditure Analysis",
-        description:"Indirect proof method: if a person spent more than they earned, the difference may represent fraud proceeds — even without a paper trail to the theft itself.",
-        content:`<p><strong>When to use:</strong> When direct evidence of theft is hard to trace — e.g., skimming (AM5) where cash never entered the books. You prove the perpetrator had money they couldn't have earned legitimately.</p>
-            <h4>Net Worth Method</h4>
-            <ul class="detect"><li>Calculate: Net Worth at end of year − Net Worth at start of year = Increase in Net Worth</li>
-            <li>Add: Living expenses during the year (documented or estimated)</li>
-            <li>Total = funds the person needed from all sources</li>
-            <li>Subtract: legitimate income (salary, gifts, loans, inheritance)</li>
-            <li>Remainder = unexplained funds = potential fraud proceeds</li></ul>
-            <h4>Evidence Needed</h4>
-            <ul class="tip"><li>Bank records (subpoena or voluntary), property records, vehicle registrations, credit card statements, tax returns</li>
-            <li>Interview the suspect about income sources early — lock them into a story before you show financial evidence</li>
-            <li>Public records are a starting point: property registry, vehicle registrations, business ownership</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>Net worth method is an IRS-derived technique — used extensively in US tax fraud prosecutions</li>
-            <li>Key ACFE concept: used when direct evidence is unavailable; circumstantial but powerful</li>
-            <li>Requires establishing a starting point (base year net worth) — perpetrator will dispute this</li></ul>`
-    },
-    {
-        id:"inv7", code:"INV-7", cat:"FINANCIAL",
-        title:"Data Analytics in Fraud Investigation",
-        description:"Analyzing 100% of a transaction population — rather than samples — to identify anomalies, patterns, and outliers that manual review would miss.",
-        content:`<p><strong>Key analytical procedures used in fraud investigations:</strong></p>
-            <h4>Benford's Law Analysis</h4>
-            <ul class="detect"><li>Apply to invoices, expense reports, JEs — compare actual first-digit distribution to Benford's expected distribution</li>
-            <li>Significant deviation (especially excess of 5s, 6s, 7s) suggests fabricated numbers</li>
-            <li>Fraudsters tend to pick numbers that "feel random" but aren't — they avoid 1s and overuse mid-range digits</li></ul>
-            <h4>Duplicate Detection</h4>
-            <ul class="detect"><li>Sort all transactions by: vendor + amount + date → look for identical combinations</li>
-            <li>Also test: same invoice number across different vendors, same amount paid twice in same period</li></ul>
-            <h4>Gap & Sequence Analysis</h4>
-            <ul class="detect"><li>Check check numbers, receipt sequences, invoice numbers for missing values</li>
-            <li>Gaps = destroyed documents, altered records, or transactions that were removed</li></ul>
-            <h4>Threshold Analysis</h4>
-            <ul class="detect"><li>Filter for transactions just below approval thresholds (e.g., all invoices $4,900–$4,999 where the approval limit is $5,000)</li>
-            <li>Clustering just below a threshold = structured fraud to avoid controls</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>Tools: ACL/Galvanize, IDEA, Excel, Python/pandas — exam doesn't test tool syntax, but tests the concepts</li>
-            <li>Key principle: test the population, not a sample — fraud hides in the data you didn't look at</li></ul>`
-    },
-    {
-        id:"inv8", code:"INV-8", cat:"FINANCIAL",
-        title:"Public Records Investigation",
-        description:"Freely available records that can establish business ownership, assets, court history, and relationships — foundational for conflict-of-interest and asset searches.",
-        content:`<p><strong>Key public record sources (adapt to your country):</strong></p>
-            <h4>Business & Ownership Records</h4>
-            <ul class="detect"><li>Business registry (Slovakia: orsr.sk / zrsr.sk; Czech Republic: justice.cz) — owner names, registered address, financial statements</li>
-            <li>Beneficial ownership register (EU: mandatory under 5AMLD) — ultimate beneficial owners</li>
-            <li>EU: registeruz.sk (Slovakia financial statements), ARES (Czech), KRS (Poland)</li>
-            <li>US: SEC EDGAR for public companies; state secretary of state websites for LLCs</li></ul>
-            <h4>Property & Asset Records</h4>
-            <ul class="detect"><li>Land registry (Slovakia: kataster.portalov.sk) — property ownership, purchase dates, prices, mortgages</li>
-            <li>Vehicle registration — may require subpoena in some jurisdictions</li>
-            <li>Court records — civil judgments, bankruptcy filings, criminal convictions</li></ul>
-            <h4>EU-Specific Tools</h4>
-            <ul class="tip"><li>OpenCorporates — global company database aggregator</li>
-            <li>EU Transparency Register — lobbyists and their clients</li>
-            <li>TED (Tenders Electronic Daily) — all EU public procurement contracts</li>
-            <li>EPRS / OLAF public case summaries — EU fraud cases</li></ul>`
-    },
-    {
-        id:"inv9", code:"INV-9", cat:"LEGAL",
-        title:"Rules of Evidence & Admissibility",
-        description:"Understanding what makes evidence admissible in court determines how you collect, handle, and document everything during the investigation.",
-        content:`<p><strong>Types of evidence:</strong></p>
-            <ul class="detect"><li><strong>Direct evidence:</strong> Directly proves a fact without inference (eyewitness, confession, video of the act)</li>
-            <li><strong>Circumstantial evidence:</strong> Requires inference to connect to the fact (suspect's bank balance increased after the theft period)</li>
-            <li><strong>Documentary evidence:</strong> Written or recorded materials — requires authentication</li>
-            <li><strong>Demonstrative evidence:</strong> Charts, timelines, summaries created for the fact-finder</li>
-            <li><strong>Testimonial evidence:</strong> Witness statements under oath</li></ul>
-            <h4>Admissibility Requirements</h4>
-            <ul class="tip"><li><strong>Relevance:</strong> Does it make a fact more or less probable?</li>
-            <li><strong>Authentication:</strong> Can you prove this document is what you say it is?</li>
-            <li><strong>Hearsay rule:</strong> Out-of-court statements offered to prove the truth of the matter — generally inadmissible unless an exception applies</li>
-            <li><strong>Best evidence rule:</strong> Original document preferred over copy when authenticity is at issue</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>CFEs are not lawyers — but must understand basic evidence rules to avoid tainting a case</li>
-            <li>Key: illegal search and seizure can make otherwise valid evidence inadmissible in criminal proceedings</li>
-            <li>Always consult legal counsel before conducting covert surveillance or accessing private records</li></ul>`
-    },
-    {
-        id:"inv10", code:"INV-10", cat:"LEGAL",
-        title:"The Fraud Examination Report",
-        description:"The written report is the final deliverable of a fraud examination — it must be clear, factual, and litigation-proof.",
-        content:`<p><strong>Key principles for fraud examination reports:</strong></p>
-            <h4>Structure</h4>
-            <ul class="detect"><li><strong>Executive Summary:</strong> 1–2 pages; findings, loss amount, perpetrators identified, recommendations</li>
-            <li><strong>Background:</strong> How the investigation started, scope, limitations</li>
-            <li><strong>Methodology:</strong> What you did — interviews conducted, records reviewed, data analyzed</li>
-            <li><strong>Findings:</strong> Facts only — what the evidence shows. No opinions, no characterizations.</li>
-            <li><strong>Conclusions:</strong> Your professional opinion based on findings — clearly labeled as opinion</li>
-            <li><strong>Recommendations:</strong> Control improvements to prevent recurrence</li>
-            <li><strong>Exhibits:</strong> Supporting documents, data outputs, interview summaries</li></ul>
-            <h4>Writing Rules</h4>
-            <ul class="red"><li>State facts, not opinions, in the findings section — "the invoice was dated January 1 but document metadata shows it was created January 15" not "he backdated the invoice"</li>
-            <li>Avoid inflammatory language — "the subject" not "the fraudster"</li>
-            <li>Every factual statement must be traceable to an exhibit</li>
-            <li>Assume the report will be read by opposing counsel, a judge, and a jury</li></ul>
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip"><li>The report is a legal document — it can be subpoenaed, used in court, or published in discovery</li>
-            <li>Key ACFE principle: report findings, not conclusions about criminal guilt — that is for courts to decide</li></ul>`
-    },
-
-    // ── EXPANDED BLOCK: HOW TO CONDUCT INTERVIEWS AND QUESTIONING ──────────
-    {
-        id:"inv11", code:"INV-11", cat:"INTERVIEWS",
-        title:"PEACE Model — Full Step-by-Step Breakdown",
-        description:"The international standard for investigative interviewing. Used in the UK, EU, and Australia. Ethical, legally defensible, and effective at obtaining the truth — not a confession.",
-        content:`<p><strong>PEACE = Preparation · Engage & Explain · Account · Closure · Evaluate</strong></p>
-
-            <h4 style="color:var(--c-sage)">P — Preparation</h4>
-            <ul class="detect">
-                <li>Review all available documentation before the interview — don't walk in to "see what they say"</li>
-                <li>Prepare a list of topics (not a rigid script) — the structure should allow you to follow new information</li>
-                <li>Identify the key questions that <em>must</em> be answered before the interview ends</li>
-                <li>Choose the location: your office (you control the setting) or theirs (more comfort → more disclosure)</li>
-                <li>Plan the logistics: two interviewers (one leads, one observes and takes notes), recording if permitted</li>
-                <li>Decide in advance whether you'll tell the subject the interview topic before you begin</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">E — Engage & Explain</h4>
-            <ul class="detect">
-                <li>Introduce yourself and explain your role and the purpose of the interview honestly and clearly</li>
-                <li>Explain the subject's rights: voluntary participation, right to counsel (where applicable)</li>
-                <li>Set ground rules: one person speaks at a time, no need to interrupt, clarifying questions are fine</li>
-                <li>Build rapport: a short neutral conversation (3–5 minutes) about the subject's work, role, and responsibilities</li>
-                <li>The goal of rapport isn't to become friendly — it's to establish a behavioral baseline</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">A — Account</h4>
-            <ul class="detect">
-                <li>Start with a broad open question: "Tell me about how you work with this vendor"</li>
-                <li>Let the subject speak without interrupting — note what they omit and what they emphasize</li>
-                <li>Use free-recall technique: "Tell me everything from the very beginning"</li>
-                <li>After the free narrative, probe by topic: "You mentioned X. Tell me more about that"</li>
-                <li>Introduce documents gradually, not all at once — each document creates a point of pressure</li>
-                <li>Note contradictions but don't expose them immediately — come back to them later</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">C — Closure</h4>
-            <ul class="detect">
-                <li>Summarize the subject's key answers and ask them to confirm accuracy</li>
-                <li>Ask a final open question: "Is there anything important we haven't discussed?"</li>
-                <li>Leave the door open: "If you remember anything important, please contact me"</li>
-                <li>Don't make accusations or draw conclusions at the end of the interview — that belongs to a later, judicial stage, not the interview itself</li>
-                <li>Explain next steps (as far as appropriate): "We'll continue working with this information"</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">E — Evaluate</h4>
-            <ul class="tip">
-                <li>Immediately after the interview: record your behavioral observations while they're still fresh</li>
-                <li>What was said? What was deliberately omitted? What contradicts the documents?</li>
-                <li>What new topics or names came up? → update the investigation plan</li>
-                <li>Do other people need to be re-interviewed in light of the new information?</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>PEACE is non-accusatorial and truth-seeking. It never presumes guilt in advance</li>
-                <li>Key principle: the interviewer listens more than they talk (roughly an 80/20 ratio)</li>
-                <li>Contradictions between testimony and documents — don't expose them immediately, build pressure instead</li>
-            </ul>`
-    },
-    {
-        id:"inv12", code:"INV-12", cat:"INTERVIEWS",
-        title:"Question Types: Building Questions for Each Stage",
-        description:"The right type of question at the right moment is the interviewer's main tool. Open questions gather information; closed questions verify facts; probing questions resolve contradictions.",
-        content:`<h4 style="color:var(--c-blue)">Open Questions — the foundation of information gathering</h4>
-            <ul class="detect">
-                <li>"Tell me about how you work with this account"</li>
-                <li>"What was happening between January and March 2024?"</li>
-                <li>"Describe your usual process for approving a vendor invoice"</li>
-                <li>"What did you mean when you said X?"</li>
-                <li><strong>When to use:</strong> at the start of each new topic, during initial information gathering</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Probing Questions — going deeper</h4>
-            <ul class="detect">
-                <li>"You said you never met this supplier. Help me understand — how did you then approve an invoice for €50,000?"</li>
-                <li>"Tell me more about your decision not to report this to management"</li>
-                <li>"What happened between when you received the invoice and when it was approved?"</li>
-                <li><strong>When to use:</strong> when the answer is incomplete, vague, or contradicts the documents</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Closed Questions — verifying specific facts</h4>
-            <ul class="detect">
-                <li>"Did you sign this letter?" (yes/no)</li>
-                <li>"Is this your signature?"</li>
-                <li>"Do you know Ivan Petrenko?"</li>
-                <li><strong>When to use:</strong> to lock in specific facts or to create a point of pressure before presenting a document</li>
-                <li><strong>Rookie mistake:</strong> starting with closed questions — you get monosyllabic answers and lose context</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Trap Questions — what to avoid</h4>
-            <ul class="red">
-                <li><strong>Leading questions:</strong> "So you stole the money because you needed money?" → undermines the answer's value in court</li>
-                <li><strong>Double-barrel:</strong> "Did you know about the scheme and agree to it?" → the subject only answers one part</li>
-                <li><strong>Compound:</strong> several questions in one → the subject picks which one to answer</li>
-                <li><strong>Assumptions embedded in the question:</strong> "Why did you decide to bypass the procedure?" — presumes a fact that hasn't yet been established</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">The "Document Question" Technique</h4>
-            <ul class="tip">
-                <li>Step 1: Ask an open question on the document's topic — get testimony <em>before</em> presenting it</li>
-                <li>Step 2: Present the document: "I'd like to show you this. Is this a document you recognize?"</li>
-                <li>Step 3: Give them time to review it, then ask a specific question about the discrepancy</li>
-                <li>Logic: if you show the document first, the subject adapts their story to fit it; getting the story first locks in a fixed position</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Question order: broad → probing → specific (a funnel)</li>
-                <li>Silence is a tool too: after an answer, stay quiet for 3–5 seconds; the subject fills the pause</li>
-                <li>Don't interrupt or finish sentences for the subject</li>
-            </ul>`
-    },
-    {
-        id:"inv13", code:"INV-13", cat:"INTERVIEWS",
-        title:"How to Open an Interview: The First 10 Minutes",
-        description:"The first few minutes set the tone, the trust level, and the amount of information the subject will be willing to disclose. A bad opening shuts a person down for the whole conversation.",
-        content:`<h4 style="color:var(--c-sage)">Step 1: Physical setting</h4>
-            <ul class="detect">
-                <li>A neutral room with no outsiders present: just the interviewers and the subject</li>
-                <li>Sit at a 45° angle to the subject — not directly opposite (facing them head-on reads as confrontation)</li>
-                <li>Remove physical barriers (a desk between you) if possible</li>
-                <li>Turn off your phone, remove distracting objects</li>
-                <li>The subject's chair should not be closer to the exit than the interviewer's chair</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Step 2: Opening words</h4>
-            <ul class="detect">
-                <li>"Hello, [name]. Thank you for making the time. My name is [name], I'm [role] at [organization / company]. With me is my colleague [name], who will be taking notes"</li>
-                <li>Explain the purpose neutrally: "We're reviewing processes in the procurement department. We want to talk to several employees — your experience and knowledge of the processes are very valuable"</li>
-                <li>Explain the format: "The interview will take about [X] minutes. I'll be asking questions, some of which may touch on specific situations. Feel free to ask for clarification if anything is unclear"</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Step 3: Rapport — building the connection</h4>
-            <ul class="detect">
-                <li>Ask 2–3 neutral questions about the subject's work: "How long have you been in this role?", "What does your typical workday look like?"</li>
-                <li>Goal: establish a baseline for how the person speaks when they aren't under stress → later you'll notice deviations</li>
-                <li>Show genuine interest: "That's interesting — tell me more about how that process works"</li>
-                <li>Don't over-praise or flatter — people sense it and shut down</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Step 4: Transitioning to substance</h4>
-            <ul class="detect">
-                <li>The transition should be smooth, not abrupt: "We're reviewing vendor management processes over the past two years. I'd like to start with you giving me a general description of how this work is set up on your end"</li>
-                <li>Start with a broad topic — not a suspicion. Let the subject give their account "in their own words"</li>
-                <li>Don't show documents in the first 20–30 minutes — get their account on record first</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Common opening mistakes</h4>
-            <ul class="red">
-                <li>Starting with an accusatory tone — the subject shuts down immediately</li>
-                <li>Showing all documents at once — the subject adapts their account to fit them</li>
-                <li>Asking permission to record without explaining why — creates anxiety</li>
-                <li>Using legal terms (fraud, embezzlement) before obtaining testimony</li>
-                <li>Talking more than the subject during the first 30 minutes</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Never use the word "interrogation" or "investigation" in the opening — use "interview" or "conversation"</li>
-                <li>The key task of the first 10 minutes: establish the subject's baseline behavior</li>
-            </ul>`
-    },
-    {
-        id:"inv14", code:"INV-14", cat:"INTERVIEWS",
-        title:"Admission-Seeking Interview: The Confrontation and Admission Phase",
-        description:"When you have sufficient evidence, move to confrontation. A structure for obtaining explanations, an admission, or neutralizing a defense narrative.",
-        content:`<p><strong>Use only:</strong> once the evidence base is already assembled, the suspect has been identified, and the decision to confront has been cleared with legal counsel.</p>
-
-            <h4 style="color:var(--c-rose)">When to move to admission-seeking</h4>
-            <ul class="red">
-                <li>You have documentary evidence that refutes the subject's account</li>
-                <li>All other plausible explanations have been ruled out</li>
-                <li>Legal counsel has approved the confrontation</li>
-                <li>Interviews with witnesses and other parties are complete</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Structure of the confrontation</h4>
-            <ul class="detect">
-                <li><strong>1. Direct statement of fact</strong> (not a question): "We've completed our analysis of the financial records. Our investigation found that during period X, invoices from [vendor] were paid without proper approval"</li>
-                <li><strong>2. Moral justification</strong> (minimization): offer an explanation that reduces the perceived severity in the subject's eyes: "I understand that sometimes situations arise in organizations where it can feel like there's no other way out..."</li>
-                <li><strong>3. Alternative question</strong>: a choice between two versions, both of which acknowledge involvement: "Did this happen because you found yourself in a difficult situation, or because you planned it from the start?"</li>
-                <li><strong>4. Initial admission → expansion</strong>: once you get the first "yes," move straight to the details: "Tell me from the very beginning — how did this happen?"</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Handling denial</h4>
-            <ul class="red">
-                <li>The subject denies it? Don't argue. "I understand. But let's go back to the documents — here's [document A]. Do you see the date and signature?"</li>
-                <li>Every time the subject denies, present the next document or piece of data</li>
-                <li>Build pressure gradually — don't show all your cards at once</li>
-                <li>Stay quiet after presenting a document — give the subject time to process it</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">What to do with an admission</h4>
-            <ul class="tip">
-                <li>Don't interrupt — let the subject speak in full</li>
-                <li>Afterward: "Tell me everything from the very beginning, in full detail"</li>
-                <li>Then take a written statement (see INV-15)</li>
-                <li>Notify legal counsel of the admission immediately</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>An admission-seeking interview is not coercion or pressure — it's a structured presentation of evidence</li>
-                <li>Key principle: a direct statement of fact (not "did you steal it?"), but "our analysis found X"</li>
-                <li>An admission without supporting evidence is a weak evidentiary base. Admission plus documents is a strong one</li>
-            </ul>`
-    },
-    {
-        id:"inv15", code:"INV-15", cat:"INTERVIEWS",
-        title:"Written Statements and Declarations",
-        description:"A written statement from the subject is one of the most valuable evidentiary documents — a fixed position that is later hard to change.",
-        content:`<h4 style="color:var(--c-blue)">When to take a written statement</h4>
-            <ul class="detect">
-                <li>Immediately after obtaining a verbal admission, while the details are still fresh</li>
-                <li>After a key information-gathering interview with an important witness</li>
-                <li>When the testimony contains facts that are critical to the case</li>
-                <li>Never at the very start of an interview (it shuts down further conversation)</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Structure of a written statement</h4>
-            <ul class="detect">
-                <li><strong>Header:</strong> Date, location, name, job title, organization name</li>
-                <li><strong>Opening:</strong> "I, [name], voluntarily give the following statement..."</li>
-                <li><strong>Body:</strong> Facts in chronological order, first person, with specific dates and amounts</li>
-                <li><strong>Closing:</strong> "The above is true and given of my own free will"</li>
-                <li><strong>Signature and date on every page</strong></li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Technique for drafting the statement</h4>
-            <ul class="detect">
-                <li>The subject should write the statement themselves — or dictate it, with the interviewer writing it down in their words</li>
-                <li>If the interviewer writes it: "Are these your words?" — get confirmation for each paragraph</li>
-                <li>Don't edit or "improve" the language — preserve the subject's wording, including errors</li>
-                <li>Don't leave blank lines or gaps — the subject could add to them later</li>
-                <li>Read the statement back to the subject aloud before they sign</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">What to do if the subject refuses to sign</h4>
-            <ul class="red">
-                <li>Don't pressure them — voluntariness is mandatory</li>
-                <li>Record the refusal in your interview notes with the time noted</li>
-                <li>Verbal testimony with two interviewer-witnesses present is also evidence</li>
-                <li>If there was an audio/video recording made with the subject's consent, it retains its value</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>A written statement locks in a fixed version that the subject cannot later change without damaging their credibility</li>
-                <li>A signature on every page prevents pages from being swapped out</li>
-                <li>A statement doesn't replace evidence — it reinforces it</li>
-            </ul>`
-    },
-    {
-        id:"inv16", code:"INV-16", cat:"INTERVIEWS",
-        title:"Who to Interview and in What Order",
-        description:"Victims, witnesses, and suspects each require a different approach. Interview order affects the quality of every conversation that follows.",
-        content:`<h4 style="color:var(--c-sage)">Recommended sequence</h4>
-            <ul class="detect">
-                <li><strong>1. Complainant / victim</strong> — first: get the initial picture, scheme details, names</li>
-                <li><strong>2. Neutral witnesses</strong> — background context, processes, indirect information</li>
-                <li><strong>3. Informed witnesses</strong> — those who may have known about or partially participated in events</li>
-                <li><strong>4. Suspect</strong> — last: by this point you already have the maximum amount of information and documents</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Interviewing the victim</h4>
-            <ul class="detect">
-                <li>Start with an open narrative: "Tell me what happened, in your own words, from the beginning"</li>
-                <li>Don't interrupt the first account — let them speak fully</li>
-                <li>Afterward: "What happened next?", "What did you feel / notice?"</li>
-                <li>Victims often understate the damage or protect the perpetrator out of fear or shame — ask neutral questions about details rather than motivation</li>
-                <li>Don't promise confidentiality you can't guarantee</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Interviewing a witness</h4>
-            <ul class="detect">
-                <li>Explain their role: "You are not the subject of this investigation. Your observations matter"</li>
-                <li>Use the cognitive interview technique: ask them to recall the setting of that day — smells, sounds — context activates memory</li>
-                <li>Ask about specific details: "Who else was present?", "What time was it?", "What was the document signed on?"</li>
-                <li>Check consistency against other witnesses — discrepancies mean new lines of inquiry</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Interviewing the suspect</h4>
-            <ul class="red">
-                <li>Never use the word "suspect" with the interview subject</li>
-                <li>Start with a neutral information-gathering interview — get testimony before confrontation</li>
-                <li>Ask questions you already know the answer to, in order to catch lies or contradictions</li>
-                <li>Introduce documents gradually — start with the weakest, end with the strongest</li>
-                <li>If the subject requests a lawyer, stop the interview immediately</li>
-                <li>Document everything: time, place, everyone present, exact quotes</li>
-            </ul>
-
-            <h4>CFE Exam Tip</h4>
-            <ul class="tip">
-                <li>Golden rule: the suspect is always last — by that point you have the maximum information to present</li>
-                <li>Interviewing out of order means the suspect learns of the investigation too early and has time to destroy evidence</li>
-                <li>Always document the outcome of an interview as an interview memorandum within 24 hours</li>
-            </ul>`
-    },
-
-    // ── INTERVIEWING MODELS ─────────────────────────────────────
-    {
-        id:"inv17", code:"INV-17", cat:"INTERVIEWS",
-        title:"Wicklander-Zulawski (WZ) — the US Corporate Standard",
-        description:"The most widely used model in corporate HR investigations. Non-confrontational, psychologically calibrated, and produces admissions without the legal risks of Reid.",
-        content:`<p><strong>WZ was developed in the 1980s as an alternative to Reid</strong> — no pressure, no false promises, no risk of a false confession. The standard for internal investigations at Fortune 500 companies.</p>
-
-            <h4 style="color:var(--c-blue)">Key WZ principles</h4>
-            <ul class="detect">
-                <li><strong>Don't accuse — empathize:</strong> the interviewer takes the subject's side, not the organization's</li>
-                <li><strong>Moral justification:</strong> offer an explanation under which the subject doesn't come across as a villain ("a lot of people end up in this kind of situation")</li>
-                <li><strong>Minimization:</strong> reduce the perceived severity of the consequences</li>
-                <li><strong>Alternative question:</strong> a choice between two options, both of which imply involvement</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">WZ interview structure (7 steps)</h4>
-            <ul class="detect">
-                <li><strong>1. Introduction:</strong> establish comfort, explain the purpose neutrally</li>
-                <li><strong>2. Participation statement:</strong> "Do you understand that the company is investigating an incident?" — obtain agreement to participate</li>
-                <li><strong>3. Rationalization / Minimization:</strong> "We understand that employees sometimes find themselves in a situation where..." — lowers the subject's defenses</li>
-                <li><strong>4. Unfolding the topic:</strong> name the issue indirectly, without a direct accusation: "Our analysis identified an issue with payments during [period]"</li>
-                <li><strong>5. Alternative question:</strong> "Did this happen because [sympathetic motive], or because [negative motive]?" — the subject usually picks the first</li>
-                <li><strong>6. Initial admission → expansion:</strong> immediately after the "yes" — "Tell me everything, from the very beginning"</li>
-                <li><strong>7. Written statement:</strong> record the admission in writing</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Example alternative question</h4>
-            <ul class="tip">
-                <li>"Was this money taken because you found yourself in a desperate financial situation and saw no other way out — or because you deliberately planned this from the start?"</li>
-                <li>The subject picks "the financial situation" → an initial admission is obtained</li>
-                <li>Important: both options presuppose the fact of involvement — there's no "nothing happened" option</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Limitations of WZ</h4>
-            <ul class="red">
-                <li>Not suited to the European context — minimization can conflict with GDPR and the right to silence in several EU countries</li>
-                <li>Requires legal consultation before use in an HR context</li>
-                <li>Criticized for the potential to produce false confessions in anxious subjects</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★★☆ — very high in US / UK corporate investigations when applied correctly</li>
-                <li>Works best when the evidence base is already strong and the subject senses it</li>
-            </ul>`
-    },
-    {
-        id:"inv18", code:"INV-18", cat:"INTERVIEWS",
-        title:"Cognitive Interview (CI) — Maximizing Witness Memory",
-        description:"A scientifically validated method for working with victims and witnesses. Increases the volume of accurate recall by 35–45% without increasing errors.",
-        content:`<p><strong>Developed</strong> by Ronald Fisher and Edward Geiselman (1984) based on cognitive psychology and memory theory. The standard used by the FBI, UK Police, and INTERPOL for working with witnesses.</p>
-
-            <h4 style="color:var(--c-sage)">4 core CI techniques</h4>
-            <ul class="detect">
-                <li><strong>1. Mental reinstatement:</strong> "Close your eyes. Think back to that morning — where you were, what you saw, heard, felt. What was the weather like? What were you doing before you walked into the office?" Context activates associated memories.</li>
-                <li><strong>2. Report everything:</strong> "Tell me everything you remember — even things that seem minor or unrelated. Deciding what's important is my job, not yours." Removes the "why would that matter" filter.</li>
-                <li><strong>3. Reverse order:</strong> "Now tell me the events in reverse order — starting from the end." Disrupts the habitual narrative and surfaces details that get lost in a linear account.</li>
-                <li><strong>4. Change perspective:</strong> "What might your colleague standing by the window have seen? Describe the situation from their position." Activates details of the setting.</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Enhanced CI — adds</h4>
-            <ul class="detect">
-                <li>Rapport building before the techniques — the subject needs to be relaxed, not anxious</li>
-                <li>Focused recall: after the general account, drill into specific elements ("describe the face," "describe the voice")</li>
-                <li>Spatial reconstruction: sketch a diagram of the room, place people within it</li>
-                <li>Character checks: for every person mentioned, get a full description</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">How to apply it in a fraud investigation</h4>
-            <ul class="tip">
-                <li>A victim saw an employee working the register → use CI to maximize the detail of the actions</li>
-                <li>A witness was present at a meeting where the scheme was discussed → use reverse order for exact quotes</li>
-                <li>Don't use CI on suspects — it's a memory tool, not an admission-seeking tool</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">What NOT to do during CI</h4>
-            <ul class="red">
-                <li>Don't interrupt free recall — any interruption breaks the memory chain</li>
-                <li>Don't ask leading questions — "was he wearing a blue jacket?" plants a false memory</li>
-                <li>Don't rush — pauses in CI are normal and don't need to be filled</li>
-                <li>Don't repeat a question the subject didn't answer — they'll think their first answer was wrong and change it</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★★★ — for witnesses and victims; the best-validated method for maximizing recall</li>
-                <li>Research shows +35–45% accurate information vs a standard interview</li>
-                <li>False memories do not increase — unlike hypnosis</li>
-            </ul>`
-    },
-    {
-        id:"inv19", code:"INV-19", cat:"INTERVIEWS",
-        title:"Strategic Use of Evidence (SUE) — Working With a Suspect",
-        description:"A Scandinavian method for questioning suspects. Don't show the evidence right away — let the subject build their own account, then break it apart with the evidence.",
-        content:`<p><strong>Developed</strong> by Pär-Anders Granhag (University of Gothenburg). Used by European law enforcement and corporate investigations as a legally defensible alternative to Reid.</p>
-
-            <h4 style="color:var(--c-gold)">The core logic of SUE</h4>
-            <ul class="detect">
-                <li>A guilty suspect knows about the evidence against them — and will build their lie around what they believe you know</li>
-                <li>If you show the evidence right away → they adapt their story to fit it</li>
-                <li>If you <em>don't</em> show it → they build their account without knowing your hand → the contradiction between their account and the evidence will be maximal</li>
-                <li>An innocent person, by contrast, tells the truth regardless of the evidence — their account doesn't change</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">SUE — structure</h4>
-            <ul class="detect">
-                <li><strong>Step 1 — Open narrative:</strong> "Tell me everything about [topic] — from the beginning." Record the subject's account in detail. Don't show any evidence.</li>
-                <li><strong>Step 2 — Strategic questions:</strong> ask questions on topics where you already have evidence, without naming it: "Do you remember where you were on Friday, March 14, around 3pm?" The subject doesn't know you have the access-card log.</li>
-                <li><strong>Step 3 — Probing the details:</strong> for each key topic, clarify and lock in the testimony: "Are you sure you didn't go into the server room that day?"</li>
-                <li><strong>Step 4 — Presenting the evidence:</strong> only once the testimony is fully locked in — present the evidence one piece at a time, starting with the less critical items: "Here's the access-system log for March 14"</li>
-                <li><strong>Step 5 — Explaining the contradiction:</strong> "You said you didn't go into the server room. This record shows otherwise. How do you explain that?"</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">SUE vs deception indicators</h4>
-            <ul class="detect">
-                <li>A guilty subject builds an account that "steers around" the evidence they anticipate → this creates specific patterns</li>
-                <li>"Strategic evasion": the closer a question gets to the real evidence, the more evasiveness, pauses, and topic-changing you'll see</li>
-                <li>This is a signal, not proof — but it points you toward the next question</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Common mistakes</h4>
-            <ul class="red">
-                <li>Showing a strong piece of evidence right away — you "burn the card" and the subject adapts their account</li>
-                <li>Failing to lock in the subject's account before presenting evidence — leaves nothing to compare against</li>
-                <li>Presenting all the evidence at once instead of one piece at a time</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★★★ — for suspects with an evidence base; the most legally defensible method</li>
-                <li>Research shows a significantly higher rate of contradictions among guilty vs. innocent subjects than with standard questioning</li>
-                <li>Works especially well combined with a strong documentary base</li>
-            </ul>`
-    },
-    {
-        id:"inv20", code:"INV-20", cat:"INTERVIEWS",
-        title:"SCHARFF Technique — Working With a Resistant Source",
-        description:"An intelligence technique for getting information from people who don't want to talk. Principle: act as though you already know more — the source starts to clarify, correct, and confirm.",
-        content:`<p><strong>Named</strong> after WWII German officer Hanns Joachim Scharff, called "history's most successful interrogator" — he obtained information from American pilots without coercion, purely through conversation. Adapted by Håvard Skjerve and Pär-Anders Granhag for the modern context.</p>
-
-            <h4 style="color:#bd6bbd">Core principle</h4>
-            <ul class="detect">
-                <li>The source doesn't want to talk, but they do have information</li>
-                <li>Instead of questions — <strong>statements</strong>: "We know the meeting was in April, in Bratislava"</li>
-                <li>The source thinks: "They already know — why stay silent?" → they start to clarify and correct you</li>
-                <li>Every correction is new information you didn't have before</li>
-                <li>The source doesn't realize they themselves are the source — they think they're merely correcting something you already knew</li>
-            </ul>
-
-            <h4 style="color:#bd6bbd">4 SCHARFF tactics</h4>
-            <ul class="detect">
-                <li><strong>1. Claim to know:</strong> "We already know about these transactions" — the source corrects the details</li>
-                <li><strong>2. Tell nothing new:</strong> "Whatever you tell us, we already know" → removes the source's sense of betraying anyone</li>
-                <li><strong>3. Don't rush:</strong> build a long, friendly conversation — information surfaces in a relaxed setting</li>
-                <li><strong>4. Seemingly irrelevant questions:</strong> questions that don't seem dangerous but yield critical details</li>
-            </ul>
-
-            <h4 style="color:#bd6bbd">How to use it in a corporate investigation</h4>
-            <ul class="detect">
-                <li>A witness is loyal to the suspect and doesn't want to talk → use SCHARFF instead of direct questions</li>
-                <li>"We've seen the correspondence between you and [suspect] on this matter" — source: "well yes, but there was nothing specific in it..." → confirms the correspondence existed</li>
-                <li>"As I understand it, you weren't aware of the details of the scheme" → "well, I had a rough idea of what was going on..." → new information</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Limitations</h4>
-            <ul class="red">
-                <li>You're making factual claims — if the source realizes you're bluffing, trust is destroyed</li>
-                <li>Don't use it if the claim could be regarded as deception or coercion under the subject's jurisdiction</li>
-                <li>Doesn't work on experienced lawyers or people familiar with the technique</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★★☆ — for resistant and reluctant sources, OSINT interviews, informal contacts</li>
-                <li>Experimentally: sources in the SCHARFF condition disclosed significantly more information than under direct questioning</li>
-                <li>Especially effective in an informal setting — coffee, a casual conversation</li>
-            </ul>`
-    },
-    {
-        id:"inv21", code:"INV-21", cat:"INTERVIEWS",
-        title:"Motivational Interviewing (MI) — reluctant witnesses",
-        description:"Adapted from addiction therapy. For witnesses who DO know something but don't want to talk — out of loyalty, fear, or uncertainty.",
-        content:`<p><strong>Developed</strong> by Miller & Rollnick (1991). In the forensic context, adapted for working with witness reluctance — when a person has information but resists disclosing it.</p>
-
-            <h4 style="color:#059669">Why a witness stays silent — diagnosis</h4>
-            <ul class="detect">
-                <li><strong>Loyalty to a colleague:</strong> "He's my friend, I don't want to hurt him"</li>
-                <li><strong>Fear of retaliation:</strong> "If I say anything I'll get fired / I've been threatened"</li>
-                <li><strong>Uncertainty about relevance:</strong> "I didn't think it mattered"</li>
-                <li><strong>Normalization:</strong> "Everyone does this, it's standard practice"</li>
-                <li>Different reasons call for a different MI approach</li>
-            </ul>
-
-            <h4 style="color:#059669">Four MI techniques</h4>
-            <ul class="detect">
-                <li><strong>1. Open-ended questions:</strong> "What's troubling you about this situation?" — let the witness express their ambivalence</li>
-                <li><strong>2. Affirmations:</strong> "I understand this isn't an easy situation. The fact that you came in already matters"</li>
-                <li><strong>3. Reflective listening:</strong> "If I understand correctly — you want to do the right thing, but you're worried about the consequences for your colleague?" You reflect their internal conflict back to them.</li>
-                <li><strong>4. Summaries + Change talk:</strong> "On one hand, you value loyalty to the team. On the other, you said the situation feels unfair to other employees. Which of those matters more to you?"</li>
-            </ul>
-
-            <h4 style="color:#059669">Activating internal motivation</h4>
-            <ul class="detect">
-                <li>Don't pressure them — it's counterproductive and creates resistance</li>
-                <li>Activate their own values: "What matters more to you — loyalty to one specific person, or honesty within the organization, which matters to the whole team?"</li>
-                <li>Normalize disclosure: "Many employees in similar situations decide to come forward — and it's always the right call"</li>
-                <li>Address the specific fear directly: explain the real whistleblower protections and confidentiality available</li>
-            </ul>
-
-            <h4 style="color:#059669">DARN-CAT — readiness-to-talk markers</h4>
-            <ul class="tip">
-                <li><strong>Desire:</strong> "I wish this would stop" → interest in change</li>
-                <li><strong>Ability:</strong> "I guess I could tell you..." → barrier lowering</li>
-                <li><strong>Reasons:</strong> "Because it's unfair to the rest of us" → motivation</li>
-                <li><strong>Need:</strong> "Someone needs to do something" → a call to action</li>
-                <li>When you hear DARN language → move to specific questions</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★★☆ — the best tool for reluctant witnesses and potential whistleblowers</li>
-                <li>Time-consuming — not for urgent situations; may take several meetings</li>
-                <li>Highly effective when the reason for silence is ambivalence rather than a deliberate decision to conceal</li>
-            </ul>`
-    },
-    {
-        id:"inv22", code:"INV-22", cat:"INTERVIEWS",
-        title:"HUMINT / Elicitation — Extracting Information Without Direct Questions",
-        description:"Techniques from the intelligence community for informal information gathering. Useful when direct questions are impossible, inappropriate, or counterproductive.",
-        content:`<p><strong>Elicitation</strong> is the art of obtaining information through what appears to be an ordinary conversation. The source doesn't realize they're being asked about anything important. Used by intelligence services, journalists, and OSINT specialists.</p>
-
-            <h4 style="color:#3fa6da">8 Elicitation techniques</h4>
-            <ul class="detect">
-                <li><strong>1. Flattery:</strong> "You clearly understand how this system works better than anyone — tell me..." → ego triggers the desire to demonstrate expertise</li>
-                <li><strong>2. False statement:</strong> "I heard the amount was around €20 thousand" → the source corrects you: "no, it was €85 thousand" → information obtained</li>
-                <li><strong>3. Quid pro quo:</strong> share something (non-confidential) → the source automatically feels compelled to give something back</li>
-                <li><strong>4. Deliberate misunderstanding:</strong> "As I understood it, you approved those payments directly" → the source: "no, [another person] did that" → a new name</li>
-                <li><strong>5. Leading question (sometimes unavoidable):</strong> "So everyone in the department knew?" → "well, not everyone, just [specific people]"</li>
-                <li><strong>6. Provocative statement:</strong> "I heard the whole team was aware" → the source defends their own: "no, only [name] knew"</li>
-                <li><strong>7. Silence:</strong> after an answer, pause for 5+ seconds. The source fills the silence → often with the most important detail</li>
-                <li><strong>8. Third-party reference:</strong> "Your colleague mentioned that..." → the source reacts to what "others are saying"</li>
-            </ul>
-
-            <h4 style="color:#3fa6da">When to use Elicitation</h4>
-            <ul class="detect">
-                <li>An informal conversation before the official interview — gathering context</li>
-                <li>Contacts who have declined an official interview</li>
-                <li>OSINT reconnaissance before the investigation begins — understand the structure without showing your hand</li>
-                <li>Networking events, conferences — conversations with market participants</li>
-            </ul>
-
-            <h4 style="color:#3fa6da">Elicitation in a corporate context</h4>
-            <ul class="tip">
-                <li>"How is your invoice approval process set up?" (sounds like an administrative question) → yields a description of a control weakness</li>
-                <li>A conversation with a former employee of the target company at a conference → they aren't bound by an NDA and readily share "stories"</li>
-                <li>A conversation with an external auditor, consultant, or supplier — they see the organization from the inside and often speak candidly</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Ethical and legal boundaries</h4>
-            <ul class="red">
-                <li>Elicitation is not deception. Technically you're not lying — you're asking questions indirectly</li>
-                <li>Don't use it in an official recorded interview — only in an informal context</li>
-                <li>Everything obtained through elicitation is a lead, not evidence. It still needs documentary verification</li>
-                <li>In several jurisdictions, recording a conversation without consent is illegal</li>
-            </ul>
-
-            <h4>Effectiveness</h4>
-            <ul class="tip">
-                <li>★★★☆☆ for formal investigations, ★★★★★ for intelligence gathering and lead generation</li>
-                <li>The best tool for the pre-investigation phase — understanding the picture before official action begins</li>
-            </ul>`
-    },
-    {
-        id:"inv23", code:"INV-23", cat:"INTERVIEWS",
-        title:"QUICK GUIDE: Which Model to Use, and When",
-        description:"A comparison table of all the models — pick a technique in 30 seconds depending on the subject, goal, and context. What's most effective, and why.",
-        content:`<h4 style="color:var(--c-gold)">Model selection matrix</h4>
-            <div style="overflow-x:auto">
-            <table style="width:100%;border-collapse:collapse;font-size:12px;font-family:'JetBrains Mono',monospace">
-                <tr style="border-bottom:1px solid var(--c-line)">
-                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Situation</th>
-                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Best model</th>
-                    <th style="text-align:left;padding:6px 8px;color:var(--c-blue)">Why</th>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Witness / victim, need more detail</td>
-                    <td style="padding:6px 8px;color:var(--c-sage)">Cognitive Interview</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">+35-45% accurate recall</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-bg)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Suspect, strong evidence base</td>
-                    <td style="padding:6px 8px;color:var(--c-gold)">SUE + PEACE</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">Locks in their account → then breaks it apart with evidence</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Corporate HR investigation, need an admission</td>
-                    <td style="padding:6px 8px;color:var(--c-blue)">WZ (Wicklander-Zulawski)</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">Non-confrontational, legally defensible</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-bg)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Witness stays silent, loyal to the suspect</td>
-                    <td style="padding:6px 8px;color:#059669">Motivational Interviewing</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">Activates internal motivation to talk</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Resistant source, refuses to talk</td>
-                    <td style="padding:6px 8px;color:#bd6bbd">SCHARFF</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">Source "corrects what's already known" — doesn't realize they're the one talking</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-bg)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Informal contact, pre-investigation</td>
-                    <td style="padding:6px 8px;color:#3fa6da">HUMINT / Elicitation</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">Gathers leads without revealing the investigation</td>
-                </tr>
-                <tr style="border-bottom:1px solid var(--c-line);background:color-mix(in srgb, var(--c-text) 3%, transparent)">
-                    <td style="padding:6px 8px;color:var(--c-text)">Any official interview in the EU / UK</td>
-                    <td style="padding:6px 8px;color:var(--c-sage)">PEACE</td>
-                    <td style="padding:6px 8px;color:var(--c-muted)">The legal standard — ethical and holds up in court</td>
-                </tr>
-            </table>
-            </div>
-
-            <h4 style="color:var(--c-rose)">Effectiveness ranking by task</h4>
-            <ul class="detect">
-                <li><strong>Maximize witness memory:</strong> Cognitive Interview ★★★★★</li>
-                <li><strong>Obtain an admission (corporate context):</strong> WZ ★★★★☆ | SUE ★★★★★</li>
-                <li><strong>Get a reluctant witness talking:</strong> Motivational Interviewing ★★★★☆</li>
-                <li><strong>Information from a resistant source:</strong> SCHARFF ★★★★☆</li>
-                <li><strong>Pre-investigation reconnaissance:</strong> Elicitation ★★★★★</li>
-                <li><strong>Legal defensibility in EU courts:</strong> PEACE ★★★★★</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Combinations that work best</h4>
-            <ul class="tip">
-                <li><strong>ELICITATION → PEACE + SUE:</strong> reconnaissance first (informal), then an official interview with the evidence base</li>
-                <li><strong>CI for the victim → PEACE + SUE for the suspect:</strong> maximum information from both sides</li>
-                <li><strong>MI for a reluctant witness → PEACE:</strong> motivate them to talk first, then take their official statement</li>
-                <li><strong>SCHARFF in an informal setting → WZ in the official one:</strong> get the outline of the picture, then confront</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Three golden rules for any interview</h4>
-            <ul class="tip">
-                <li><strong>Listen 80%, talk 20%</strong> — an interviewer who talks more than the subject loses</li>
-                <li><strong>The suspect goes last</strong> — gather maximum information from other sources first</li>
-                <li><strong>Lock in their account before presenting evidence</strong> — otherwise the subject adapts their story</li>
-            </ul>`
-    },
-
-    // ── FORENSIC TECHNIQUES — FBI / EY FORENSIC LEVEL ──────────────
-    {
-        id:"inv24", code:"INV-24", cat:"FORENSIC",
-        title:"Net Worth Analysis — Three Indirect-Proof Methods",
-        description:"When there's no direct evidence, prove that the suspect came into money that couldn't have come from legitimate sources. Used daily by the IRS, FBI, and EY Forensic.",
-        content:`<p><strong>Indirect proof methods</strong> are used when a cash scheme leaves no paper trail (skimming, cash theft). You can't prove where the money came from — but you can prove it couldn't have come from legitimate means.</p>
-
-            <h4 style="color:var(--c-blue)">Method 1: Net Worth Method</h4>
-            <ul class="detect">
-                <li><strong>Logic:</strong> if net worth grew by more than declared income allows, the difference represents potentially criminal proceeds</li>
-                <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Net worth (end of year) − Net worth (start of year) = Increase</li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Increase + Living expenses = Funds required</li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Funds required − Declared income = Unexplained funds</li>
-                <li><strong>Net worth includes:</strong> real estate (market value), vehicles, bank accounts, investments, cash, receivables — minus mortgages, loans, debts</li>
-                <li><strong>Base year:</strong> establish net worth in the year BEFORE the alleged scheme began — this is the most contested part</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Method 2: Expenditure Method</h4>
-            <ul class="detect">
-                <li><strong>Logic:</strong> simpler than Net Worth — total all documented expenditures and compare against income</li>
-                <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Total expenditures for the period − Declared income = Deficit</li>
-                <li><strong>Expenditures:</strong> mortgage, rent, vehicles, vacations, restaurants, clothing, school fees, renovations, gifts</li>
-                <li><strong>Sources of data:</strong> bank statements (all accounts), credit cards, tax returns, public registries (real estate, vehicles)</li>
-                <li><strong>Preferable to Net Worth when:</strong> asset market values are hard to assess, but expenditures are well documented</li>
-            </ul>
-
-            <h4 style="color:var(--c-blue)">Method 3: Bank Deposits Method</h4>
-            <ul class="detect">
-                <li><strong>Logic:</strong> total all deposits into bank accounts — more than legitimate income means unexplained sources</li>
-                <li><strong>Formula:</strong></li>
-                <li style="padding-left:1.5rem;font-family:monospace;color:var(--c-sage)">Total deposits − Inter-account transfers − Declared income = Unexplained deposits</li>
-                <li>Important: exclude transfers between the subject's own accounts (otherwise you double-count)</li>
-                <li><strong>Best of the three when:</strong> the subject is depositing cash — a direct trace of a cash scheme</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">In practice: gathering the data</h4>
-            <ul class="tip">
-                <li><strong>Bank records:</strong> subpoena / formal request for all of the subject's accounts + spouse's — at minimum, the scheme period plus 1 year prior</li>
-                <li><strong>Tax returns:</strong> obtain for every year of the period — through the tax authority or voluntarily</li>
-                <li><strong>Real estate:</strong> land registry — purchase dates, prices, mortgages</li>
-                <li><strong>Vehicles:</strong> vehicle registry — registration dates, value</li>
-                <li><strong>Interview:</strong> FIRST ask the subject about all sources of income — lock in their answers BEFORE presenting the financial analysis</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">What the defense will challenge</h4>
-            <ul class="red">
-                <li>"The base year was determined incorrectly" — always document the sources of your base-year figures</li>
-                <li>"There was unexplained cash obtained before the investigation period" (the cash-hoard defense)</li>
-                <li>"Gifts, inheritance, loans from family" — require documentation; unsupported verbal claims are weak</li>
-                <li>"The market valuation of the assets is wrong" — use independent appraisers for major assets</li>
-            </ul>
-
-            <h4>CFE Exam + Career</h4>
-            <ul class="tip">
-                <li>CFE exam: know the Net Worth method formula and when to apply each of the three methods</li>
-                <li>EY Forensic / FBI: Net Worth analysis is a standard procedure on every corruption or embezzlement case</li>
-                <li>All three methods are often combined for mutual corroboration</li>
-            </ul>`
-    },
-    {
-        id:"inv25", code:"INV-25", cat:"FORENSIC",
-        title:"Bank Records Forensics — Analyzing Bank Records",
-        description:"Bank statements are gold for an investigation. Here: how to read them, what to look for, how to build a picture of the money's movement.",
-        content:`<p><strong>Bank records</strong> are the most objective evidence in a fraud investigation. They can't easily be forged — they're created by the bank independently of the subject.</p>
-
-            <h4 style="color:var(--c-sage)">What to request (minimum package)</h4>
-            <ul class="detect">
-                <li>All of the subject's accounts: checking, savings, credit, investment — for the full scheme period plus 12 months prior</li>
-                <li>Accounts of related parties: spouse, joint business, parents (if there are grounds)</li>
-                <li>Cancelled checks, both sides (endorsements on the back)</li>
-                <li>Wire transfer records with full details: sender, recipient, correspondent bank</li>
-                <li>Safe deposit box access logs</li>
-                <li>Loan applications (contain the subject's declared assets and income)</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">What to look for in the statements</h4>
-            <ul class="detect">
-                <li><strong>Round cash amounts:</strong> regular deposits of $500, $1,000, $5,000 — a cash-scheme pattern</li>
-                <li><strong>Structuring:</strong> a series of deposits just under $10,000 (the US SAR threshold) — a money-laundering signal</li>
-                <li><strong>Transfers to unknown accounts:</strong> especially in other jurisdictions</li>
-                <li><strong>Spending inconsistent with income:</strong> high-end restaurants, travel, luxury purchases on a credit card</li>
-                <li><strong>Round-trip transfers:</strong> money leaves and comes back — a circular transaction (FR13)</li>
-                <li><strong>New inflows during the scheme period:</strong> a sharp increase in deposits with no explanation</li>
-            </ul>
-
-            <h4 style="color:var(--c-sage)">Building a transaction timeline</h4>
-            <ul class="detect">
-                <li>Consolidate all accounts into a single chronological table: date, account, type, amount, counterparty</li>
-                <li>Color-code: legitimate income (green), suspicious deposits (red), expenditures (blue)</li>
-                <li>Overlay it on the scheme's timeline: do deposit spikes line up with periods of theft?</li>
-                <li>Link analysis: which other accounts/people the transfers go to — build the network</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Loan applications — hidden gold</h4>
-            <ul class="tip">
-                <li>When the subject took out a mortgage or a large loan, they declared assets and income to the bank</li>
-                <li>If the assets declared on the loan application diverge from the tax returns → bank fraud</li>
-                <li>If the assets on the application exceed what's explainable from legitimate income → a net worth source</li>
-                <li>Loan applications can be obtained via subpoena to the bank</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>EY Forensic: the first thing built is a transaction flow chart across all bank accounts</li>
-                <li>FBI Financial Crimes: structuring analysis is a standard procedure on every AML case</li>
-                <li>CFE exam: know the indicators of structuring and how the bank deposits method connects to AML reporting</li>
-            </ul>`
-    },
-    {
-        id:"inv26", code:"INV-26", cat:"FORENSIC",
-        title:"Digital Forensics — Electronic Evidence and Metadata",
-        description:"Every document, message, and file leaves a digital trail. A forensic specialist reads that trail like a book — even when the file has been \"deleted.\"",
-        content:`<p><strong>Digital forensics</strong> is the extraction, preservation, and analysis of electronic evidence. In modern investigations, 90%+ of evidence exists in digital form.</p>
-
-            <h4 style="color:#bd6bbd">Types of digital evidence</h4>
-            <ul class="detect">
-                <li><strong>Document metadata:</strong> every file (.docx, .pdf, .xlsx) stores a creation date, modification date, author, program, and version — none of which is visible in a normal viewing</li>
-                <li><strong>Email headers:</strong> the full route a message took: every server it passed through, exact timestamps, the sender's IP address</li>
-                <li><strong>System logs:</strong> who accessed the ERP system when, what they did, what they changed — an immutable audit trail</li>
-                <li><strong>Deleted files:</strong> deleted files physically remain on disk until overwritten — recoverable with forensic tools</li>
-                <li><strong>Browser history / Cloud activity:</strong> when the subject searched "how to delete documents," "offshore accounts" — it's all logged</li>
-            </ul>
-
-            <h4 style="color:#bd6bbd">How to read document metadata</h4>
-            <ul class="detect">
-                <li>Windows: right-click the file → Properties → Details → shows Date created, Date modified, Author</li>
-                <li>PDF: Adobe → File → Properties → Description — Creation Date, Modification Date, Creator</li>
-                <li>Deeper analysis: ExifTool (free CLI) — shows every hidden field</li>
-                <li><strong>Red flag:</strong> Contract dated January 15 but metadata shows Created: February 3 → backdating (FR9)</li>
-                <li><strong>Red flag:</strong> Document "authored by" name ≠ declared author → forgery</li>
-            </ul>
-
-            <h4 style="color:#bd6bbd">Email forensics</h4>
-            <ul class="detect">
-                <li>Request the raw email (.eml or .msg) — not a printout, the original file with headers</li>
-                <li>In the headers: the Received: field shows every server and the exact time (UTC)</li>
-                <li>Message-ID: a unique identifier — if two emails share the same ID, one of them was fabricated</li>
-                <li>X-Originating-IP: the sender's real IP address — can be geolocated</li>
-                <li>DocuSign / Adobe Sign: every document has a Certificate of Completion with exact timestamps for each action</li>
-            </ul>
-
-            <h4 style="color:#bd6bbd">Forensic imaging — properly seizing a device</h4>
-            <ul class="tip">
-                <li>Never work on the original media — only on a forensic copy (bit-by-bit image)</li>
-                <li>Tools: FTK Imager (free) for creating the image; Autopsy (free) for analysis</li>
-                <li>Hash verification: the MD5/SHA-256 hash of the original matches the hash of the copy → integrity proven</li>
-                <li>Write blocker: a physical device placed between the disk and the computer — prevents accidental writes to the original</li>
-                <li>Everything is documented: who, when, what tool, hash values → chain of custody</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">Common mistakes</h4>
-            <ul class="red">
-                <li>Opening the original file on the suspect's computer → alters metadata (Last Accessed)</li>
-                <li>Copying files with an ordinary Copy-Paste → doesn't preserve metadata, doesn't create a hash</li>
-                <li>Failing to document chain of custody → the defense will challenge the evidence's integrity</li>
-                <li>Obtaining data without legal authorization → can render the entire piece of evidence inadmissible</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>EY Forensic Technology: whole teams work exclusively on e-discovery and digital forensics</li>
-                <li>For the CFE exam: know that metadata exists, how backdating is detected, and what chain of custody means</li>
-                <li>Baseline level (every CFE needs it): ExifTool, reviewing email headers, PDF properties</li>
-            </ul>`
-    },
-    {
-        id:"inv27", code:"INV-27", cat:"FORENSIC",
-        title:"Asset Tracing — Following the Money",
-        description:"Follow the money. The methodology for tracing assets from the point of theft to their final destination — real estate, offshore structures, cryptocurrency, nominee owners.",
-        content:`<p><strong>Asset tracing</strong> is the process of identifying, locating, and documenting assets that are proceeds of fraud. Critical for recovery and for proving the case in court.</p>
-
-            <h4 style="color:#059669">Three phases of asset tracing</h4>
-            <ul class="detect">
-                <li><strong>1. Identification:</strong> exactly what was stolen / where did the money originate?</li>
-                <li><strong>2. Tracing:</strong> where did the money go — through which accounts, companies, jurisdictions?</li>
-                <li><strong>3. Recovery:</strong> can it be frozen and returned — injunctions, mutual legal assistance</li>
-            </ul>
-
-            <h4 style="color:#059669">Tracing tools</h4>
-            <ul class="detect">
-                <li><strong>Bank-to-bank wire tracing:</strong> every wire transfer has a SWIFT message — request the chain through to the final bank via the originating bank</li>
-                <li><strong>Corporate registry cascade:</strong> Company A → Company B → Company C → beneficial owner. Tools: OpenCorporates, OCCRP Aleph, national registries</li>
-                <li><strong>Property registries:</strong> land registries in every jurisdiction — real estate is publicly registered</li>
-                <li><strong>Nominee directors / shareholders:</strong> offshore schemes often use nominees — look for the Ultimate Beneficial Owner via 5AMLD registries</li>
-                <li><strong>Shell company patterns:</strong> the same address / director shared by dozens of companies → a nominee provider</li>
-            </ul>
-
-            <h4 style="color:#059669">Cryptocurrency tracing</h4>
-            <ul class="detect">
-                <li>The blockchain is public — every transaction is visible. Tools: Chainalysis, Elliptic, Crystal (commercial); blockchain explorers (free)</li>
-                <li>Every address is visible, but the owner is anonymous → de-anonymization via exchange KYC or an IP leak</li>
-                <li>Mixer / tumbler: an attempt to break the trace — the mere fact of using a mixer is a red flag</li>
-                <li>If the crypto is cashed out on a regulated exchange, the exchange is obligated to provide KYC data under subpoena</li>
-            </ul>
-
-            <h4 style="color:#059669">Offshore schemes — how they work</h4>
-            <ul class="detect">
-                <li><strong>Classic scheme:</strong> Theft → account at a bank in country A → transfer to a shell company in country B → transfer to a trust in country C → real estate in country D</li>
-                <li><strong>Chain-breaking tools:</strong> nominee directors, bearer shares (largely obsolete), layered trusts, crypto mixers</li>
-                <li><strong>How to unravel it:</strong> a Mutual Legal Assistance Treaty (MLAT) request; Panama Papers / FinCEN Files (public leaks); regulatory requests via the FIU</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Freezing orders — freezing assets</h4>
-            <ul class="tip">
-                <li>Mareva injunction (UK) / Freezing Order: the court freezes assets pending resolution of the case</li>
-                <li>Anton Piller Order (UK): the right to enter premises and seize documents without warning</li>
-                <li>In the EU: the European Account Preservation Order (EAPO) — cross-jurisdictional freezing of bank accounts</li>
-                <li>Speed matters — assets can be moved out within 24–72 hours once there's warning</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>EY / KPMG / Deloitte Forensic: asset tracing is one of the highest-paid specializations</li>
-                <li>International corruption investigations are impossible without an asset tracing component</li>
-                <li>CFE exam: know the concepts of proceeds of fraud, constructive trust, and the three phases of money laundering</li>
-            </ul>`
-    },
-    {
-        id:"inv28", code:"INV-28", cat:"FORENSIC",
-        title:"Subpoenas & Legal Process — Compelling Production of Documents",
-        description:"Voluntary handover of documents often won't happen. How the legal tools for compelling production of records work — in the US, the EU, and internationally.",
-        content:`<p><strong>Legal process</strong> is the set of legal tools for compelling information that a subject or third parties are unwilling to provide voluntarily.</p>
-
-            <h4 style="color:#3fa6da">Subpoena types</h4>
-            <ul class="detect">
-                <li><strong>Subpoena duces tecum:</strong> a demand to produce documents (bank records, emails, contracts)</li>
-                <li><strong>Subpoena ad testificandum:</strong> a demand to appear and give testimony</li>
-                <li><strong>Grand Jury subpoena (US):</strong> issued without a court hearing, compels banks and companies without notifying the client</li>
-                <li>In the EU: there's no single "subpoena" — national equivalents are used, plus MLAT for cross-jurisdictional requests</li>
-            </ul>
-
-            <h4 style="color:#3fa6da">How a CFE / corporate investigator obtains documents</h4>
-            <ul class="detect">
-                <li><strong>Voluntary production:</strong> request via legal counsel — works with cooperating parties</li>
-                <li><strong>Litigation hold / legal hold:</strong> a document preservation letter — the recipient is obligated not to destroy anything; violation is spoliation, with severe consequences</li>
-                <li><strong>Civil discovery:</strong> if litigation is already underway, request documents through the discovery process (interrogatories, requests for production)</li>
-                <li><strong>Through law enforcement:</strong> refer the case to police / prosecutors — they have subpoena power</li>
-                <li><strong>Regulatory requests:</strong> if the subject is a regulated entity (bank, broker), the regulator can request directly</li>
-            </ul>
-
-            <h4 style="color:#3fa6da">Preservation letters — the first thing you send</h4>
-            <ul class="tip">
-                <li>As soon as the investigation begins, immediately send a preservation letter to everyone holding potentially relevant documents</li>
-                <li>Contents: description of document categories, the period covered, a requirement not to delete or alter, and the consequences for violation</li>
-                <li>Coverage: email, chats, voicemails, backups, mobile devices — everything</li>
-                <li>Spoliation (destroying documents after receiving a preservation notice) is a separate wrong, often worse for the subject than the original misconduct</li>
-            </ul>
-
-            <h4 style="color:#3fa6da">MLAT — international requests</h4>
-            <ul class="detect">
-                <li>Mutual Legal Assistance Treaty: a mechanism for requesting legal assistance from another state</li>
-                <li>The request routes: Ministry of Justice → the other country's Ministry of Justice → local law enforcement → bank/registry</li>
-                <li>Slow (6–18 months) and requires criminal proceedings — for civil litigation there are Letters Rogatory</li>
-                <li>EU: a faster mechanism exists via the European Investigation Order (EIO) between EU member states</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">What you must not do</h4>
-            <ul class="red">
-                <li>Access someone else's email / bank account without authorization → criminal liability</li>
-                <li>Copy documents from the subject's computer without their consent or a court order → inadmissible evidence</li>
-                <li>Conduct wiretapping without consent or judicial authorization → illegal in most jurisdictions</li>
-                <li>Promise a witness confidentiality you can't guarantee → an ethical violation</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>CFE exam: know the difference between subpoena duces tecum and ad testificandum, and what spoliation means</li>
-                <li>In practice: a CFE never issues subpoenas themselves — they work alongside counsel. But they need to know what to request</li>
-                <li>EY/Deloitte Forensic: preservation letters and legal hold are standard procedure on day 1 of an investigation</li>
-            </ul>`
-    },
-    {
-        id:"inv29", code:"INV-29", cat:"FORENSIC",
-        title:"Timeline Reconstruction — Building the Chronology of the Crime",
-        description:"One of the most powerful tools for investigation and case presentation. A timeline turns scattered evidence into a coherent picture for court, the board, insurers.",
-        content:`<p><strong>A timeline</strong> is a chronologically ordered sequence of events, each with its source noted. It's both an analytical tool and a presentation tool.</p>
-
-            <h4 style="color:var(--c-gold)">Why build a timeline</h4>
-            <ul class="detect">
-                <li>Reveal patterns: a scheme usually has a characteristic rhythm (monthly payments, quarter-end, a payout cycle)</li>
-                <li>Reveal gaps: what was happening during periods that remain unexplained?</li>
-                <li>Connect events: when the subject added the vendor → when the first payment went out → when they bought a car → the link becomes obvious</li>
-                <li>For court and the board: a visual chronology is more persuasive than pages of text</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Sources for a timeline</h4>
-            <ul class="detect">
-                <li>Financial records: transaction, invoice, and payment dates</li>
-                <li>Email metadata: exact timestamps (in UTC) from the headers</li>
-                <li>System logs: ERP login times, record modification times</li>
-                <li>Document metadata: Creation Date, Last Modified</li>
-                <li>Physical records: contract dates, signatures, stamps</li>
-                <li>Public registries: company registration date, real estate purchase date</li>
-                <li>Phone CDRs (Call Detail Records): who called whom, and when</li>
-                <li>Witness testimony: events tied to specific dates</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Timeline structure</h4>
-            <ul class="detect">
-                <li><strong>Minimum columns:</strong> Date | Event | Source (document / witness) | Significance</li>
-                <li><strong>Color-code:</strong> the subject's actions (red), financial movements (blue), contact with other parties (orange), control events (green)</li>
-                <li><strong>Double-check:</strong> every event on the timeline must reference a primary source — otherwise it belongs in hypotheses, not the timeline</li>
-                <li><strong>Versions:</strong> a working timeline (with hypotheses) plus a final one (proven facts only)</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Tools</h4>
-            <ul class="tip">
-                <li><strong>Excel / Power BI:</strong> for simple timelines; Power BI gives interactive visualization for presentation</li>
-                <li><strong>i2 Analyst's Notebook:</strong> the standard in law enforcement and EY Forensic — link analysis and timeline in one</li>
-                <li><strong>Maltego:</strong> for OSINT-intensive investigations — a link graph plus timeline</li>
-                <li><strong>Relativity:</strong> an e-discovery platform with a built-in timeline across email and documents</li>
-                <li><strong>Simplest option:</strong> Google Sheets with date-based conditional formatting — sufficient for 80% of corporate cases</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Patterns a timeline reveals</h4>
-            <ul class="detect">
-                <li>Vendor added → payment in the same week (AM2 — phony vendor)</li>
-                <li>Contract signed after the delivery date (backdating — FR9)</li>
-                <li>The subject bought real estate 2 months after the scheme began</li>
-                <li>Payments stopped immediately after a new manager with oversight authority was appointed</li>
-                <li>A batch of journal entries posted the day before period close (FR1)</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>A timeline is the primary tool for presenting a case in court: jurors understand a visual chronology better than any report</li>
-                <li>EY / Big4 Forensic: every case has a master timeline, updated daily as new data comes in</li>
-                <li>CFE exam: know conceptually why a timeline matters and where the data comes from</li>
-            </ul>`
-    },
-    {
-        id:"inv30", code:"INV-30", cat:"FORENSIC",
-        title:"Covert Investigation — Concealed Methods Before Going Official",
-        description:"Methods for gathering information before formally announcing an investigation — so as not to alert the subject or give them the chance to destroy evidence.",
-        content:`<p><strong>The covert phase</strong> is reconnaissance before confrontation. Goal: gather as much information as possible while the subject remains unaware of the investigation. A single information leak can destroy the case.</p>
-
-            <h4 style="color:var(--c-rose)">Investigation OPSEC — what not to do before the covert phase ends</h4>
-            <ul class="red">
-                <li>Don't discuss the investigation by phone / email (it could be monitored or leaked)</li>
-                <li>Don't request documents from people inside the organization — anyone could tip off the subject</li>
-                <li>Don't make direct requests to IT systems without coordination (logs are visible to system administrators)</li>
-                <li>Keep the number of people read in to a minimum: only those necessary for data collection</li>
-                <li>Don't use corporate email to communicate about the case — use an encrypted channel</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">What is done covertly (with proper authorization)</h4>
-            <ul class="detect">
-                <li><strong>System logs without notification:</strong> IT provides ERP / email / access logs without notifying the subject — requires authorization from legal counsel</li>
-                <li><strong>OSINT:</strong> public company registries, social media, LinkedIn, public records — without notifying anyone</li>
-                <li><strong>Financial analytics:</strong> analysis of data already in the system — no new requests needed</li>
-                <li><strong>A quiet vendor file request:</strong> through IT without notifying the AP department</li>
-                <li><strong>Background check on the subject:</strong> through a third party (not internal HR)</li>
-                <li><strong>Surveillance (physical observation):</strong> only with legal authorization in the relevant jurisdiction</li>
-            </ul>
-
-            <h4 style="color:var(--c-rose)">OSINT in the covert phase</h4>
-            <ul class="detect">
-                <li>Company registries: does the subject have their own companies? Do they match up with our vendors?</li>
-                <li>Land registry: new real estate purchases during the suspected scheme period?</li>
-                <li>LinkedIn / social media: connections to people at the subject's vendor?</li>
-                <li>Court records: any litigation? Financial trouble? (Fraud Triangle: pressure)</li>
-                <li>OpenSanctions / World-Check: is the subject on any sanctions lists?</li>
-                <li>Document everything: dated screenshots / URLs, saved to the evidence folder with a hash</li>
-            </ul>
-
-            <h4 style="color:var(--c-gold)">Transitioning from covert to overt</h4>
-            <ul class="tip">
-                <li>Trigger for the transition: enough evidence for the confrontation to be productive</li>
-                <li>Before the transition: preservation letters, legal hold, IT blocking the subject's access to critical systems</li>
-                <li>At the moment of confrontation: a simultaneous meeting with the subject, plus device seizure and password resets — all at once</li>
-                <li>Delay after the decision to confront has been made means a risk of evidence destruction</li>
-            </ul>
-
-            <h4>CFE + Career</h4>
-            <ul class="tip">
-                <li>EY / Big4: the covert phase typically lasts 2–6 weeks before the first official action</li>
-                <li>FBI: "going overt" is the official term for the transition from a covert to an open investigation</li>
-                <li>CFE exam: know the difference between covert surveillance (requires authorization) and OSINT (public data, doesn't require it)</li>
-            </ul>`
-    }
-];
-
 const lawTopics = [
     {
         "id": "law1",
         "code": "LAW-01",
         "cat": "ELEMENTS",
+        "jur": "General / Common Law",
+        "sphere": "Legal Fundamentals",
         "title": "The Four Legal Elements of Fraud & Standards of Proof",
         "description": "Under common law and statutory jurisprudence, fraud requires proving four distinct elements. Understanding the gap between civil and criminal standards is essential for court admissibility.",
         "content": "<p><strong>The Four Universal Legal Elements of Fraud:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>1. Material False Statement:</strong> A representation of an existing fact (not mere opinion or puffery) that is substantially false and significant enough to affect a decision.</li>\n                <li><strong>2. Knowledge / Scienter:</strong> The perpetrator knew the representation was false at the time it was made, or acted with reckless disregard for the truth.</li>\n                <li><strong>3. Reliance:</strong> The victim reasonably relied upon the false representation when acting or parting with property/funds.</li>\n                <li><strong>4. Financial Damages:</strong> The victim suffered actual economic harm or injury as a direct, proximate result of the reliance.</li>\n            </ul>\n            <h4>Civil vs. Criminal Standards of Proof</h4>\n            <ul class=\"red\">\n                <li><strong>Criminal Prosecution:</strong> Burden rests on the government; standard is <em>Beyond a Reasonable Doubt</em> (~99% certainty). Penalties include incarceration, statutory fines, and mandatory criminal restitution.</li>\n                <li><strong>Civil Litigation:</strong> Brought by private plaintiffs/victims; standard is <em>Preponderance of the Evidence</em> (>50% probability) or in some jurisdictions <em>Clear and Convincing Evidence</em> (~75%). Remedies include actual damages, punitive damages, and equitable asset recovery.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Lack of damages = No fraud. If an employee submits a fraudulent invoice, but Accounts Payable catches it before issuing payment, the legal tort of civil fraud is incomplete (though attempted criminal fraud or wire fraud may still apply).</li>\n                <li>Circumstantial evidence is the primary tool to prove <em>Scienter</em> (state of mind). Perpetrators rarely sign written admissions of corrupt intent beforehand.</li>\n            </ul>"
@@ -2443,6 +1225,8 @@ const lawTopics = [
         "id": "law2",
         "code": "LAW-02",
         "cat": "STATUTES",
+        "jur": "🇺🇸 United States",
+        "sphere": "Corporate Governance / Financial Reporting",
         "title": "Sarbanes-Oxley Act of 2002 (SOX) — Forensic Mandates",
         "description": "Enacted following Enron and WorldCom, SOX fundamentally altered corporate governance, internal controls, and executive liability for financial fraud.",
         "content": "<p><strong>Core SOX Sections Every CFE Must Master:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Section 302 (Corporate Responsibility for Financial Reports):</strong> CEO and CFO must personally certify every quarterly (10-Q) and annual (10-K) report. They certify that financial statements fairly present in all material respects the financial condition, and that internal controls were reviewed within the last 90 days.</li>\n                <li><strong>Section 404 (Management Assessment of Internal Controls):</strong> Management must establish, maintain, and assess an adequate Internal Control over Financial Reporting (ICFR) structure. Annual reports must contain an internal control report and an independent auditor attestation.</li>\n                <li><strong>Section 802 (Criminal Penalties for Altering Documents):</strong> Imposes fines and up to <strong>20 years imprisonment</strong> for knowingly altering, destroying, mutilating, concealing, or falsifying any record with the intent to impede or obstruct an ongoing or contemplated federal investigation.</li>\n                <li><strong>Section 906 (Corporate Fraud Accountability):</strong> Criminal penalties for willfully certifying financial statements known not to comply with SOX: up to <strong>$5,000,000 fine and 20 years in prison</strong>.</li>\n            </ul>\n            <h4>Audit Committee Independence Mandate</h4>\n            <ul class=\"red\">\n                <li>Public companies must maintain an Audit Committee comprised solely of independent directors.</li>\n                <li>At least one member must be a verified \"Financial Expert\" (GAAP, audit committee, internal accounting controls experience).</li>\n                <li>Audit Committee must establish confidential, anonymous whistleblower intake mechanisms for accounting complaints.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>SOX applies to all SEC-registered public companies, including foreign private issuers listed on US stock exchanges.</li>\n                <li>Section 802 applies even before a formal subpoena is served: destroying files when an investigation is merely \"contemplated\" constitutes criminal obstruction of justice.</li>\n            </ul>"
@@ -2451,6 +1235,8 @@ const lawTopics = [
         "id": "law3",
         "code": "LAW-03",
         "cat": "STATUTES",
+        "jur": "🇺🇸 US + 🇬🇧 UK (comparative)",
+        "sphere": "Anti-Corruption / Bribery",
         "title": "Foreign Corrupt Practices Act (FCPA) & UK Bribery Act 2010",
         "description": "The primary statutes governing cross-border anti-corruption enforcement. Significant jurisdictional and structural differences dictate international compliance.",
         "content": "<p><strong>FCPA (15 U.S.C. §§ 78dd-1, et seq.) — Two Core Provisions:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>1. Anti-Bribery Provisions:</strong> Prohibits corruptly paying, offering, or promising anything of value to any foreign official, foreign political party, or candidate to influence an official act or obtain/retain business.</li>\n                <li><strong>2. Books and Records & Internal Controls Provisions:</strong> Requires issuers to maintain books, records, and accounts that accurately and fairly reflect transactions in reasonable detail, and devise internal accounting controls preventing off-the-books slush funds.</li>\n            </ul>\n            <h4>FCPA vs. UK Bribery Act 2010 Comparison</h4>\n            <table class=\"cheatsheet-table text-xs mb-3\">\n                <thead><tr><th>Feature</th><th>US FCPA</th><th>UK Bribery Act 2010</th></tr></thead>\n                <tbody>\n                    <tr><td><strong>Scope of Bribery</strong></td><td>Public foreign officials only</td><td>Public officials AND commercial (private) bribery</td></tr>\n                    <tr><td><strong>Facilitation Payments (\"Grease\")</strong></td><td>Narrow affirmative defense for routine governmental actions</td><td><strong>Strictly illegal</strong> (zero tolerance/no exception)</td></tr>\n                    <tr><td><strong>Corporate Liability</strong></td><td>Respondeat superior / direct complicity</td><td>Section 7: Strict liability for \"failure to prevent bribery\"</td></tr>\n                    <tr><td><strong>Defense Available</strong></td><td>Bona fide business expenses; lawful under local written law</td><td>Proof of \"Adequate Procedures\" in place to prevent bribery</td></tr>\n                </tbody>\n            </table>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Under the FCPA, a \"foreign official\" is broadly defined: includes employees of state-owned enterprises (SOEs), public universities, and municipal transit agencies (e.g., doctors at state-run hospitals).</li>\n                <li>FCPA accounting provisions can be violated even if no actual bribe was paid — maintaining an unrecorded \"cash box\" or misclassifying payments as \"consulting fees\" is an independent statutory violation.</li>\n            </ul>"
@@ -2459,6 +1245,8 @@ const lawTopics = [
         "id": "law4",
         "code": "LAW-04",
         "cat": "EVIDENCE",
+        "jur": "🇺🇸 United States (federal courts)",
+        "sphere": "Evidence / Admissibility",
         "title": "Federal Rules of Evidence (FRE) & Business Records Exception",
         "description": "Rules governing the admissibility of accounting books, digital records, and physical evidence in federal and state judicial proceedings.",
         "content": "<p><strong>Key Federal Rules of Evidence in Fraud Prosecutions:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>FRE 803(6) — Records of a Regularly Conducted Activity (Business Records Exception):</strong> Hearsay is generally inadmissible, but corporate accounting ledgers, bank statements, and vendor invoices are admissible if established by the custodian of records:\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>The record was made at or near the time by — or from information transmitted by — someone with firsthand knowledge;</li>\n                        <li>The record was kept in the regular course of business activity;</li>\n                        <li>Making the record was a regular business practice;</li>\n                        <li>Neither source of information nor circumstances indicate a lack of trustworthiness.</li>\n                    </ul>\n                </li>\n                <li><strong>FRE 1002 — Best Evidence Rule:</strong> Requires the original writing, recording, or photograph to prove its content, unless an exception applies (e.g., originals lost/destroyed without bad faith under FRE 1004). Certified bitstream digital duplicates satisfy this rule.</li>\n                <li><strong>FRE 901 — Authenticating or Identifying Evidence:</strong> Proponent must produce evidence sufficient to support a finding that the item is what the proponent claims it is (chain of custody receipts, forensic disk image hashes).</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Investigative reports prepared specifically for litigation do NOT qualify as business records under FRE 803(6) because they are not created in the ordinary course of regular business operations; they are evaluated under work product doctrines.</li>\n                <li>Chain of custody is required whenever physical or digital evidence is subject to tampering, substitution, or volatile alteration.</li>\n            </ul>"
@@ -2467,6 +1255,8 @@ const lawTopics = [
         "id": "law5",
         "code": "LAW-05",
         "cat": "RIGHTS",
+        "jur": "🇺🇸 United States",
+        "sphere": "Constitutional Rights / Workplace Investigations",
         "title": "Constitutional Protections & Workplace Searches",
         "description": "How the Fourth, Fifth, and Sixth Amendments apply to fraud examiners in private corporate settings versus public/government inquiries.",
         "content": "<p><strong>Private Employer vs. Government State Action:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Fourth Amendment (Unreasonable Searches & Seizures):</strong> Restricts ONLY government entities and law enforcement. A private employer or private CFE does NOT violate the Fourth Amendment by searching an employee's desk, company computer, or vehicle on company property.</li>\n                <li><strong>Exceptions:</strong> If private investigators act at the explicit direction, instigation, or control of law enforcement, they become \"agents of the state\" and Fourth Amendment limits attach.</li>\n            </ul>\n            <h4>Workplace Expectation of Privacy</h4>\n            <ul class=\"red\">\n                <li>Employees may claim a common law invasion of privacy tort unless the employer has eliminated the \"reasonable expectation of privacy\" through clear, signed electronic communication policies.</li>\n                <li><strong>Best Practice:</strong> Prominently display system login banners: <em>\"This system is property of OmniCorp. Users have no expectation of privacy. All communications and files are subject to monitoring and retrieval without notice.\"</em></li>\n            </ul>\n            <h4>Fifth Amendment in Corporate Inquiries</h4>\n            <ul class=\"detect\">\n                <li>Private sector employees cannot invoke the Fifth Amendment right to remain silent to shield their jobs. An employee who refuses to answer questions during a legitimate internal fraud investigation may be terminated for cause (insubordination).</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Corporations do not possess a Fifth Amendment privilege against self-incrimination! The privilege is purely personal to natural individuals. A corporate custodian cannot refuse to produce corporate records on Fifth Amendment grounds.</li>\n            </ul>"
@@ -2475,6 +1265,8 @@ const lawTopics = [
         "id": "law6",
         "code": "LAW-06",
         "cat": "RIGHTS",
+        "jur": "🇺🇸 United States (public sector)",
+        "sphere": "Public Employee Rights",
         "title": "Public Employee Rights: Garrity vs. Miranda vs. Kalkines",
         "description": "The legal framework governing internal interviews of government and municipal employees where administrative discipline overlaps with criminal jeopardy.",
         "content": "<p><strong>Core Legal Doctrines in Public Sector Inquiries:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Miranda Warnings (Miranda v. Arizona, 1966):</strong> Required ONLY when two conditions are met simultaneously: <strong>(1) Custody</strong> (formal arrest or restraint on freedom of movement) and <strong>(2) Interrogation</strong> conducted by law enforcement officers. Internal corporate interviews never require Miranda warnings.</li>\n                <li><strong>Garrity Rights (Garrity v. New Jersey, 1967):</strong> Protects public employees from being compelled to incriminate themselves. If a public employee is threatened with termination for refusing to answer questions, their statements are deemed coerced and CANNOT be used against them in a subsequent criminal prosecution.</li>\n                <li><strong>Kalkines Warning (Kalkines v. United States, 1973):</strong> When a public agency grants the employee \"use and derivative-use immunity\" from criminal prosecution, the employee is required to answer questions regarding their official duties or face termination. Statements can be used for administrative firing, but never in criminal court.</li>\n            </ul>\n            <h4>Comparison Table</h4>\n            <table class=\"cheatsheet-table text-xs mb-3\">\n                <thead><tr><th>Warning</th><th>Setting</th><th>Immunity Granted?</th><th>Can Employee Be Fired for Silence?</th></tr></thead>\n                <tbody>\n                    <tr><td><strong>Miranda</strong></td><td>Custodial Police Interrogation</td><td>No</td><td>No (Constitutional Right)</td></tr>\n                    <tr><td><strong>Garrity</strong></td><td>Public Employer Inquest</td><td>No (Coerced statements suppressed)</td><td>No (Without immunity)</td></tr>\n                    <tr><td><strong>Kalkines</strong></td><td>Public Employer + Formal Immunity</td><td><strong>Yes (Criminal Use Immunity)</strong></td><td><strong>Yes (Mandatory to answer)</strong></td></tr>\n                </tbody>\n            </table>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>If a public employee is questioned without a Garrity/Kalkines clarification and confesses under perceived threat of dismissal, the confession will be suppressed in criminal court under the Fifth Amendment.</li>\n            </ul>"
@@ -2483,6 +1275,8 @@ const lawTopics = [
         "id": "law7",
         "code": "LAW-07",
         "cat": "EVIDENCE",
+        "jur": "🇺🇸 United States (varies by state)",
+        "sphere": "Expert Witness Standards",
         "title": "Expert Witness Testimony Standards (Daubert, Frye & Kumho Tire)",
         "description": "The admissibility thresholds governing forensic accountants and fraud examiners serving as expert witnesses in federal and state courts.",
         "content": "<p><strong>Fact Witness vs. Expert Witness:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Fact Witness (Percipient):</strong> Testifies only to personal observations, contemporaneous events, and authenticated documents (FRE 602). Cannot offer opinions.</li>\n                <li><strong>Expert Witness (FRE 702):</strong> Permitted to testify in the form of an opinion if scientific, technical, or specialized knowledge will help the trier of fact understand evidence or determine a fact in issue.</li>\n            </ul>\n            <h4>The Daubert Trilogy Framework</h4>\n            <ul class=\"red\">\n                <li><strong>Frye Standard (Frye v. United States, 1923):</strong> Old rule still used in several state courts (NY, CA, IL). Scientific technique must be \"generally accepted\" within the relevant scientific community.</li>\n                <li><strong>Daubert v. Merrell Dow (1993):</strong> The trial judge acts as an active <strong>gatekeeper</strong>. 4 Non-Exclusive Factors:\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>Whether the theory or technique can be (and has been) tested;</li>\n                        <li>Whether it has been subjected to peer review and publication;</li>\n                        <li>Known or potential error rate and standards controlling operation;</li>\n                        <li>General acceptance in the relevant scientific community.</li>\n                    </ul>\n                </li>\n                <li><strong>Kumho Tire Co. v. Carmichael (1999):</strong> Explicitly extended the Daubert gatekeeper requirement to <strong>non-scientific specialized technical experts</strong> — including CFEs, forensic economists, and valuation experts.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Even certified experts will be disqualified if their methodology is speculative or lacks testable empirical foundation (e.g., using unverified Benford distributions on arbitrary datasets without error calibration).</li>\n            </ul>"
@@ -2491,6 +1285,8 @@ const lawTopics = [
         "id": "law8",
         "code": "LAW-08",
         "cat": "ETHICS",
+        "jur": "🇺🇸 United States (common-law privilege doctrine)",
+        "sphere": "Legal Privilege / Investigation Protocol",
         "title": "Attorney-Client Privilege, Work Product & The Kovel Doctrine",
         "description": "Legal mechanisms protecting investigative workpapers, forensic audits, and interview memoranda from discovery by opposing counsel.",
         "content": "<p><strong>Core Legal Protections:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Attorney-Client Privilege:</strong> Protects confidential communications made between an attorney and their client for the purpose of obtaining or providing legal advice. Absolute privilege unless waived.</li>\n                <li><strong>Work Product Doctrine (FRCP 26(b)(3)):</strong> Protects documents and tangible things prepared in anticipation of litigation or for trial by or for another party or its representative. Qualified privilege (can be overcome upon showing of substantial need and undue hardship).</li>\n                <li><strong>Kovel Doctrine (United States v. Kovel, 1961):</strong> Extends attorney-client privilege to non-attorney experts (e.g., CFEs, forensic accountants) retained directly by legal counsel to translate and interpret complex financial records so counsel can render legal advice.</li>\n            </ul>\n            <h4>How to Preserve Privilege (Engagement Protocols)</h4>\n            <ul class=\"red\">\n                <li>The CFE must be retained <strong>directly by external or in-house legal counsel</strong>, NOT by management or the Chief Internal Auditor.</li>\n                <li>The engagement letter must explicitly state that the CFE is retained to assist counsel in rendering legal advice in anticipation of litigation.</li>\n                <li>All workpapers, draft memos, and interview transcripts must be labeled: <em>\"CONFIDENTIAL: ATTORNEY-CLIENT PRIVILEGED & ATTORNEY WORK PRODUCT\"</em>.</li>\n                <li>Invoices must be submitted directly to counsel.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Sharing an investigative report with outside independent financial statement auditors typically <strong>waives the attorney-client privilege</strong> regarding the entire subject matter!</li>\n            </ul>"
@@ -2499,6 +1295,8 @@ const lawTopics = [
         "id": "law9",
         "code": "LAW-09",
         "cat": "STATUTES",
+        "jur": "🇺🇸 United States",
+        "sphere": "Whistleblower Incentives",
         "title": "Whistleblower Laws, Dodd-Frank SEC Bounty & Qui Tam (FCA)",
         "description": "Statutory frameworks incentivizing whistleblower tips, financial bounty programs, and anti-retaliation protections.",
         "content": "<p><strong>Key Federal Whistleblower Programs:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>False Claims Act (31 U.S.C. § 3729) — Qui Tam Provisions:</strong> Allows private individuals (\"relators\") to file civil lawsuits on behalf of the federal government against entities that defraud government programs (Medicare, defense procurement).\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>FCA imposes treble damages (3x actual loss) plus statutory penalties per false claim.</li>\n                        <li>Whistleblower receives <strong>15% to 30%</strong> of the total government recovery.</li>\n                    </ul>\n                </li>\n                <li><strong>Dodd-Frank Wall Street Reform Act (2010):</strong> Established the SEC Whistleblower Office.\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>Eligible whistleblowers who voluntarily provide original information leading to successful enforcement actions over $1,000,000 receive <strong>10% to 30%</strong> of collected monetary sanctions.</li>\n                        <li>Robust anti-retaliation provisions: immediate federal court remedy, reinstatement, and double back-pay plus interest.</li>\n                    </ul>\n                </li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Under Dodd-Frank, individuals whose primary job function involves compliance, internal audit, or forensic investigation are generally excluded from receiving SEC bounties unless: (1) disclosure is necessary to prevent substantial injury, (2) the entity is impeding the investigation, or (3) 120 days have passed since reporting internally.</li>\n            </ul>"
@@ -2507,6 +1305,8 @@ const lawTopics = [
         "id": "law10",
         "code": "LAW-10",
         "cat": "ETHICS",
+        "jur": "🌐 Global / Professional (ACFE membership)",
+        "sphere": "Professional Ethics",
         "title": "ACFE Code of Professional Ethics (The 7 Mandatory Rules)",
         "description": "The binding ethical canons governing all Certified Fraud Examiners. Violations lead to formal disciplinary trials and revocation of the credential.",
         "content": "<p><strong>The Seven Mandatory Canons of the ACFE Code of Ethics:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Rule 1 (Integrity & Objectivity):</strong> An examiner shall not commit any discreditable act and shall maintain objectivity in the discharge of professional obligations.</li>\n                <li><strong>Rule 2 (Professional Competence):</strong> An examiner shall only undertake engagements they can reasonably expect to complete with professional competence.</li>\n                <li><strong>Rule 3 (Due Professional Care):</strong> An examiner shall adequately plan and supervise professional engagements and conduct examinations with thoroughness.</li>\n                <li><strong>Rule 4 (Full Disclosure of Findings):</strong> An examiner shall reveal all material facts discovered during an examination which, if omitted, would distort the report or conceal information.</li>\n                <li><strong>Rule 5 (Confidentiality):</strong> An examiner shall not disclose any confidential information without proper authorization, except in response to formal legal process.</li>\n                <li><strong>RULE 6 (THE ABSOLUTE OPINION BAN — HIGHEST YIELD):</strong> An examiner <strong>shall NOT express an opinion on the guilt or innocence</strong> of any suspect or party to an investigation! Guilt is a legal adjudication reserved solely for the court.</li>\n                <li><strong>Rule 7 (Compliance with ACFE Standards):</strong> An examiner shall continually strive to increase competence and adhere to the Standards for Consulting Services.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>On the CFE exam, any question asking if an examiner may write in their report: <em>\"Arthur Vance is guilty of embezzlement\"</em> has only ONE correct answer: <strong>NO, NEVER</strong>. The report must state: <em>\"Arthur Vance transferred $482,000 to an account in his name without authorization.\"</em></li>\n            </ul>"
@@ -2515,6 +1315,8 @@ const lawTopics = [
         "id": "law11",
         "code": "LAW-11",
         "cat": "EVIDENCE",
+        "jur": "🇬🇧 UK / Commonwealth (used internationally)",
+        "sphere": "Civil Asset Recovery",
         "title": "Civil Asset Recovery & Pre-Judgment Injunctions (Mareva & Anton Piller)",
         "description": "Extraordinary equitable remedies in civil fraud litigation used to freeze stolen assets and seize evidence before the perpetrator can dissipate or destroy them.",
         "content": "<p><strong>High-Stakes Pre-Judgment Equitable Orders:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Mareva Injunction (Asset Freezing Order):</strong> An emergency, ex parte (without prior notice) court order restraining the defendant from disposing of, transferring, or hiding assets up to the value of the plaintiff's claim, both domestically and worldwide.\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>Requirements: Plaintiff must prove an arguable case, demonstrate a real risk of asset dissipation, and make full and frank disclosure.</li>\n                    </ul>\n                </li>\n                <li><strong>Anton Piller Order (Civil Search Order):</strong> An emergency order allowing plaintiff's legal team to enter the defendant's premises unannounced to inspect and seize evidence, documents, and digital storage devices.\n                    <ul class=\"list-disc list-inside ml-4 mt-1 text-text-muted\">\n                        <li>Prevents destruction of smoking-gun proof in computer hard drives, notebooks, or offshore bank files.</li>\n                    </ul>\n                </li>\n                <li><strong>Letters Rogatory (Hague Convention):</strong> Formal request from a court to a foreign court for judicial assistance to compel witness testimony or obtain bank records located in foreign jurisdictions.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>In civil recovery, speed is paramount. Once a fraudster learns they are under suspicion, the median time to transfer funds into offshore shell accounts or cryptocurrency mixers is less than 48 hours.</li>\n            </ul>"
@@ -2523,9 +1325,78 @@ const lawTopics = [
         "id": "law12",
         "code": "LAW-12",
         "cat": "STATUTES",
+        "jur": "🇺🇸 United States",
+        "sphere": "Securities / Insider Trading",
         "title": "Securities Fraud, Insider Trading (Rule 10b-5) & Market Manipulation",
         "description": "The regulatory framework governing securities violations under the Securities Exchange Act of 1934.",
         "content": "<p><strong>SEC Rule 10b-5 (Employment of Manipulative and Deceptive Devices):</strong></p>\n            <ul class=\"detect\">\n                <li>Unlawful to employ any device, scheme, or artifice to defraud; make any untrue statement of a material fact; or engage in any act or practice that operates as a fraud in connection with the purchase or sale of any security.</li>\n                <li>Requires proving <strong>Scienter</strong> — intentional misconduct or extreme recklessness (negligence is insufficient for Rule 10b-5).</li>\n            </ul>\n            <h4>Insider Trading Legal Theories</h4>\n            <ul class=\"red\">\n                <li><strong>Classical Theory:</strong> Corporate insider (officer, director, employee) trades company stock using material non-public information (MNPI) in breach of fiduciary duty to shareholders.</li>\n                <li><strong>Misappropriation Theory (United States v. O'Hagan, 1997):</strong> An outsider (lawyer, consultant, printer) trades stock using MNPI entrusted to them in confidence by the source, deceiving the source of the confidential information.</li>\n                <li><strong>Tipping Liability (Dirks v. SEC):</strong> Tipper is liable if they breached a duty for personal benefit (financial or reputational); tippee is liable if they knew or should have known the information was disclosed in breach of duty.</li>\n            </ul>\n            <h4>CFE Exam Tip</h4>\n            <ul class=\"tip\">\n                <li>Information is \"material\" under securities law if there is a substantial likelihood that a reasonable investor would consider it important in deciding whether to buy, sell, or hold securities.</li>\n            </ul>"
+    },
+];
+
+const euTopics = [
+    {
+        "id": "eu1",
+        "code": "EU-01",
+        "cat": "EUWIDE",
+        "title": "EU Anti-Money Laundering Directives (AMLD4–6) & the Incoming AMLR/AMLA",
+        "description": "The evolving EU AML legal architecture: four directives transposed into national law, now being replaced by a single directly-applicable regulation and a new EU-level supervisor.",
+        "content": "<p><strong>From Directives to a Single Rulebook:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>AMLD4 (2015/849):</strong> Introduced the risk-based approach, UBO (ultimate beneficial owner) registers, and simplified/enhanced due diligence tiers.</li>\n                <li><strong>AMLD5 (2018/843):</strong> Extended obligated entities to crypto-asset exchanges and wallet providers, lowered prepaid card anonymity thresholds, and originally opened UBO registers to the general public.</li>\n                <li><strong>AMLD6 (2018/1673):</strong> Harmonized 22 predicate offences for money laundering across member states, extended criminal liability to legal persons, and set minimum 4-year imprisonment for the most serious ML offences.</li>\n                <li><strong>AMLR (Regulation (EU) 2024/1624):</strong> A directly-applicable regulation (no national transposition needed) replacing most of AMLD4-6's substantive rules from 2027 — ends the patchwork of divergent national implementations.</li>\n                <li><strong>AMLA (EU AML Authority, Frankfurt):</strong> New supervisory body directly supervising the ~40 riskiest cross-border financial institutions from 2028, plus coordinating national FIUs (Financial Intelligence Units).</li>\n            </ul>\n            <h4>Important Correction: UBO Registers Are No Longer Fully Public</h4>\n            <ul class=\"red\">\n                <li>The CJEU (Joined Cases C-37/20 & C-601/20, <em>WM and Sovim SA v Luxembourg Business Registers</em>, Nov 2022) ruled that AMLD5's general-public-access provision violated privacy rights under the EU Charter. Member states — including Luxembourg — suspended open public access; access is now limited to authorities, AML/CFT-obligated professionals, and those showing a \"legitimate interest.\" See EU-07 for the Luxembourg-specific timeline.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>Don't assume a UBO register is a free public lookup anymore — check each member state's current access regime (Slovakia's RPVS remains broadly accessible; Luxembourg's RBE now requires a demonstrated professional/legitimate interest).</li>\n            </ul>"
+    },
+    {
+        "id": "eu2",
+        "code": "EU-02",
+        "cat": "EUWIDE",
+        "title": "EU Market Abuse Regulation (MAR) — Insider Dealing & Market Manipulation",
+        "description": "Regulation (EU) 596/2014 — the EU's direct equivalent to SEC Rule 10b-5, but broader in scope and directly applicable across all member states.",
+        "content": "<p><strong>MAR's Three Prohibited Behaviors:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Insider Dealing (Art. 8):</strong> Using inside information to acquire or dispose of financial instruments, or cancelling/amending an order based on inside information.</li>\n                <li><strong>Unlawful Disclosure (Art. 10):</strong> Disclosing inside information to another person outside the normal exercise of employment, profession, or duties.</li>\n                <li><strong>Market Manipulation (Art. 12):</strong> Includes transactions giving false/misleading signals on supply, demand, or price; securing an abnormal price level; and disseminating false information through media (including social media).</li>\n            </ul>\n            <h4>MAR vs. US Rule 10b-5</h4>\n            <table class=\"cheatsheet-table text-xs mb-3\">\n                <thead><tr><th>Feature</th><th>US Rule 10b-5</th><th>EU MAR</th></tr></thead>\n                <tbody>\n                    <tr><td><strong>Scope</strong></td><td>Fraud \"in connection with\" a securities purchase/sale</td><td>Broader: covers attempted manipulation, cancelled orders, and commodity derivatives linked to spot contracts</td></tr>\n                    <tr><td><strong>Suspicious Transaction Reporting</strong></td><td>No universal mandatory STOR regime</td><td>Mandatory STOR (Suspicious Transaction and Order Report) to the national competent authority (e.g., Slovakia's NBS, Luxembourg's CSSF)</td></tr>\n                    <tr><td><strong>Issuer Obligation</strong></td><td>Reg FD (fair disclosure)</td><td>Art. 17: immediate public disclosure of inside information, with narrow delay conditions</td></tr>\n                </tbody>\n            </table>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>MAR applies to instruments traded on any EU trading venue, MTF, or OTF — not just regulated markets — so it reaches a much wider set of issuers than US securities law reaches via Rule 10b-5.</li>\n            </ul>"
+    },
+    {
+        "id": "eu3",
+        "code": "EU-03",
+        "cat": "NL",
+        "title": "Dutch Wwft — Wet ter Voorkoming van Witwassen en Financieren van Terrorisme",
+        "description": "The Netherlands' national AML/CFT law, transposing the EU AML Directives — the statute an AML analyst at a Dutch bank or PSP actually works under day to day.",
+        "content": "<p><strong>Core Wwft Obligations for Obligated Institutions:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Client Due Diligence (Cliëntenonderzoek):</strong> Identify and verify the customer and any UBO holding &gt;25% ownership/control before establishing a business relationship.</li>\n                <li><strong>Ongoing Monitoring:</strong> Transactions must be monitored against the customer's known risk profile for the duration of the relationship, not just at onboarding.</li>\n                <li><strong>Unusual Transaction Reporting (Ongebruikelijke Transacties):</strong> Reported to the FIU-Nederland — note the Dutch threshold is \"unusual,\" a lower bar than the US \"suspicious\" standard, deliberately designed to give the FIU more raw data to triage.</li>\n                <li><strong>PEP Screening:</strong> Politically Exposed Persons automatically require Enhanced Due Diligence (EDD), regardless of transaction risk otherwise.</li>\n            </ul>\n            <h4>Wwft vs. US BSA/FinCEN Framework</h4>\n            <ul class=\"red\">\n                <li>Reporting standard: Dutch \"unusual\" (objective, indicator-list-driven) vs. US \"suspicious\" (subjective, institution's own judgment) — a frequently misunderstood distinction in EU/US comparative AML interviews.</li>\n                <li>Supervision: De Nederlandsche Bank (DNB) and the AFM supervise Wwft compliance for banks/insurers and investment firms respectively — there is no single supervisor equivalent to FinCEN.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>If interviewing for a Dutch compliance role, be ready to explain the difference between an \"ongebruikelijke transactie\" (unusual transaction, reported to FIU-NL) and a \"verdachte transactie\" (suspicious transaction) — Wwft's reporting duty is triggered by the former, a lower and more mechanical threshold than a US SAR filing decision.</li>\n            </ul>"
+    },
+    {
+        "id": "eu4",
+        "code": "EU-04",
+        "cat": "EUWIDE",
+        "title": "EU Whistleblower Protection Directive (2019/1937)",
+        "description": "The EU-wide floor for whistleblower protection across all member states, covering breaches of EU law including AML, fraud against the EU budget, and financial services regulation.",
+        "content": "<p><strong>Core Protections Mandated Across All Member States:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Scope:</strong> Covers reports on breaches of EU law in public procurement, financial services, AML/CFT, product safety, environmental protection, public health, and protection of the EU's financial interests.</li>\n                <li><strong>Three-Tier Reporting Channels:</strong> Internal reporting (companies with 50+ employees must maintain a channel), external reporting (to a national competent authority), and public disclosure (protected only if internal/external channels failed or retaliation risk is imminent).</li>\n                <li><strong>Anti-Retaliation:</strong> Prohibits dismissal, demotion, negative performance reviews, and reputational damage; reverses the burden of proof — the employer must prove an adverse action was NOT retaliation.</li>\n                <li><strong>Confidentiality:</strong> The whistleblower's identity must be kept confidential unless they consent, or disclosure is a necessary and proportionate obligation under EU/national law.</li>\n            </ul>\n            <h4>Directive vs. National Implementation</h4>\n            <ul class=\"red\">\n                <li>This is a Directive, not a Regulation — each member state transposed it into national law with local variations (e.g., Slovakia's Zákon č. 54/2019 Z. z. predates and was later aligned with the EU Directive; Luxembourg's Law of 16 May 2023).</li>\n                <li>Unlike US Dodd-Frank/SEC bounties, the EU Directive does NOT mandate a financial reward system — protection is the primary mechanism, not monetary incentive.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>Compare directly with the ACFE Code Rule 5 (Confidentiality, LAW-10) and the Dodd-Frank whistleblower bounty (LAW-09) — same underlying goal (surface fraud early), three different mechanisms: US pays for tips, EU protects the tipper, ACFE ethically binds the examiner's own conduct.</li>\n            </ul>"
+    },
+    {
+        "id": "eu5",
+        "code": "EU-05",
+        "cat": "EUWIDE",
+        "title": "DORA — Digital Operational Resilience Act (Regulation (EU) 2022/2554)",
+        "description": "The EU's ICT risk management framework for the financial sector — relevant to fraud examination because ICT incidents (including fraud-enabling breaches) now carry mandatory regulatory reporting duties.",
+        "content": "<p><strong>Core DORA Pillars:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>ICT Risk Management (Art. 6):</strong> Financial entities must maintain a documented ICT risk management framework, reviewed at least annually.</li>\n                <li><strong>ICT Incident Reporting (Art. 17):</strong> Major ICT-related incidents — including those enabling fraud, such as a breach that facilitates account takeover — must be classified and reported to the competent authority within tight statutory timelines.</li>\n                <li><strong>Digital Operational Resilience Testing (Art. 24):</strong> Includes Threat-Led Penetration Testing (TLPT, Art. 26) for the largest/most critical entities.</li>\n                <li><strong>Third-Party ICT Risk (Art. 28):</strong> Requires a Register of Information on all ICT third-party providers and imposes oversight on \"critical\" providers (CTPPs) designated at EU level.</li>\n            </ul>\n            <h4>Why a Fraud Examiner Should Care</h4>\n            <ul class=\"red\">\n                <li>A cyber-enabled fraud scheme (e.g., Business Email Compromise, credential-stuffing account takeover) at a regulated EU financial entity may now trigger a DUAL reporting obligation: an internal fraud/SAR process AND a DORA major-incident notification, on separate clocks.</li>\n                <li>Weak third-party ICT oversight (Art. 28) is itself a fraud risk indicator — vendors with poor access controls are a common vector for account-takeover and BEC schemes.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>DORA has applied since January 17, 2025 across the EU financial sector (banks, insurers, investment firms, crypto-asset service providers) — it is now a standard interview topic for compliance/fraud roles at EU financial institutions.</li>\n            </ul>"
+    },
+    {
+        "id": "eu6",
+        "code": "EU-06",
+        "cat": "EUWIDE",
+        "title": "GDPR Constraints on Fraud Investigations (Regulation (EU) 2016/679)",
+        "description": "Investigating a suspect means processing their personal data — GDPR doesn't block fraud investigations, but it imposes real procedural constraints a US-trained examiner may not anticipate.",
+        "content": "<p><strong>Where GDPR Intersects With Investigative Technique:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Lawful Basis (Art. 6):</strong> Processing a suspect's data during an internal investigation typically relies on \"legitimate interests\" (Art. 6(1)(f)) — but this requires a documented balancing test against the subject's rights, not a blanket assumption.</li>\n                <li><strong>Data Minimization (Art. 5(1)(c)):</strong> Investigators may only collect data relevant and necessary to the specific suspected fraud — broad, exploratory monitoring of an employee's full email history \"just in case\" is a GDPR violation even if the employer owns the mailbox.</li>\n                <li><strong>Data Subject Access Requests (Art. 15):</strong> A suspect under investigation can, in principle, request a copy of personal data held about them — including investigative notes — though national law often allows temporary restriction under Art. 23 while the investigation is active.</li>\n                <li><strong>Cross-Border Transfer:</strong> Moving evidence containing personal data (e.g., emails, HR files) outside the EEA to a US-based parent company or e-discovery vendor requires a valid transfer mechanism (adequacy decision, SCCs, or equivalent).</li>\n            </ul>\n            <h4>US vs. EU Contrast</h4>\n            <ul class=\"red\">\n                <li>US workplace investigations (see LAW-05, Constitutional Protections) turn mainly on \"reasonable expectation of privacy\" and employer policy banners. EU investigations must additionally satisfy GDPR's affirmative lawful-basis and proportionality requirements — a signed monitoring policy alone does not make broad surveillance lawful.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>Before broad e-discovery or forensic imaging of an EU-based employee's device, document the specific suspected scheme, the minimum data set needed, and the legitimate-interest balancing test — this record is what withstands a later regulator or works-council challenge.</li>\n            </ul>"
+    },
+    {
+        "id": "eu7",
+        "code": "EU-07",
+        "cat": "LU",
+        "title": "Luxembourg AML/CFT Framework — Law of 12 November 2004 & CSSF Regulation 12-02",
+        "description": "Luxembourg's core AML/CFT statute and its financial-sector implementing regulation, supervised by the CSSF — the framework governing the country's outsized fund administration and private banking industry.",
+        "content": "<p><strong>The Two Core Texts:</strong></p>\n            <ul class=\"detect\">\n                <li><strong>Law of 12 November 2004</strong> (as amended) — Luxembourg's primary AML/CFT statute, transposing the successive EU AMLDs into national law and defining obligated professionals, CDD duties, and criminal penalties.</li>\n                <li><strong>CSSF Regulation No 12-02 of 14 December 2012</strong> (as amended, incl. Reg. 20-05) — the detailed implementing rules for entities supervised by the CSSF (Commission de Surveillance du Secteur Financier): banks, investment fund managers, and the investment funds themselves.</li>\n            </ul>\n            <h4>The RR/RC Governance Model — a Luxembourg-Specific Structure</h4>\n            <ul class=\"red\">\n                <li><strong>RR (Responsable du Respect des obligations):</strong> A member of senior management or the authorized management ultimately responsible for AML/CFT compliance.</li>\n                <li><strong>RC (Responsable du Contrôle du respect des obligations):</strong> The operational compliance officer who monitors day-to-day AML/CFT compliance and reports to the RR.</li>\n                <li><strong>Summary Report RC (SRRC):</strong> An annual report the RC prepares and the RR submits to the CSSF under Art. 42(7) of Regulation 12-02, within 5 months of the entity's year-end.</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>Luxembourg's fund industry (the world's 2nd-largest after the US) means AML/CFT roles there are heavily concentrated in fund administration and depositary banks, not retail banking — the risk typology skews toward investor-level CDD and source-of-wealth for institutional/HNW subscribers, not consumer transaction monitoring.</li>\n            </ul>"
+    },
+    {
+        "id": "eu8",
+        "code": "EU-08",
+        "cat": "LU",
+        "title": "Luxembourg UBO Register (RBE) — Post-Sovim Access Restrictions",
+        "description": "The Registre des Bénéficiaires Effectifs, and the 2022 CJEU ruling that forced Luxembourg (and every other member state) to roll back public access to it.",
+        "content": "<p><strong>The RBE (Registre des Bénéficiaires Effectifs):</strong></p>\n            <ul class=\"detect\">\n                <li>Established by the Law of 13 January 2019, requiring Luxembourg legal entities to declare their beneficial owner(s) — natural persons holding, directly or indirectly, more than 25% of shares/voting rights, or otherwise exercising control.</li>\n                <li>Managed by the LBR (Luxembourg Business Registers), the same body that runs the RCS (Registre de Commerce et des Sociétés) company registry.</li>\n            </ul>\n            <h4>The Sovim Ruling and What Changed</h4>\n            <ul class=\"red\">\n                <li><strong>CJEU, Joined Cases C-37/20 & C-601/20 (WM and Sovim SA v Luxembourg Business Registers, Nov. 2022):</strong> The Court struck down AMLD5's requirement that member states give the general public unrestricted access to UBO data, holding it disproportionately infringed the right to privacy and data protection under Arts. 7 & 8 of the EU Charter.</li>\n                <li>Luxembourg immediately suspended online public access to the RBE following the ruling.</li>\n                <li>A new Luxembourg law restoring controlled access entered into force <strong>1 February 2025</strong>: access is now limited to competent authorities, AML/CFT-obligated professionals (in the course of CDD), and any person able to demonstrate a \"legitimate interest\" (e.g., investigative journalists, NGOs).</li>\n            </ul>\n            <h4>Practitioner Tip</h4>\n            <ul class=\"tip\">\n                <li>This is a genuinely EU-wide change, not a Luxembourg quirk — every member state had to restrict its UBO register after Sovim. When OSINT-ing a Luxembourg entity's beneficial owner today, expect to need a demonstrable professional/legitimate-interest basis rather than a free anonymous lookup, unlike Slovakia's RPVS which remains broadly open.</li>\n            </ul>"
     }
 ];
 
