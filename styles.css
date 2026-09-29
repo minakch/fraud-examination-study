@@ -1023,10 +1023,12 @@ body {
   /* Hide app chrome, canvas, header, navigation, footer and interactive buttons */
   #ambient-canvas,
   header,
+  main,
   footer,
   #hero-cockpit,
   #command-palette-modal,
   #evidence-modal,
+  #phone-modal,
   .btn-tactile,
   button,
   .no-print {
