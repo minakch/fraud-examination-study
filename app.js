@@ -763,9 +763,9 @@ class FraudApp {
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
           <button onclick="document.getElementById('schemes-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
                   class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-primary flex items-center gap-1.5">
-            <span>↑</span> <span>К списку схем</span>
+            <span>↑</span> <span>Back to Schemes</span>
           </button>
-          <span class="text-xs font-mono text-text-muted">Досье ${scheme.code}</span>
+          <span class="text-xs font-mono text-text-muted">Dossier ${scheme.code}</span>
         </div>
 
         <!-- Top Meta Bar -->
@@ -1024,7 +1024,7 @@ class FraudApp {
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
           <button onclick="document.getElementById('cases-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
                   class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-rose-400 flex items-center gap-1.5">
-            <span>↑</span> <span>К кейсам</span>
+            <span>↑</span> <span>Back to Cases</span>
           </button>
           <span class="text-xs font-mono text-text-muted">${c.company}</span>
         </div>
@@ -1154,7 +1154,7 @@ class FraudApp {
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
           <button onclick="document.getElementById('law-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
                   class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-primary flex items-center gap-1.5">
-            <span>↑</span> <span>К статьям права</span>
+            <span>↑</span> <span>Back to Law</span>
           </button>
           <span class="text-xs font-mono text-text-muted">${item.code}</span>
         </div>
@@ -1252,7 +1252,7 @@ class FraudApp {
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
           <button onclick="document.getElementById('inv-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
                   class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-emerald-400 flex items-center gap-1.5">
-            <span>↑</span> <span>К методикам расследования</span>
+            <span>↑</span> <span>Back to Investigation</span>
           </button>
           <span class="text-xs font-mono text-text-muted">${item.code}</span>
         </div>
@@ -1350,7 +1350,7 @@ class FraudApp {
         <div class="lg:hidden mb-4 pb-3 border-b border-line flex items-center justify-between">
           <button onclick="document.getElementById('prev-sidebar-list')?.scrollIntoView({behavior:'smooth'})" 
                   class="btn-tactile px-3 py-1.5 rounded-lg bg-surface hover:bg-surface-hover border border-line text-xs font-semibold text-amber-400 flex items-center gap-1.5">
-            <span>↑</span> <span>К превенции и COSO</span>
+            <span>↑</span> <span>Back to Prevention</span>
           </button>
           <span class="text-xs font-mono text-text-muted">${item.code}</span>
         </div>
